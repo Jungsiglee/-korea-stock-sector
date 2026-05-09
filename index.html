@@ -3,320 +3,678 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>한국 증시 섹터맵</title>
-
+<title>한국 증시 섹터맵 Pro</title>
 <style>
-*{box-sizing:border-box}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=JetBrains+Mono:wght@700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#f0f2f8;
+  --card:#ffffff;
+  --border:#e2e6f0;
+  --text:#0d1117;
+  --sub:#6b7280;
+  --blue:#1d4ed8;
+  --blue-light:#dbeafe;
+  --green:#15803d;
+  --green-light:#dcfce7;
+  --red:#b91c1c;
+  --red-light:#fee2e2;
+  --orange:#c2410c;
+  --orange-light:#ffedd5;
+  --purple:#6d28d9;
+  --purple-light:#ede9fe;
+  --yellow:#92400e;
+  --yellow-light:#fef3c7;
+  --teal:#0f766e;
+  --teal-light:#ccfbf1;
+  --shadow:0 2px 16px rgba(0,0,0,.07);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.1);
+  --radius:18px;
+}
+
+body.dark{
+  --bg:#0b0f1a;
+  --card:#141928;
+  --border:#1e2740;
+  --text:#e8ecf4;
+  --sub:#8b95a8;
+  --blue-light:#1e3a5f;
+  --green-light:#14301f;
+  --red-light:#3b1515;
+  --orange-light:#3b1f0a;
+  --purple-light:#2e1f5e;
+  --yellow-light:#3b2e0a;
+  --teal-light:#0a2e2b;
+}
+
 body{
-  margin:0;padding:18px 18px 120px;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#f4f6fb;color:#111827;
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding:16px 16px 100px;
+  min-height:100vh;
+  transition:background .2s,color .2s;
 }
-h1{margin:0;font-size:30px;font-weight:900}
-.subtitle{margin-top:6px;color:#6b7280;font-size:14px;font-weight:700}
 
-input,select,button,textarea{
-  width:100%;border:1px solid #e5e7eb;background:white;
-  border-radius:16px;padding:13px;font-size:14px;font-weight:800;outline:none;
+/* ─── Header ─── */
+.header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:18px;gap:12px;
 }
-textarea{min-height:70px;resize:vertical;line-height:1.5;font-weight:700}
-button{background:#2563eb;color:white;border:none;cursor:pointer}
-
-.top-bar{display:grid;grid-template-columns:1fr 90px;gap:10px;margin:18px 0 12px}
-.dark-btn{background:#111827}
-
-.fixed-actions{
-  position:sticky;top:0;z-index:50;
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;
-  background:#f4f6fb;padding:10px 0 14px;margin-bottom:10px;
+.header-left h1{
+  font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1.1;
 }
-.add-sector-btn{background:#2563eb}
-.add-stock-btn{background:#16a34a}
-
-.utility-actions{
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;
+.header-left .tagline{
+  font-size:12px;color:var(--sub);font-weight:700;margin-top:4px;
 }
-.backup-btn{background:#7c3aed}
-.restore-btn{background:#f97316}
+.dark-btn{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:10px 16px;border-radius:12px;font-size:12px;font-weight:900;
+  cursor:pointer;white-space:nowrap;
+}
 
-.section-title{font-size:18px;font-weight:900;margin:18px 0 10px}
+/* ─── Search ─── */
+.search-wrap{position:relative;margin-bottom:12px;}
+.search-wrap input{
+  width:100%;background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:14px 14px 14px 42px;
+  font-size:14px;font-weight:700;color:var(--text);outline:none;
+  font-family:inherit;
+}
+.search-icon{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-size:16px;pointer-events:none;
+}
 
+/* ─── Action Bars ─── */
+.fixed-bar{
+  position:sticky;top:0;z-index:40;background:var(--bg);
+  padding:8px 0 12px;
+}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.action-row.three{grid-template-columns:1fr 1fr 1fr;}
+.btn{
+  padding:12px;border:none;border-radius:14px;font-size:13px;font-weight:900;
+  cursor:pointer;font-family:inherit;color:white;transition:opacity .15s;
+}
+.btn:active{opacity:.8}
+.btn-blue{background:var(--blue);}
+.btn-green{background:#16a34a;}
+.btn-purple{background:#7c3aed;}
+.btn-orange{background:#ea580c;}
+.btn-red{background:#dc2626;}
+.btn-gray{background:var(--sub);}
+
+/* ─── Panels ─── */
 .panel{
-  display:none;background:white;border:1px solid #e5e7eb;
-  border-radius:22px;padding:16px;margin-bottom:16px;
-  box-shadow:0 8px 24px rgba(0,0,0,.05);
+  display:none;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;margin-bottom:14px;
+  box-shadow:var(--shadow);
 }
 .panel.open{display:block}
-.form-grid{display:grid;gap:9px}
+.panel-title{font-size:16px;font-weight:900;margin-bottom:12px;}
+.form-grid{display:grid;gap:9px;}
+.form-input,.form-select,.form-textarea{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  border-radius:12px;padding:12px;font-size:13px;font-weight:700;
+  color:var(--text);outline:none;font-family:inherit;
+}
+.form-textarea{min-height:64px;resize:vertical;line-height:1.6;}
+.form-label{font-size:11px;font-weight:900;color:var(--sub);margin-bottom:3px;}
+
+/* ─── Stats Bar ─── */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;
+}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:12px 10px;text-align:center;
+}
+.stat-num{font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;}
+.stat-label{font-size:10px;color:var(--sub);font-weight:700;margin-top:2px;}
+
+/* ─── Sector Cards ─── */
+.section-title{
+  font-size:13px;font-weight:900;color:var(--sub);
+  text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px;
+}
 
 .sector-card{
-  background:white;border:1px solid #e5e7eb;border-radius:22px;
-  padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.05);
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;margin-bottom:12px;
+  box-shadow:var(--shadow);transition:box-shadow .2s;
 }
-.sector-head{display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer}
-.sector-name{font-size:24px;font-weight:900}
-.sector-score{color:#2563eb;font-weight:900;font-size:14px}
+.sector-card:hover{box-shadow:var(--shadow-lg);}
+
+.sector-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  cursor:pointer;gap:10px;
+}
+.sector-meta{flex:1;}
+.sector-name-row{display:flex;align-items:center;gap:8px;}
+.sector-name{font-size:20px;font-weight:900;letter-spacing:-.5px;}
+.sector-score-badge{
+  background:var(--blue);color:white;padding:3px 9px;border-radius:999px;
+  font-size:11px;font-weight:900;font-family:'JetBrains Mono',monospace;
+}
 .sector-desc{
-  margin-top:12px;background:#f8fafc;padding:13px;border-radius:14px;
-  font-size:13px;line-height:1.5;color:#6b7280;font-weight:700;
+  font-size:12px;color:var(--sub);font-weight:700;margin-top:6px;line-height:1.5;
 }
-.detail{display:none;margin-top:16px}
+.sector-stocks-preview{
+  display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;
+}
+.preview-chip{
+  background:var(--blue-light);color:var(--blue);
+  padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;
+}
+.body.dark .preview-chip{color:#93c5fd;}
+
+.toggle-btn{
+  background:var(--bg);border:1px solid var(--border);color:var(--text);
+  padding:8px 12px;border-radius:10px;font-size:11px;font-weight:900;
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+}
+
+/* ─── Sector Detail ─── */
+.detail{display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px;}
 .detail.open{display:block}
 
-.leader-box{background:#eef4ff;border-radius:16px;padding:14px;font-weight:900;margin-bottom:14px}
-
-.parts-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.part-btn{
-  width:auto;background:#eef2ff;color:#111827;padding:10px 14px;
-  border-radius:999px;font-size:13px;
+.leader-box{
+  background:var(--blue-light);border-radius:12px;padding:12px 14px;
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
 }
-.part-btn.active{background:#2563eb;color:white}
+.leader-crown{font-size:18px;}
+.leader-info .label{font-size:10px;color:var(--sub);font-weight:900;}
+.leader-info .value{font-size:15px;font-weight:900;color:var(--blue);}
 
-.stock-list{display:grid;gap:12px}
+.filter-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.filter-btn{
+  background:var(--bg);border:1px solid var(--border);color:var(--text);
+  padding:7px 12px;border-radius:999px;font-size:12px;font-weight:900;
+  cursor:pointer;
+}
+.filter-btn.active{background:var(--blue);color:white;border-color:var(--blue);}
+
+/* ─── Stock Cards ─── */
+.stock-list{display:grid;gap:10px;}
 .stock-card{
-  background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;
-  padding:13px;display:grid;gap:10px;
+  background:var(--bg);border:1px solid var(--border);border-radius:14px;
+  padding:12px;
 }
-.stock-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.stock-name{font-weight:900;font-size:16px}
-.stock-type{color:#6b7280;font-size:12px;font-weight:800;margin-top:3px}
-.memo-label{font-size:12px;font-weight:900;color:#2563eb;margin-bottom:4px}
-.delete-btn{width:auto;background:#ef4444;padding:9px 11px;font-size:12px;border-radius:12px}
-.chart-btn{width:auto;background:#0ea5e9;padding:9px 11px;font-size:12px;border-radius:12px}
-.danger{background:#ef4444}
-.reset-btn{background:#f97316;margin-top:10px;width:100%}
+.stock-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;}
+.stock-info .stock-name{font-size:15px;font-weight:900;}
+.stock-info .stock-sub{font-size:11px;color:var(--sub);font-weight:700;margin-top:2px;}
 
-.status-row{
-  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+.badge-row{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.type-badge{
+  padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;
 }
+.type-대장주{background:#fbbf24;color:#78350f;}
+.type-장비{background:#a5f3fc;color:#164e63;}
+.type-소재{background:#bbf7d0;color:#14532d;}
+.type-부품{background:#fde68a;color:#78350f;}
+.type-완성품{background:#c4b5fd;color:#3b0764;}
+.type-플랫폼{background:#fbcfe8;color:#831843;}
+.type-신약{background:#fed7aa;color:#7c2d12;}
+.type-AI{background:#e0e7ff;color:#3730a3;}
+.type-기타{background:#f1f5f9;color:#475569;}
+
 .status-badge{
-  display:inline-block;margin-top:6px;padding:5px 9px;border-radius:999px;
-  font-size:12px;font-weight:900;background:#e5e7eb;color:#111827;
+  padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;
 }
-.status-관심{background:#dbeafe;color:#1d4ed8}
-.status-매수대기{background:#fef3c7;color:#b45309}
-.status-보유{background:#dcfce7;color:#15803d}
-.status-매도검토{background:#fee2e2;color:#b91c1c}
+.status-관심{background:var(--blue-light);color:var(--blue);}
+.status-매수대기{background:var(--yellow-light);color:var(--yellow);}
+.status-보유{background:var(--green-light);color:var(--green);}
+.status-매도검토{background:var(--red-light);color:var(--red);}
 
-.chart-modal{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.58);
-  z-index:999;padding:18px;
+/* ─── Stock Buttons ─── */
+.stock-btns{display:flex;gap:5px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
+.icon-btn{
+  border:none;border-radius:10px;font-size:11px;font-weight:900;
+  cursor:pointer;padding:7px 10px;color:white;font-family:inherit;
+  white-space:nowrap;
 }
-.chart-box{background:white;border-radius:22px;padding:14px;height:82vh}
-.chart-header{display:flex;justify-content:space-between;align-items:center;font-weight:900;margin-bottom:10px}
-iframe{width:100%;height:90%;border:none;border-radius:16px}
+.btn-chart{background:#0ea5e9;}
+.btn-news{background:#f97316;}
+.btn-dart{background:#8b5cf6;}
+.btn-del{background:#ef4444;}
 
-body.dark{background:#0f172a;color:#e5e7eb}
-body.dark .fixed-actions{background:#0f172a}
-body.dark input,body.dark select,body.dark textarea,
-body.dark .sector-card,body.dark .panel,body.dark .stock-card,body.dark .chart-box{
-  background:#1e293b;color:#e5e7eb;border-color:#334155;
+/* ─── Stock Controls ─── */
+.stock-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.stock-controls select,.stock-controls input{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:9px;font-size:12px;font-weight:700;
+  color:var(--text);outline:none;font-family:inherit;width:100%;
 }
-body.dark .sector-desc{background:#0f172a;color:#cbd5e1}
-body.dark .leader-box{background:#172554}
-body.dark .part-btn{background:#334155;color:#e5e7eb}
-body.dark .part-btn.active{background:#2563eb}
+.memo-wrap{margin-top:6px;}
+.memo-label{font-size:11px;font-weight:900;color:var(--blue);margin-bottom:4px;}
+.stock-controls textarea{
+  width:100%;background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:9px;font-size:12px;font-weight:700;
+  color:var(--text);outline:none;font-family:inherit;
+  min-height:56px;resize:vertical;line-height:1.5;
+}
+
+/* ─── News Modal ─── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+  z-index:999;padding:16px;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--card);border-radius:var(--radius);
+  width:100%;max-width:480px;max-height:80vh;overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+.modal-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px;border-bottom:1px solid var(--border);
+}
+.modal-title{font-size:15px;font-weight:900;}
+.modal-close{
+  background:var(--bg);border:1px solid var(--border);color:var(--text);
+  padding:7px 12px;border-radius:10px;font-size:12px;font-weight:900;cursor:pointer;
+}
+.modal-body{padding:14px;overflow-y:auto;flex:1;}
+.news-link-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;
+}
+.news-link-btn{
+  border:none;border-radius:12px;padding:14px;font-size:13px;font-weight:900;
+  cursor:pointer;color:white;font-family:inherit;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.news-link-btn .icon{font-size:24px;}
+.news-link-btn .label{font-size:12px;}
+.news-link-btn.naver{background:linear-gradient(135deg,#03c75a,#2db400);}
+.news-link-btn.dart{background:linear-gradient(135deg,#6d28d9,#4c1d95);}
+.news-link-btn.kinda{background:linear-gradient(135deg,#0ea5e9,#0284c7);}
+.news-link-btn.tradingview{background:linear-gradient(135deg,#1d4ed8,#1e3a8a);}
+
+.info-section{background:var(--bg);border-radius:12px;padding:12px;}
+.info-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);}
+.info-row:last-child{border:none;}
+.info-key{font-size:12px;font-weight:900;color:var(--sub);}
+.info-val{font-size:12px;font-weight:900;}
+
+/* ─── Reset ─── */
+.reset-wrap{margin-top:12px;text-align:center;}
+.reset-btn{
+  background:none;border:1px solid var(--border);color:var(--sub);
+  padding:10px 20px;border-radius:12px;font-size:12px;font-weight:900;
+  cursor:pointer;font-family:inherit;
+}
+
+/* ─── Utility ─── */
+.gap{height:12px;}
 </style>
 </head>
-
 <body>
-<h1>한국 증시 섹터맵</h1>
-<div class="subtitle">종목명 입력 → 차트코드 자동 연결 · 목표가 · 상태 · 메모</div>
 
-<div class="top-bar">
-  <input id="searchInput" placeholder="섹터 또는 종목 검색" />
-  <button class="dark-btn" onclick="toggleDark()">다크</button>
+<div class="header">
+  <div class="header-left">
+    <h1>🇰🇷 섹터맵 Pro</h1>
+    <div class="tagline">대장주 · 소부장 · 뉴스 · DART 공시 연동</div>
+  </div>
+  <button class="dark-btn" onclick="toggleDark()">🌙 다크</button>
 </div>
 
-<div class="fixed-actions">
-  <button class="add-sector-btn" onclick="togglePanel('sectorPanel')">+ 섹터 추가</button>
-  <button class="add-stock-btn" onclick="togglePanel('stockPanel')">+ 종목 추가</button>
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input id="searchInput" class="form-input" placeholder="섹터명, 종목명, 메모 검색..." />
 </div>
 
-<div class="utility-actions">
-  <button class="backup-btn" onclick="backupData()">백업 저장</button>
-  <button class="restore-btn" onclick="document.getElementById('restoreFile').click()">백업 복원</button>
+<div class="fixed-bar">
+  <div class="action-row">
+    <button class="btn btn-blue" onclick="togglePanel('sectorPanel')">＋ 섹터 추가</button>
+    <button class="btn btn-green" onclick="togglePanel('stockPanel')">＋ 종목 추가</button>
+  </div>
+  <div class="action-row three">
+    <button class="btn btn-purple" onclick="backupData()">💾 백업</button>
+    <button class="btn btn-orange" onclick="document.getElementById('restoreFile').click()">📂 복원</button>
+    <button class="btn btn-gray" onclick="togglePanel('settingPanel')">⚙ 설정</button>
+  </div>
 </div>
 <input id="restoreFile" type="file" accept=".json" style="display:none" onchange="restoreData(event)" />
 
+<!-- 섹터 추가 패널 -->
 <div id="sectorPanel" class="panel">
-  <div class="section-title">섹터 추가</div>
+  <div class="panel-title">📁 섹터 추가</div>
   <div class="form-grid">
-    <input id="newSectorName" placeholder="섹터명 예: 로봇" />
-    <input id="newSectorDesc" placeholder="섹터 설명 예: 산업용 로봇, 감속기, 자동화" />
-    <input id="newSectorScore" type="number" placeholder="섹터점수 예: 85" />
-    <button onclick="addSector()">섹터 저장</button>
+    <input id="newSectorName" class="form-input" placeholder="섹터명 예: 원전" />
+    <input id="newSectorDesc" class="form-input" placeholder="설명 예: 원자력 발전, 소형모듈로, 주기기 공급" />
+    <input id="newSectorScore" class="form-input" type="number" placeholder="섹터점수 1~100 예: 89" />
+    <button class="btn btn-blue" onclick="addSector()">저장</button>
   </div>
 </div>
 
+<!-- 종목 추가 패널 -->
 <div id="stockPanel" class="panel">
-  <div class="section-title">종목 추가</div>
+  <div class="panel-title">📈 종목 추가</div>
   <div class="form-grid">
-    <select id="stockSectorSelect"></select>
-    <input id="newStockName" placeholder="종목명 예: 삼성전자" oninput="autoFillCode()" />
-    <input id="newStockCode" placeholder="차트코드 자동입력 예: KRX:005930" />
-    <select id="newStockType">
-      <option value="대장주">대장주</option>
-      <option value="장비">장비</option>
-      <option value="소재">소재</option>
-      <option value="부품">부품</option>
-      <option value="플랫폼">플랫폼</option>
-      <option value="완성품">완성품</option>
-      <option value="신약">신약</option>
-      <option value="AI">AI</option>
-      <option value="기타">기타</option>
-    </select>
-    <input id="newStockCap" type="number" placeholder="시총점수 예: 100" />
-    <input id="newStockTarget" placeholder="목표가 예: 95,000원" />
-    <select id="newStockStatus">
-      <option value="관심">관심</option>
-      <option value="매수대기">매수대기</option>
-      <option value="보유">보유</option>
-      <option value="매도검토">매도검토</option>
-    </select>
-    <textarea id="newStockMemo" placeholder="회사 특징 메모"></textarea>
-    <button onclick="addStock()">종목 저장</button>
+    <div>
+      <div class="form-label">소속 섹터</div>
+      <select id="stockSectorSelect" class="form-select"></select>
+    </div>
+    <div>
+      <div class="form-label">종목명 (입력 시 코드 자동완성)</div>
+      <input id="newStockName" class="form-input" placeholder="예: 삼성전자" oninput="autoFillCode()" />
+    </div>
+    <div>
+      <div class="form-label">차트코드 (TradingView)</div>
+      <input id="newStockCode" class="form-input" placeholder="예: KRX:005930" />
+    </div>
+    <div>
+      <div class="form-label">종목 구분</div>
+      <select id="newStockType" class="form-select">
+        <option value="대장주">대장주</option>
+        <option value="장비">장비</option>
+        <option value="소재">소재</option>
+        <option value="부품">부품</option>
+        <option value="완성품">완성품</option>
+        <option value="플랫폼">플랫폼</option>
+        <option value="신약">신약</option>
+        <option value="AI">AI</option>
+        <option value="기타">기타</option>
+      </select>
+    </div>
+    <div>
+      <div class="form-label">시총점수 (상대적 가중치)</div>
+      <input id="newStockCap" class="form-input" type="number" placeholder="예: 100" />
+    </div>
+    <div>
+      <div class="form-label">목표가</div>
+      <input id="newStockTarget" class="form-input" placeholder="예: 95,000원" />
+    </div>
+    <div>
+      <div class="form-label">매매 상태</div>
+      <select id="newStockStatus" class="form-select">
+        <option value="관심">관심</option>
+        <option value="매수대기">매수대기</option>
+        <option value="보유">보유</option>
+        <option value="매도검토">매도검토</option>
+      </select>
+    </div>
+    <div>
+      <div class="form-label">메모</div>
+      <textarea id="newStockMemo" class="form-textarea" placeholder="종목 특징, 투자 근거 등"></textarea>
+    </div>
+    <button class="btn btn-green" onclick="addStock()">종목 저장</button>
   </div>
 </div>
 
+<!-- 설정 패널 -->
+<div id="settingPanel" class="panel">
+  <div class="panel-title">⚙ 설정</div>
+  <div class="form-grid">
+    <div class="form-label">정렬 기준</div>
+    <select id="sortMode" class="form-select" onchange="renderSectors()">
+      <option value="score">섹터점수 높은 순</option>
+      <option value="name">이름순</option>
+      <option value="stocks">종목수 많은 순</option>
+    </select>
+    <div style="height:4px;"></div>
+    <button class="btn btn-red" onclick="resetData()">⚠ 초기 데이터로 복구</button>
+  </div>
+</div>
+
+<!-- 통계 바 -->
+<div class="stats-bar" id="statsBar"></div>
+
+<!-- 섹터 목록 -->
 <div class="section-title">섹터 목록</div>
 <div id="sectorList"></div>
 
-<button class="reset-btn" onclick="resetData()">초기 데이터로 복구</button>
+<div class="reset-wrap">
+  <button class="reset-btn" onclick="resetData()">초기 데이터로 복구</button>
+</div>
 
-<div class="chart-modal" id="chartModal">
-  <div class="chart-box">
-    <div class="chart-header">
-      <span id="chartTitle">차트</span>
-      <button style="width:80px" onclick="closeChart()">닫기</button>
+<!-- 종목 정보/뉴스 모달 -->
+<div class="modal-overlay" id="infoModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="infoModalTitle">종목 정보</div>
+      <button class="modal-close" onclick="closeModal()">닫기</button>
     </div>
-    <iframe id="chartFrame"></iframe>
+    <div class="modal-body" id="infoModalBody"></div>
   </div>
 </div>
 
 <script>
+/* ═══════════════════════════════════
+   종목 코드맵 (자동완성용)
+═══════════════════════════════════ */
 const stockCodeMap = {
-  "삼성전자":"KRX:005930",
-  "SK하이닉스":"KRX:000660",
-  "한미반도체":"KRX:042700",
-  "리노공업":"KOSDAQ:058470",
-  "솔브레인":"KOSDAQ:357780",
-  "DB하이텍":"KRX:000990",
-  "원익IPS":"KOSDAQ:240810",
-  "주성엔지니어링":"KOSDAQ:036930",
-  "이오테크닉스":"KOSDAQ:039030",
-  "동진쎄미켐":"KOSDAQ:005290",
-
-  "HD현대중공업":"KRX:329180",
-  "한화오션":"KRX:042660",
-  "삼성중공업":"KRX:010140",
-  "HD한국조선해양":"KRX:009540",
-  "현대미포조선":"KRX:010620",
-
-  "한화에어로스페이스":"KRX:012450",
-  "LIG넥스원":"KRX:079550",
-  "현대로템":"KRX:064350",
-  "한국항공우주":"KRX:047810",
-  "풍산":"KRX:103140",
-
-  "삼성바이오로직스":"KRX:207940",
-  "셀트리온":"KRX:068270",
-  "유한양행":"KRX:000100",
-  "알테오젠":"KOSDAQ:196170",
-  "리가켐바이오":"KOSDAQ:141080",
-
-  "LG에너지솔루션":"KRX:373220",
-  "삼성SDI":"KRX:006400",
-  "포스코퓨처엠":"KRX:003670",
-  "에코프로비엠":"KOSDAQ:247540",
-  "엘앤에프":"KRX:066970",
-
-  "현대차":"KRX:005380",
-  "기아":"KRX:000270",
-  "현대모비스":"KRX:012330",
-  "HL만도":"KRX:204320",
-  "성우하이텍":"KOSDAQ:015750",
-
-  "HD현대일렉트릭":"KRX:267260",
-  "LS ELECTRIC":"KRX:010120",
-  "효성중공업":"KRX:298040",
-  "일진전기":"KRX:103590",
-  "대한전선":"KRX:001440",
-
-  "NAVER":"KRX:035420",
-  "카카오":"KRX:035720",
-  "더존비즈온":"KRX:012510",
-  "솔트룩스":"KOSDAQ:304100",
-  "폴라리스AI":"KOSDAQ:039980"
+  /* 반도체 */
+  "삼성전자":"KRX:005930","SK하이닉스":"KRX:000660",
+  "한미반도체":"KRX:042700","리노공업":"KOSDAQ:058470",
+  "솔브레인":"KOSDAQ:357780","DB하이텍":"KRX:000990",
+  "원익IPS":"KOSDAQ:240810","주성엔지니어링":"KOSDAQ:036930",
+  "이오테크닉스":"KOSDAQ:039030","동진쎄미켐":"KOSDAQ:005290",
+  "피에스케이":"KOSDAQ:319660","하나머티리얼즈":"KOSDAQ:166090",
+  "테크윙":"KOSDAQ:089030","티씨케이":"KOSDAQ:064760",
+  "넥스틴":"KOSDAQ:085660","SFA반도체":"KRX:036540",
+  "에스티아이":"KOSDAQ:039440","유진테크":"KOSDAQ:084370",
+  "HPSP":"KOSDAQ:403870","에이피티씨":"KOSDAQ:089970",
+  /* 조선 */
+  "HD현대중공업":"KRX:329180","한화오션":"KRX:042660",
+  "삼성중공업":"KRX:010140","HD한국조선해양":"KRX:009540",
+  "현대미포조선":"KRX:010620","HSD엔진":"KRX:082740",
+  "한화엔진":"KRX:082740","STX엔진":"KRX:077970",
+  "동성화인텍":"KRX:033500","세진중공업":"KOSDAQ:075580",
+  /* 방산 */
+  "한화에어로스페이스":"KRX:012450","LIG넥스원":"KRX:079550",
+  "현대로템":"KRX:064350","한국항공우주":"KRX:047810",
+  "풍산":"KRX:103140","한화시스템":"KRX:272210",
+  "빅텍":"KOSDAQ:065690","퍼스텍":"KOSDAQ:010820",
+  "쎄트렉아이":"KOSDAQ:099830","이노뎁":"KOSDAQ:307131",
+  /* 원전 */
+  "두산에너빌리티":"KRX:034020","한전기술":"KRX:052690",
+  "비에이치아이":"KOSDAQ:083650","우진":"KOSDAQ:105840",
+  "한전KPS":"KRX:051600","보성파워텍":"KOSDAQ:006162",
+  "LS마린솔루션":"KRX:060980","SNT에너지":"KOSDAQ:100840",
+  "일진파워":"KOSDAQ:094820","지투파워":"KOSDAQ:388790",
+  /* 전력인프라 */
+  "HD현대일렉트릭":"KRX:267260","LS ELECTRIC":"KRX:010120",
+  "효성중공업":"KRX:298040","일진전기":"KRX:103590",
+  "대한전선":"KRX:001440","가온전선":"KRX:000500",
+  "LS":"KRX:006260","제일전기공업":"KOSDAQ:093190",
+  "진흥전기":"KOSDAQ:010050","고려전선":"KRX:006110",
+  /* 로봇 */
+  "두산로보틱스":"KRX:454910","레인보우로보틱스":"KOSDAQ:277810",
+  "에스비비테크":"KOSDAQ:389500","스맥":"KRX:099440",
+  "로보티즈":"KOSDAQ:108490","로보스타":"KOSDAQ:090360",
+  "티로보틱스":"KOSDAQ:117730","뉴로메카":"KOSDAQ:348680",
+  "현대제철":"KRX:004020",
+  /* 2차전지 */
+  "LG에너지솔루션":"KRX:373220","삼성SDI":"KRX:006400",
+  "SK이노베이션":"KRX:096770","포스코퓨처엠":"KRX:003670",
+  "에코프로비엠":"KOSDAQ:247540","엘앤에프":"KRX:066970",
+  "에코프로":"KOSDAQ:086520","천보":"KOSDAQ:278280",
+  "나노신소재":"KOSDAQ:091970","엔켐":"KOSDAQ:348370",
+  "동화기업":"KRX:025900","솔루스첨단소재":"KOSDAQ:336370",
+  /* 자동차 */
+  "현대차":"KRX:005380","기아":"KRX:000270",
+  "현대모비스":"KRX:012330","HL만도":"KRX:204320",
+  "현대위아":"KRX:011210","성우하이텍":"KOSDAQ:015750",
+  "서연이화":"KRX:200880","화신":"KRX:010690",
+  "모베이스":"KOSDAQ:101330","성창오토텍":"KOSDAQ:080360",
+  /* 바이오 */
+  "삼성바이오로직스":"KRX:207940","셀트리온":"KRX:068270",
+  "유한양행":"KRX:000100","알테오젠":"KOSDAQ:196170",
+  "리가켐바이오":"KOSDAQ:141080","한미약품":"KRX:128940",
+  "종근당":"KRX:185750","보령":"KRX:003850",
+  "에이비엘바이오":"KOSDAQ:298380","오스코텍":"KOSDAQ:039200",
+  /* AI/플랫폼 */
+  "NAVER":"KRX:035420","카카오":"KRX:035720",
+  "더존비즈온":"KRX:012510","솔트룩스":"KOSDAQ:304100",
+  "폴라리스AI":"KOSDAQ:039980","크래프톤":"KRX:259960",
+  "카카오게임즈":"KOSDAQ:293490","엔씨소프트":"KRX:036570",
+  "셀바스AI":"KOSDAQ:108860","코난테크놀로지":"KOSDAQ:402030",
+  /* 철강/소재 */
+  "POSCO홀딩스":"KRX:005490","현대제철":"KRX:004020",
+  "동국제강":"KRX:460860","고려아연":"KRX:010130",
+  "풍산홀딩스":"KRX:005810"
 };
 
+/* ═══════════════════════════════════
+   기본 섹터 데이터
+═══════════════════════════════════ */
 const defaultData = [
   {
     name:"반도체", score:98,
-    desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
+    desc:"AI 가속, HBM, DRAM·낸드, 파운드리, 반도체 장비·소재 중심 핵심 섹터",
     stocks:[
-      {name:"삼성전자", code:"KRX:005930", type:"대장주", cap:470, target:"", status:"관심", memo:"메모리·파운드리·스마트폰을 함께 보유한 국내 최대 반도체 기업."},
-      {name:"SK하이닉스", code:"KRX:000660", type:"대장주", cap:150, target:"", status:"관심", memo:"HBM과 고대역폭 메모리에서 강한 경쟁력을 가진 AI 반도체 핵심주."},
-      {name:"한미반도체", code:"KRX:042700", type:"장비", cap:12, target:"", status:"관심", memo:"HBM 본딩 장비 수혜주."},
-      {name:"리노공업", code:"KOSDAQ:058470", type:"부품", cap:4, target:"", status:"관심", memo:"반도체 테스트 소켓·핀 중심의 고마진 부품 기업."},
-      {name:"솔브레인", code:"KOSDAQ:357780", type:"소재", cap:2, target:"", status:"관심", memo:"반도체 식각액·소재 중심."}
+      {name:"삼성전자", code:"KRX:005930", type:"대장주", cap:470, target:"", status:"관심", memo:"메모리·파운드리·스마트폰 통합. AI HBM 추격 중. 파운드리 수율 개선이 핵심 모멘텀."},
+      {name:"SK하이닉스", code:"KRX:000660", type:"대장주", cap:150, target:"", status:"관심", memo:"HBM3E 선두. 엔비디아 납품 비중 압도적. AI 수혜 최대 수혜주."},
+      {name:"한미반도체", code:"KRX:042700", type:"장비", cap:12, target:"", status:"관심", memo:"HBM TC 본더 독점적 공급. SK하이닉스 캐파 확장과 직결."},
+      {name:"원익IPS", code:"KOSDAQ:240810", type:"장비", cap:4, target:"", status:"관심", memo:"CVD·ALD 증착 장비. 삼성·하이닉스 동시 납품."},
+      {name:"주성엔지니어링", code:"KOSDAQ:036930", type:"장비", cap:3, target:"", status:"관심", memo:"원자층 증착(ALD) 장비. 미래 공정 전환 수혜."},
+      {name:"이오테크닉스", code:"KOSDAQ:039030", type:"장비", cap:2, target:"", status:"관심", memo:"레이저 마킹·다이싱 장비."},
+      {name:"솔브레인", code:"KOSDAQ:357780", type:"소재", cap:3, target:"", status:"관심", memo:"식각액·전해액·CMP슬러리 등 핵심 소재 공급."},
+      {name:"동진쎄미켐", code:"KOSDAQ:005290", type:"소재", cap:2, target:"", status:"관심", memo:"PR·포토레지스트 등 반도체 화학소재."},
+      {name:"리노공업", code:"KOSDAQ:058470", type:"부품", cap:4, target:"", status:"관심", memo:"테스트 소켓·핀. 고마진 구조. 장기 보유 우량주."},
+      {name:"HPSP", code:"KOSDAQ:403870", type:"장비", cap:2, target:"", status:"관심", memo:"고압 어닐링 장비. 삼성·하이닉스·TSMC 공급."}
     ]
   },
   {
-    name:"조선", score:94,
-    desc:"LNG선, 특수선, 친환경 선박 중심 수주 산업",
+    name:"전력인프라", score:95,
+    desc:"전력망 투자 슈퍼사이클. AI데이터센터·전기화 수혜. 변압기·전선·스위치기어 핵심",
     stocks:[
-      {name:"HD현대중공업", code:"KRX:329180", type:"대장주", cap:16, target:"", status:"관심", memo:"LNG선·특수선·해양플랜트 중심 대형 조선사."},
-      {name:"한화오션", code:"KRX:042660", type:"완성품", cap:12, target:"", status:"관심", memo:"상선과 방산 선박을 함께 보유."},
-      {name:"삼성중공업", code:"KRX:010140", type:"완성품", cap:10, target:"", status:"관심", memo:"LNG선과 해양플랜트 중심."},
-      {name:"HD한국조선해양", code:"KRX:009540", type:"대장주", cap:14, target:"", status:"관심", memo:"HD현대 조선 지주 성격."},
-      {name:"현대미포조선", code:"KRX:010620", type:"완성품", cap:4, target:"", status:"관심", memo:"중형선 중심 조선사."}
+      {name:"HD현대일렉트릭", code:"KRX:267260", type:"대장주", cap:8, target:"", status:"관심", memo:"초고압 변압기 글로벌 공급. 美 전력망 교체 수혜. 수주잔고 사상 최고."},
+      {name:"LS ELECTRIC", code:"KRX:010120", type:"대장주", cap:5, target:"", status:"관심", memo:"변압기·배전반·솔루션. 그룹 전력 사업 허브."},
+      {name:"효성중공업", code:"KRX:298040", type:"완성품", cap:4, target:"", status:"관심", memo:"초고압 변압기·차단기. 美 GE버노바 수출 확대."},
+      {name:"일진전기", code:"KRX:103590", type:"부품", cap:1, target:"", status:"관심", memo:"중·대형 변압기·가스절연개폐기(GIS)."},
+      {name:"대한전선", code:"KRX:001440", type:"소재", cap:2, target:"", status:"관심", memo:"초고압 전력케이블·해저케이블 진출 중."},
+      {name:"가온전선", code:"KRX:000500", type:"소재", cap:1, target:"", status:"관심", memo:"전력선·통신선 복합. LS그룹 계열."},
+      {name:"LS", code:"KRX:006260", type:"대장주", cap:3, target:"", status:"관심", memo:"LS ELECTRIC 지주. 전력·소재·트레이딩 복합."}
+    ]
+  },
+  {
+    name:"원전", score:93,
+    desc:"SMR·APR1400 수출, 원전 르네상스. 주기기·보조기기·정비 밸류체인",
+    stocks:[
+      {name:"두산에너빌리티", code:"KRX:034020", type:"대장주", cap:6, target:"", status:"관심", memo:"원전 주기기(원자로·터빈) 독점 공급. SMR 핵심 밸류체인. 수주 증가 중."},
+      {name:"한전기술", code:"KRX:052690", type:"대장주", cap:3, target:"", status:"관심", memo:"원전 설계 전문. 수출 확대 직접 수혜. 한국전력 자회사."},
+      {name:"비에이치아이", code:"KOSDAQ:083650", type:"부품", cap:1, target:"", status:"관심", memo:"보조기기·폐열회수장치. 원전·가스발전 겸업."},
+      {name:"한전KPS", code:"KRX:051600", type:"기타", cap:2, target:"", status:"관심", memo:"원전 정비 전문. 안정적 수익. 배당주 성격."},
+      {name:"우진", code:"KOSDAQ:105840", type:"부품", cap:1, target:"", status:"관심", memo:"원전 계측·제어 기기. 수출 확대 기대."},
+      {name:"보성파워텍", code:"KOSDAQ:006162", type:"소재", cap:1, target:"", status:"관심", memo:"원전 밸브·배관 부품 공급."}
     ]
   },
   {
     name:"방산", score:92,
-    desc:"K방산, 수출, 미사일, 항공우주, 지상무기 중심 섹터",
+    desc:"K방산 수출 급성장. 자주포·전차·미사일·항공엔진·함정 전방위 수혜",
     stocks:[
-      {name:"한화에어로스페이스", code:"KRX:012450", type:"대장주", cap:20, target:"", status:"관심", memo:"항공엔진·자주포·방산 수출 중심 K방산 대표주."},
-      {name:"LIG넥스원", code:"KRX:079550", type:"부품", cap:5, target:"", status:"관심", memo:"미사일·유도무기·레이더 중심."},
-      {name:"현대로템", code:"KRX:064350", type:"완성품", cap:6, target:"", status:"관심", memo:"K2 전차와 철도 사업 보유."},
-      {name:"한국항공우주", code:"KRX:047810", type:"완성품", cap:5, target:"", status:"관심", memo:"항공기·훈련기·우주항공 관련."},
-      {name:"풍산", code:"KRX:103140", type:"소재", cap:2, target:"", status:"관심", memo:"탄약·동소재 기업."}
+      {name:"한화에어로스페이스", code:"KRX:012450", type:"대장주", cap:20, target:"", status:"관심", memo:"자주포(K9)·항공엔진·SAM 포괄. K방산 대표주. 폴란드 수출 확대."},
+      {name:"LIG넥스원", code:"KRX:079550", type:"완성품", cap:5, target:"", status:"관심", memo:"미사일·레이더·유도무기 전문. 중동·동유럽 수출."},
+      {name:"현대로템", code:"KRX:064350", type:"완성품", cap:6, target:"", status:"관심", memo:"K2 전차·레드백 IFV. 철도·방산 병행 성장."},
+      {name:"한국항공우주", code:"KRX:047810", type:"완성품", cap:5, target:"", status:"관심", memo:"T-50·FA-50 훈련기·전투기. 항공기 부품도 병행."},
+      {name:"한화시스템", code:"KRX:272210", type:"부품", cap:3, target:"", status:"관심", memo:"레이더·전자전·SAR위성. 한화에어로 계열."},
+      {name:"풍산", code:"KRX:103140", type:"소재", cap:2, target:"", status:"관심", memo:"탄약·동소재. 미국 생산 확대로 수출 수혜."},
+      {name:"빅텍", code:"KOSDAQ:065690", type:"부품", cap:1, target:"", status:"관심", memo:"군용 전원공급장치·배터리. 소형 방산 특화."}
     ]
   },
   {
-    name:"바이오", score:88,
-    desc:"신약, CDMO, 바이오시밀러, 항체치료제 중심 성장 섹터",
+    name:"조선", score:91,
+    desc:"LNG선·친환경선·특수선 수주 호황. 2026~2028 인도 피크 구간",
     stocks:[
-      {name:"삼성바이오로직스", code:"KRX:207940", type:"대장주", cap:70, target:"", status:"관심", memo:"글로벌 CDMO 대형주."},
-      {name:"셀트리온", code:"KRX:068270", type:"대장주", cap:40, target:"", status:"관심", memo:"바이오시밀러 대표주."},
-      {name:"유한양행", code:"KRX:000100", type:"신약", cap:8, target:"", status:"관심", memo:"신약 모멘텀 보유."},
-      {name:"알테오젠", code:"KOSDAQ:196170", type:"플랫폼", cap:15, target:"", status:"관심", memo:"SC 제형변경 플랫폼 기술 보유."},
-      {name:"리가켐바이오", code:"KOSDAQ:141080", type:"플랫폼", cap:4, target:"", status:"관심", memo:"ADC 플랫폼 중심 바이오텍."}
+      {name:"HD현대중공업", code:"KRX:329180", type:"대장주", cap:16, target:"", status:"관심", memo:"LNG선·특수선·해양플랜트 대형 조선사. 수주잔고 3년치 이상."},
+      {name:"HD한국조선해양", code:"KRX:009540", type:"대장주", cap:14, target:"", status:"관심", memo:"HD현대 조선부문 지주. 세 조선사 합산 평가."},
+      {name:"한화오션", code:"KRX:042660", type:"완성품", cap:12, target:"", status:"관심", memo:"상선+방산 선박(잠수함) 이원화. 한화그룹 편입 후 체질 개선."},
+      {name:"삼성중공업", code:"KRX:010140", type:"완성품", cap:10, target:"", status:"관심", memo:"LNG 운반선·해양플랜트. 흑자 전환 확인."},
+      {name:"현대미포조선", code:"KRX:010620", type:"완성품", cap:4, target:"", status:"관심", memo:"중형선·PC선 특화. HD현대 계열."},
+      {name:"HSD엔진", code:"KRX:082740", type:"부품", cap:1, target:"", status:"관심", memo:"선박용 대형 엔진 공급. 조선 수주 직접 후행 수혜."}
+    ]
+  },
+  {
+    name:"로봇", score:88,
+    desc:"협동로봇·AMR·AI로봇 성장 초입. 감속기·액추에이터 소부장 동반 성장",
+    stocks:[
+      {name:"두산로보틱스", code:"KRX:454910", type:"대장주", cap:5, target:"", status:"관심", memo:"협동로봇 국내 1위. 글로벌 확장 가시화. 삼성전자 전략적 투자."},
+      {name:"레인보우로보틱스", code:"KOSDAQ:277810", type:"대장주", cap:3, target:"", status:"관심", memo:"휴머노이드·이동로봇. 삼성전자 자회사 편입으로 레퍼런스 확보."},
+      {name:"에스비비테크", code:"KOSDAQ:389500", type:"부품", cap:1, target:"", status:"관심", memo:"로봇 감속기(하모닉 드라이브). 핵심 소부장."},
+      {name:"로보티즈", code:"KOSDAQ:108490", type:"부품", cap:1, target:"", status:"관심", memo:"서보 액추에이터·모듈형 로봇."},
+      {name:"스맥", code:"KRX:099440", type:"완성품", cap:1, target:"", status:"관심", memo:"산업용 로봇 암·자동화 라인 구축."}
+    ]
+  },
+  {
+    name:"2차전지", score:84,
+    desc:"전기차·ESS 배터리. 소재·셀·팩 밸류체인. 단기 조정 후 중기 반등 기대",
+    stocks:[
+      {name:"LG에너지솔루션", code:"KRX:373220", type:"대장주", cap:70, target:"", status:"관심", memo:"원통형·파우치·LFP 다변화. GM·BMW 장기 공급."},
+      {name:"삼성SDI", code:"KRX:006400", type:"대장주", cap:25, target:"", status:"관심", memo:"각형 배터리 강자. BMW·스텔란티스 공급. 전고체 개발 선행."},
+      {name:"SK이노베이션", code:"KRX:096770", type:"대장주", cap:15, target:"", status:"관심", memo:"SK온 배터리+정유. 포드·현대차 공급."},
+      {name:"포스코퓨처엠", code:"KRX:003670", type:"소재", cap:8, target:"", status:"관심", memo:"양극재(NCMA)·음극재 수직계열화. 포스코홀딩스 계열."},
+      {name:"에코프로비엠", code:"KOSDAQ:247540", type:"소재", cap:10, target:"", status:"관심", memo:"하이니켈 양극재 선두. 에코프로 그룹 핵심."},
+      {name:"에코프로", code:"KOSDAQ:086520", type:"대장주", cap:15, target:"", status:"관심", memo:"에코프로비엠·에이치엔 지주. 양극재 그룹 대표."},
+      {name:"엘앤에프", code:"KRX:066970", type:"소재", cap:5, target:"", status:"관심", memo:"양극재·테슬라 공급. 단결정 특화."},
+      {name:"천보", code:"KOSDAQ:278280", type:"소재", cap:2, target:"", status:"관심", memo:"리튬염·전해질 첨가제 전문. 고부가 소재."}
+    ]
+  },
+  {
+    name:"바이오", score:87,
+    desc:"CDMO, 항체-약물접합체(ADC), 바이오시밀러, 신약 파이프라인 중심 섹터",
+    stocks:[
+      {name:"삼성바이오로직스", code:"KRX:207940", type:"대장주", cap:70, target:"", status:"관심", memo:"글로벌 CDMO 3위. 5공장 가동 확장. 수주 급증세."},
+      {name:"셀트리온", code:"KRX:068270", type:"대장주", cap:30, target:"", status:"관심", memo:"바이오시밀러 글로벌 직판. 짐펜트라 미국 시장 확장."},
+      {name:"한미약품", code:"KRX:128940", type:"신약", cap:8, target:"", status:"관심", memo:"비만치료제·GLP-1 파이프라인 다수. 글로벌 빅파마 기술이전 이력."},
+      {name:"유한양행", code:"KRX:000100", type:"신약", cap:8, target:"", status:"관심", memo:"렉라자(레이저티닙) 美 FDA 승인. BMS 공동 판매."},
+      {name:"알테오젠", code:"KOSDAQ:196170", type:"플랫폼", cap:15, target:"", status:"관심", memo:"SC제형 플랫폼(ALT-B4). 머크·얀센 등 다수 기술이전."},
+      {name:"리가켐바이오", code:"KOSDAQ:141080", type:"플랫폼", cap:5, target:"", status:"관심", memo:"ADC 플랫폼. 얀센 빅딜 성사 이후 밸류 급상승."},
+      {name:"에이비엘바이오", code:"KOSDAQ:298380", type:"플랫폼", cap:2, target:"", status:"관심", memo:"이중항체 플랫폼. CNS·종양 파이프라인 다수."}
+    ]
+  },
+  {
+    name:"자동차", score:80,
+    desc:"현대차그룹 글로벌 3위 질주. 전동화·SDV 전환 중 소부장 구조 변화",
+    stocks:[
+      {name:"현대차", code:"KRX:005380", type:"대장주", cap:55, target:"", status:"관심", memo:"전기차(아이오닉6·9)·HEV 확대. 美 관세 리스크 있으나 현지화로 대응."},
+      {name:"기아", code:"KRX:000270", type:"대장주", cap:40, target:"", status:"관심", memo:"EV6·EV9·PBV. 현대차 대비 고마진 구조. 배당 우수."},
+      {name:"현대모비스", code:"KRX:012330", type:"부품", cap:15, target:"", status:"관심", memo:"전동화 핵심부품·자율주행 모듈. 현대차그룹 핵심 부품사."},
+      {name:"HL만도", code:"KRX:204320", type:"부품", cap:3, target:"", status:"관심", memo:"ADAS·조향·제동. 글로벌 완성차 공급 다각화."},
+      {name:"현대위아", code:"KRX:011210", type:"부품", cap:2, target:"", status:"관심", memo:"엔진·변속기·공작기계. 방산 겸업."}
+    ]
+  },
+  {
+    name:"AI/플랫폼", score:85,
+    desc:"국내 AI 소버린, 엔터프라이즈 SaaS, 클라우드 인프라 전환 중심 섹터",
+    stocks:[
+      {name:"NAVER", code:"KRX:035420", type:"대장주", cap:30, target:"", status:"관심", memo:"하이퍼클로바X·네이버클라우드. 국내 AI 생태계 핵심. 일본 검색 강자."},
+      {name:"카카오", code:"KRX:035720", type:"대장주", cap:15, target:"", status:"관심", memo:"플랫폼 독과점. AI·콘텐츠 확장. 지배구조 개선 필요."},
+      {name:"더존비즈온", code:"KRX:012510", type:"AI", cap:3, target:"", status:"관심", memo:"ERP·AI 기업용 SaaS. 국내 기업 디지털 전환 수혜."},
+      {name:"솔트룩스", code:"KOSDAQ:304100", type:"AI", cap:1, target:"", status:"관심", memo:"공공·B2B AI 솔루션. 언어모델 자체 개발."},
+      {name:"크래프톤", code:"KRX:259960", type:"플랫폼", cap:12, target:"", status:"관심", memo:"배그·인조이 등 글로벌 게임. 인도 시장 독보적."}
     ]
   }
 ];
 
-let sectors = JSON.parse(localStorage.getItem("sectorData")) || defaultData;
+/* ═══════════════════════════════════
+   상태 관리
+═══════════════════════════════════ */
+let sectors = JSON.parse(localStorage.getItem("sectorData_v2")) || JSON.parse(JSON.stringify(defaultData));
 let openedSector = null;
 let selectedPart = "전체";
 
-const sectorList = document.getElementById("sectorList");
-const searchInput = document.getElementById("searchInput");
-const stockSectorSelect = document.getElementById("stockSectorSelect");
+const $sectorList = document.getElementById("sectorList");
+const $searchInput = document.getElementById("searchInput");
+const $stockSectorSelect = document.getElementById("stockSectorSelect");
 
+/* ─── 저장 ─── */
 function saveData(){
-  localStorage.setItem("sectorData", JSON.stringify(sectors));
+  localStorage.setItem("sectorData_v2", JSON.stringify(sectors));
 }
 
+/* ─── 정규화 ─── */
 function normalizeData(){
   sectors.forEach(sector=>{
     sector.stocks.forEach(stock=>{
-      if(stock.memo === undefined) stock.memo = "";
-      if(stock.target === undefined) stock.target = "";
-      if(stock.status === undefined) stock.status = "관심";
-      if(stock.code === undefined) stock.code = "";
-      if((!stock.code || stock.code === "") && stockCodeMap[stock.name]){
+      if(!stock.memo) stock.memo="";
+      if(!stock.target) stock.target="";
+      if(!stock.status) stock.status="관심";
+      if(!stock.code && stockCodeMap[stock.name]){
         stock.code = stockCodeMap[stock.name];
       }
     });
@@ -324,315 +682,419 @@ function normalizeData(){
   saveData();
 }
 
+/* ─── 코드 추출 ─── */
+function getNaverCode(code){
+  if(!code) return null;
+  return code.split(":")[1] || code;
+}
+
+/* ─── 자동완성 ─── */
 function autoFillCode(){
   const name = document.getElementById("newStockName").value.trim();
-  const codeInput = document.getElementById("newStockCode");
-
-  if(stockCodeMap[name]){
-    codeInput.value = stockCodeMap[name];
-  }
+  const codeEl = document.getElementById("newStockCode");
+  if(stockCodeMap[name]) codeEl.value = stockCodeMap[name];
 }
 
+/* ─── 패널 토글 ─── */
 function togglePanel(id){
   document.getElementById(id).classList.toggle("open");
+  if(id === "stockPanel") renderSectorOptions();
 }
 
+/* ─── 대장주 찾기 ─── */
 function getLeader(sector){
   if(!sector.stocks.length) return null;
-  const leaders = sector.stocks.filter(s => s.type === "대장주");
+  const leaders = sector.stocks.filter(s=>s.type==="대장주");
   const pool = leaders.length ? leaders : sector.stocks;
   return [...pool].sort((a,b)=>(b.cap||0)-(a.cap||0))[0];
 }
 
-function renderSectorOptions(){
-  stockSectorSelect.innerHTML = sectors.map((s,i)=>`<option value="${i}">${s.name}</option>`).join("");
+/* ─── 통계 바 ─── */
+function renderStats(){
+  const totalSectors = sectors.length;
+  const totalStocks = sectors.reduce((a,s)=>a+s.stocks.length, 0);
+  const holding = sectors.reduce((a,s)=>a+s.stocks.filter(st=>st.status==="보유").length, 0);
+  const watching = sectors.reduce((a,s)=>a+s.stocks.filter(st=>st.status==="매수대기").length, 0);
+  document.getElementById("statsBar").innerHTML = `
+    <div class="stat-card">
+      <div class="stat-num">${totalSectors}</div>
+      <div class="stat-label">섹터</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">${totalStocks}</div>
+      <div class="stat-label">총 종목</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">${holding}</div>
+      <div class="stat-label">보유</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--yellow)">${watching}</div>
+      <div class="stat-label">매수대기</div>
+    </div>
+  `;
 }
 
+/* ─── 섹터 옵션 ─── */
+function renderSectorOptions(){
+  $stockSectorSelect.innerHTML = sectors.map((s,i)=>`<option value="${i}">${s.name}</option>`).join("");
+}
+
+/* ─── 정렬 ─── */
+function getSortedSectors(filtered){
+  const mode = document.getElementById("sortMode")?.value || "score";
+  if(mode === "score") return [...filtered].sort((a,b)=>b.score-a.score);
+  if(mode === "name") return [...filtered].sort((a,b)=>a.name.localeCompare(b.name,"ko"));
+  if(mode === "stocks") return [...filtered].sort((a,b)=>b.stocks.length-a.stocks.length);
+  return filtered;
+}
+
+/* ─── 섹터 렌더링 ─── */
 function renderSectors(){
-  const keyword = searchInput.value.toLowerCase();
-
+  renderStats();
+  const keyword = $searchInput.value.toLowerCase().trim();
   const filtered = sectors
-    .map((sector,index)=>({...sector, originalIndex:index}))
-    .filter(sector =>
-      sector.name.toLowerCase().includes(keyword) ||
-      sector.stocks.some(stock =>
-        stock.name.toLowerCase().includes(keyword) ||
-        (stock.memo || "").toLowerCase().includes(keyword)
+    .map((s,i)=>({...s, originalIndex:i}))
+    .filter(s=>
+      !keyword ||
+      s.name.toLowerCase().includes(keyword) ||
+      s.desc.toLowerCase().includes(keyword) ||
+      s.stocks.some(st=>
+        st.name.toLowerCase().includes(keyword) ||
+        (st.memo||"").toLowerCase().includes(keyword)
       )
-    )
-    .sort((a,b)=>b.score-a.score);
+    );
+  const sorted = getSortedSectors(filtered);
 
-  sectorList.innerHTML = filtered.map(sector=>{
+  $sectorList.innerHTML = sorted.map(sector=>{
     const leader = getLeader(sector);
     const isOpen = openedSector === sector.originalIndex;
     const parts = ["전체", ...new Set(sector.stocks.map(s=>s.type))];
-
     const visibleStocks = selectedPart === "전체"
       ? sector.stocks
-      : sector.stocks.filter(s => s.type === selectedPart);
+      : sector.stocks.filter(s=>s.type===selectedPart);
+
+    // 보유/매수대기 강조
+    const holdCount = sector.stocks.filter(s=>s.status==="보유").length;
+    const waitCount = sector.stocks.filter(s=>s.status==="매수대기").length;
+
+    const previewStocks = sector.stocks
+      .filter(s=>s.type==="대장주")
+      .slice(0,3)
+      .map(s=>`<span class="preview-chip">${s.name}</span>`).join("");
 
     return `
-      <div class="sector-card">
-        <div class="sector-head" onclick="toggleSector(${sector.originalIndex})">
-          <div>
-            <div class="sector-name">${sector.name}</div>
-            <div class="sector-score">섹터점수 ${sector.score}</div>
-          </div>
-          <div style="font-weight:900;">${isOpen ? "접기" : "열기"}</div>
-        </div>
-
-        <div class="sector-desc">${sector.desc}</div>
-
-        <div class="detail ${isOpen ? "open" : ""}">
-          <div class="leader-box">대장주 · ${leader ? leader.name : "없음"}</div>
-
-          <div class="parts-row">
-            ${parts.map(part=>`
-              <button class="part-btn ${selectedPart===part ? "active" : ""}"
-                onclick="event.stopPropagation(); selectPart('${part}')">
-                ${part}
-              </button>
-            `).join("")}
-          </div>
-
-          <div class="stock-list">
-            ${visibleStocks.map(stock=>{
-              const realIndex = sector.stocks.findIndex(s => s.name === stock.name && s.type === stock.type);
-              return `
-                <div class="stock-card">
-                  <div class="stock-head">
-                    <div onclick="event.stopPropagation(); openChart('${stock.name}','${stock.code || ""}')">
-                      <div class="stock-name">${stock.name}</div>
-                      <div class="stock-type">${stock.type} · 시총점수 ${stock.cap || 0}</div>
-                      <span class="status-badge status-${stock.status}">${stock.status || "관심"}</span>
-                    </div>
-                    <div style="display:flex;gap:6px;">
-                      <button class="chart-btn" onclick="event.stopPropagation(); openChart('${stock.name}','${stock.code || ""}')">차트</button>
-                      <button class="delete-btn" onclick="event.stopPropagation(); deleteStock(${sector.originalIndex},${realIndex})">삭제</button>
-                    </div>
-                  </div>
-
-                  <div class="status-row">
-                    <select onclick="event.stopPropagation()" onchange="updateStatus(${sector.originalIndex},${realIndex},this.value)">
-                      <option value="관심" ${stock.status==="관심"?"selected":""}>관심</option>
-                      <option value="매수대기" ${stock.status==="매수대기"?"selected":""}>매수대기</option>
-                      <option value="보유" ${stock.status==="보유"?"selected":""}>보유</option>
-                      <option value="매도검토" ${stock.status==="매도검토"?"selected":""}>매도검토</option>
-                    </select>
-
-                    <input onclick="event.stopPropagation()"
-                      value="${stock.target || ""}"
-                      oninput="updateTarget(${sector.originalIndex},${realIndex},this.value)"
-                      placeholder="목표가 예: 95,000원" />
-                  </div>
-
-                  <div>
-                    <div class="memo-label">회사 특징 메모</div>
-                    <textarea onclick="event.stopPropagation()"
-                      oninput="updateMemo(${sector.originalIndex},${realIndex},this.value)"
-                      placeholder="회사 특징 메모">${stock.memo || ""}</textarea>
-                  </div>
-                </div>
-              `;
-            }).join("")}
-          </div>
-
-          <button class="danger" style="margin-top:14px;width:100%;" onclick="event.stopPropagation(); deleteSector(${sector.originalIndex})">
-            이 섹터 삭제
-          </button>
-        </div>
+<div class="sector-card">
+  <div class="sector-head" onclick="toggleSector(${sector.originalIndex})">
+    <div class="sector-meta">
+      <div class="sector-name-row">
+        <span class="sector-name">${sector.name}</span>
+        <span class="sector-score-badge">${sector.score}pt</span>
+        ${holdCount ? `<span class="status-badge status-보유" style="font-size:10px;padding:2px 7px;">보유 ${holdCount}</span>` : ""}
+        ${waitCount ? `<span class="status-badge status-매수대기" style="font-size:10px;padding:2px 7px;">대기 ${waitCount}</span>` : ""}
       </div>
-    `;
+      <div class="sector-desc">${sector.desc}</div>
+      ${previewStocks ? `<div class="sector-stocks-preview">${previewStocks}</div>` : ""}
+    </div>
+    <button class="toggle-btn" onclick="event.stopPropagation();toggleSector(${sector.originalIndex})">${isOpen?"접기 ▲":"열기 ▼"}</button>
+  </div>
+
+  <div class="detail ${isOpen?"open":""}">
+    <div class="leader-box">
+      <span class="leader-crown">👑</span>
+      <div class="leader-info">
+        <div class="label">대장주</div>
+        <div class="value">${leader ? leader.name : "미지정"}</div>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      ${parts.map(p=>`
+        <button class="filter-btn ${selectedPart===p?"active":""}"
+          onclick="event.stopPropagation();selectPart('${p}')">
+          ${p}
+        </button>
+      `).join("")}
+    </div>
+
+    <div class="stock-list">
+      ${visibleStocks.map(stock=>{
+        const realIdx = sector.stocks.findIndex(s=>s.name===stock.name&&s.type===stock.type);
+        const naverCode = getNaverCode(stock.code);
+        return `
+<div class="stock-card">
+  <div class="stock-top">
+    <div class="stock-info">
+      <div class="stock-name">${stock.name}</div>
+      <div class="stock-sub">시총점수 ${stock.cap||0}${stock.target ? " · 목표가 "+stock.target : ""}</div>
+      <div class="badge-row">
+        <span class="type-badge type-${stock.type}">${stock.type}</span>
+        <span class="status-badge status-${stock.status}">${stock.status}</span>
+      </div>
+    </div>
+    <div class="stock-btns">
+      <button class="icon-btn btn-chart" onclick="event.stopPropagation();openChart('${stock.name}','${stock.code||""}')">차트</button>
+      <button class="icon-btn btn-news" onclick="event.stopPropagation();openInfo('${stock.name}','${stock.code||""}')">뉴스</button>
+      <button class="icon-btn btn-dart" onclick="event.stopPropagation();openDart('${stock.name}')">공시</button>
+      <button class="icon-btn btn-del" onclick="event.stopPropagation();deleteStock(${sector.originalIndex},${realIdx})">삭제</button>
+    </div>
+  </div>
+
+  <div class="stock-controls">
+    <select onclick="event.stopPropagation()" onchange="updateStatus(${sector.originalIndex},${realIdx},this.value)">
+      <option value="관심" ${stock.status==="관심"?"selected":""}>👀 관심</option>
+      <option value="매수대기" ${stock.status==="매수대기"?"selected":""}>⏳ 매수대기</option>
+      <option value="보유" ${stock.status==="보유"?"selected":""}>✅ 보유</option>
+      <option value="매도검토" ${stock.status==="매도검토"?"selected":""}>🔴 매도검토</option>
+    </select>
+    <input onclick="event.stopPropagation()"
+      value="${stock.target||""}"
+      oninput="updateTarget(${sector.originalIndex},${realIdx},this.value)"
+      placeholder="목표가 입력" />
+  </div>
+
+  <div class="memo-wrap">
+    <div class="memo-label">📝 메모</div>
+    <textarea onclick="event.stopPropagation()"
+      oninput="updateMemo(${sector.originalIndex},${realIdx},this.value)"
+      placeholder="투자 근거, 리스크, 모멘텀 등...">${stock.memo||""}</textarea>
+  </div>
+</div>`;
+      }).join("")}
+    </div>
+
+    <div style="margin-top:12px;">
+      <button class="btn btn-red" style="width:100%;font-size:12px;padding:10px;"
+        onclick="event.stopPropagation();deleteSector(${sector.originalIndex})">
+        이 섹터 삭제
+      </button>
+    </div>
+  </div>
+</div>`;
   }).join("");
 
   renderSectorOptions();
 }
 
+/* ─── 토글 ─── */
 function toggleSector(index){
-  openedSector = openedSector === index ? null : index;
+  openedSector = openedSector===index ? null : index;
   selectedPart = "전체";
   renderSectors();
 }
-
 function selectPart(part){
   selectedPart = part;
   renderSectors();
 }
 
-function updateMemo(sectorIndex, stockIndex, value){
-  sectors[sectorIndex].stocks[stockIndex].memo = value;
-  saveData();
-}
+/* ─── 업데이트 ─── */
+function updateMemo(si,sti,v){ sectors[si].stocks[sti].memo=v; saveData(); }
+function updateTarget(si,sti,v){ sectors[si].stocks[sti].target=v; saveData(); }
+function updateStatus(si,sti,v){ sectors[si].stocks[sti].status=v; saveData(); renderSectors(); }
 
-function updateTarget(sectorIndex, stockIndex, value){
-  sectors[sectorIndex].stocks[stockIndex].target = value;
-  saveData();
-}
-
-function updateStatus(sectorIndex, stockIndex, value){
-  sectors[sectorIndex].stocks[stockIndex].status = value;
-  saveData();
-  renderSectors();
-}
-
+/* ─── 추가 ─── */
 function addSector(){
   const name = document.getElementById("newSectorName").value.trim();
   const desc = document.getElementById("newSectorDesc").value.trim();
-  const score = Number(document.getElementById("newSectorScore").value || 70);
-
+  const score = Number(document.getElementById("newSectorScore").value||70);
   if(!name){ alert("섹터명을 입력하세요."); return; }
-
-  sectors.push({name, desc:desc || "설명을 입력하세요.", score, stocks:[]});
+  sectors.push({name, desc:desc||"설명 없음", score, stocks:[]});
   saveData();
-
-  document.getElementById("newSectorName").value = "";
-  document.getElementById("newSectorDesc").value = "";
-  document.getElementById("newSectorScore").value = "";
+  ["newSectorName","newSectorDesc","newSectorScore"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("sectorPanel").classList.remove("open");
-
   renderSectors();
 }
 
 function addStock(){
-  const sectorIndex = Number(stockSectorSelect.value);
+  const si = Number($stockSectorSelect.value);
   const name = document.getElementById("newStockName").value.trim();
   let code = document.getElementById("newStockCode").value.trim();
-
-  if(!code){
-    code = stockCodeMap[name] || "";
-  }
-
+  if(!code) code = stockCodeMap[name]||"";
   const type = document.getElementById("newStockType").value;
-  const cap = Number(document.getElementById("newStockCap").value || 1);
+  const cap = Number(document.getElementById("newStockCap").value||1);
   const target = document.getElementById("newStockTarget").value.trim();
   const status = document.getElementById("newStockStatus").value;
   const memo = document.getElementById("newStockMemo").value.trim();
-
   if(!name){ alert("종목명을 입력하세요."); return; }
-
-  sectors[sectorIndex].stocks.push({name, code, type, cap, target, status, memo});
+  sectors[si].stocks.push({name,code,type,cap,target,status,memo});
   saveData();
-
-  openedSector = sectorIndex;
-  selectedPart = "전체";
-
-  document.getElementById("newStockName").value = "";
-  document.getElementById("newStockCode").value = "";
-  document.getElementById("newStockCap").value = "";
-  document.getElementById("newStockTarget").value = "";
-  document.getElementById("newStockMemo").value = "";
+  openedSector = si; selectedPart = "전체";
+  ["newStockName","newStockCode","newStockCap","newStockTarget","newStockMemo"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("stockPanel").classList.remove("open");
-
   renderSectors();
 }
 
+/* ─── 삭제 ─── */
 function deleteSector(index){
   if(!confirm("이 섹터를 삭제할까요?")) return;
-  sectors.splice(index,1);
-  openedSector = null;
-  saveData();
-  renderSectors();
+  sectors.splice(index,1); openedSector=null; saveData(); renderSectors();
 }
-
-function deleteStock(sectorIndex,stockIndex){
+function deleteStock(si,sti){
   if(!confirm("이 종목을 삭제할까요?")) return;
-  sectors[sectorIndex].stocks.splice(stockIndex,1);
-  saveData();
-  renderSectors();
+  sectors[si].stocks.splice(sti,1); saveData(); renderSectors();
 }
 
+/* ─── 차트 ─── */
 function openChart(name, code){
-  let finalCode = code || stockCodeMap[name] || "";
-
-  if(!finalCode){
-    alert("차트코드가 없습니다. 종목 추가 시 예: KRX:005930 형태로 입력하세요.");
-    return;
-  }
-
-  const url =
-    "https://kr.tradingview.com/chart/?symbol=" +
-    encodeURIComponent(finalCode);
-
-  window.open(url, "_blank");
+  let c = code || stockCodeMap[name] || "";
+  if(!c){ alert("차트코드가 없습니다."); return; }
+  window.open("https://kr.tradingview.com/chart/?symbol="+encodeURIComponent(c), "_blank");
 }
 
-function closeChart(){
-  document.getElementById("chartModal").style.display = "none";
-  document.getElementById("chartFrame").src = "";
+/* ─── 뉴스 모달 ─── */
+function openInfo(name, code){
+  const naverCode = getNaverCode(code);
+  const encodedName = encodeURIComponent(name);
+
+  const naverFinanceUrl = naverCode
+    ? `https://finance.naver.com/item/news.naver?code=${naverCode}`
+    : `https://search.naver.com/search.naver?where=news&query=${encodedName}+주식`;
+
+  const naverItemUrl = naverCode
+    ? `https://finance.naver.com/item/main.naver?code=${naverCode}`
+    : "";
+
+  document.getElementById("infoModalTitle").textContent = `📰 ${name}`;
+  document.getElementById("infoModalBody").innerHTML = `
+    <div class="news-link-row">
+      <button class="news-link-btn naver"
+        onclick="window.open('${naverFinanceUrl}','_blank')">
+        <span class="icon">📰</span>
+        <span class="label">네이버 뉴스</span>
+      </button>
+      <button class="news-link-btn dart"
+        onclick="openDartDirect('${encodedName}')">
+        <span class="icon">📋</span>
+        <span class="label">DART 공시</span>
+      </button>
+      ${naverItemUrl ? `
+      <button class="news-link-btn kinda"
+        onclick="window.open('${naverItemUrl}','_blank')">
+        <span class="icon">📊</span>
+        <span class="label">종목 정보</span>
+      </button>` : ""}
+      ${code ? `
+      <button class="news-link-btn tradingview"
+        onclick="openChart('${name}','${code}')">
+        <span class="icon">📈</span>
+        <span class="label">차트 보기</span>
+      </button>` : ""}
+    </div>
+
+    ${naverCode ? `
+    <div class="info-section">
+      <div class="info-row">
+        <span class="info-key">종목코드</span>
+        <span class="info-val">${naverCode}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">KIS 투자정보</span>
+        <span class="info-val">
+          <button class="icon-btn btn-news" style="font-size:11px;padding:5px 10px;"
+            onclick="window.open('https://finance.naver.com/item/invest.naver?code=${naverCode}','_blank')">
+            투자의견 →
+          </button>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">공시(KIND)</span>
+        <span class="info-val">
+          <button class="icon-btn btn-dart" style="font-size:11px;padding:5px 10px;"
+            onclick="window.open('https://kind.krx.co.kr/disclosure/disclosureinfo.do?method=searchDisclosureInfoMain&lstCd=${naverCode}','_blank')">
+            KIND 공시 →
+          </button>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">DART 전자공시</span>
+        <span class="info-val">
+          <button class="icon-btn btn-dart" style="font-size:11px;padding:5px 10px;"
+            onclick="openDartDirect('${encodedName}')">
+            DART →
+          </button>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">네이버 증권</span>
+        <span class="info-val">
+          <button class="icon-btn btn-chart" style="font-size:11px;padding:5px 10px;"
+            onclick="window.open('https://finance.naver.com/item/main.naver?code=${naverCode}','_blank')">
+            시세/재무 →
+          </button>
+        </span>
+      </div>
+    </div>` : `
+    <div class="info-section">
+      <div class="info-row">
+        <span class="info-key">종목코드</span>
+        <span class="info-val">미등록 (종목 편집에서 코드 추가)</span>
+      </div>
+    </div>`}
+  `;
+  document.getElementById("infoModal").classList.add("open");
 }
 
+function openDart(name){
+  window.open("https://dart.fss.or.kr/dsab002/search.ax?textCrpNm="+encodeURIComponent(name), "_blank");
+}
+function openDartDirect(encodedName){
+  window.open("https://dart.fss.or.kr/dsab002/search.ax?textCrpNm="+encodedName, "_blank");
+}
+
+function closeModal(){
+  document.getElementById("infoModal").classList.remove("open");
+}
+document.getElementById("infoModal").addEventListener("click", function(e){
+  if(e.target === this) closeModal();
+});
+
+/* ─── 백업/복원 ─── */
 function backupData(){
-  const data = {
-    app:"korea-stock-sector-map",
-    savedAt:new Date().toISOString(),
-    sectors
-  };
-
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
+  const blob = new Blob([JSON.stringify({app:"sector-map-pro",savedAt:new Date().toISOString(),sectors},null,2)],{type:"application/json"});
   const a = document.createElement("a");
-
-  a.href = url;
-  a.download = "sector-map-backup.json";
+  a.href = URL.createObjectURL(blob);
+  a.download = `sector-map-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
-
-  URL.revokeObjectURL(url);
+  URL.revokeObjectURL(a.href);
 }
-
 function restoreData(event){
   const file = event.target.files[0];
   if(!file) return;
-
   const reader = new FileReader();
-
-  reader.onload = function(e){
+  reader.onload = e=>{
     try{
       const imported = JSON.parse(e.target.result);
-      const importedSectors = imported.sectors || imported;
-
-      if(!Array.isArray(importedSectors)){
-        alert("복원 파일 형식이 맞지 않습니다.");
-        return;
-      }
-
-      if(!confirm("현재 데이터를 백업 파일 내용으로 교체할까요?")) return;
-
-      sectors = importedSectors;
+      const data = imported.sectors || imported;
+      if(!Array.isArray(data)){ alert("형식 오류"); return; }
+      if(!confirm("현재 데이터를 백업 파일로 교체할까요?")) return;
+      sectors = data;
       normalizeData();
-      openedSector = null;
-      selectedPart = "전체";
-      saveData();
-      renderSectors();
-      alert("복원 완료");
-    }catch(err){
-      alert("JSON 파일을 읽을 수 없습니다.");
-    }
+      openedSector = null; selectedPart = "전체";
+      saveData(); renderSectors();
+      alert("복원 완료 ✅");
+    }catch(e){ alert("JSON 파일을 읽을 수 없습니다."); }
   };
-
   reader.readAsText(file);
 }
-
 function resetData(){
-  if(!confirm("추가/삭제/메모/목표가/상태를 모두 지우고 초기 데이터로 복구할까요?")) return;
-  localStorage.removeItem("sectorData");
+  if(!confirm("모든 데이터를 초기화하고 기본 데이터로 복구할까요?")) return;
+  localStorage.removeItem("sectorData_v2");
   sectors = JSON.parse(JSON.stringify(defaultData));
-  openedSector = null;
-  selectedPart = "전체";
-  saveData();
-  renderSectors();
+  openedSector = null; selectedPart = "전체";
+  saveData(); renderSectors();
 }
 
+/* ─── 다크모드 ─── */
 function toggleDark(){
   document.body.classList.toggle("dark");
   localStorage.setItem("darkMode", document.body.classList.contains("dark"));
 }
+if(localStorage.getItem("darkMode")==="true") document.body.classList.add("dark");
 
-if(localStorage.getItem("darkMode") === "true"){
-  document.body.classList.add("dark");
-}
+/* ─── 검색 ─── */
+$searchInput.addEventListener("input", renderSectors);
 
-searchInput.addEventListener("input", renderSectors);
-
+/* ─── 초기화 ─── */
 normalizeData();
 renderSectors();
 </script>
