@@ -3,23 +3,200 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>한국 증시 섹터맵</title>
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="섹터맵">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#2563eb">
 
   <style>
     *{box-sizing:border-box}
 
     body{
       margin:0;
-      padding:24px;
+      padding:18px;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       background:#f4f6fb;
       color:#111827;
+    }
+
+    h1{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+    }
+
+    .subtitle{
+      margin-top:6px;
+      color:#6b7280;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .top-bar{
+      display:grid;
+      grid-template-columns:1fr 90px;
+      gap:10px;
+      margin:20px 0;
+    }
+
+    input,select,button{
+      border:1px solid #e5e7eb;
+      background:white;
+      border-radius:16px;
+      padding:13px;
+      font-size:14px;
+      font-weight:800;
+      outline:none;
+    }
+
+    button{
+      background:#2563eb;
+      color:white;
+      border:none;
+      cursor:pointer;
+    }
+
+    .dark-btn{
+      background:#111827;
+    }
+
+    .section-title{
+      font-size:18px;
+      font-weight:900;
+      margin:20px 0 10px;
+    }
+
+    .sector-card{
+      background:white;
+      border:1px solid #e5e7eb;
+      border-radius:22px;
+      padding:18px;
+      margin-bottom:14px;
+      box-shadow:0 8px 24px rgba(0,0,0,.05);
+    }
+
+    .sector-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+    }
+
+    .sector-name{
+      font-size:24px;
+      font-weight:900;
+    }
+
+    .sector-score{
+      color:#2563eb;
+      font-weight:900;
+      font-size:14px;
+    }
+
+    .sector-desc{
+      margin-top:12px;
+      background:#f8fafc;
+      padding:13px;
+      border-radius:14px;
+      font-size:13px;
+      line-height:1.5;
+      color:#6b7280;
+      font-weight:700;
+    }
+
+    .detail{
+      display:none;
+      margin-top:16px;
+    }
+
+    .detail.open{
+      display:block;
+    }
+
+    .leader-box{
+      background:#eef4ff;
+      border-radius:16px;
+      padding:14px;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+
+    .parts-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:14px;
+    }
+
+    .part-btn{
+      width:auto;
+      background:#eef2ff;
+      color:#111827;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+    }
+
+    .part-btn.active{
+      background:#2563eb;
+      color:white;
+    }
+
+    .stock-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .stock-card{
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      border-radius:16px;
+      padding:13px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .stock-name{
+      font-weight:900;
+      font-size:15px;
+    }
+
+    .stock-type{
+      color:#6b7280;
+      font-size:12px;
+      font-weight:800;
+      margin-top:3px;
+    }
+
+    .delete-btn{
+      width:auto;
+      background:#ef4444;
+      padding:9px 11px;
+      font-size:12px;
+    }
+
+    .add-box{
+      background:white;
+      border:1px solid #e5e7eb;
+      border-radius:22px;
+      padding:16px;
+      margin-top:18px;
+      box-shadow:0 8px 24px rgba(0,0,0,.05);
+    }
+
+    .form-grid{
+      display:grid;
+      gap:9px;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+    }
+
+    .danger{
+      background:#ef4444;
     }
 
     body.dark{
@@ -27,491 +204,319 @@
       color:#e5e7eb;
     }
 
-    h1{
-      margin:0;
-      font-size:38px;
-      font-weight:900;
-    }
-
-    .subtitle{
-      margin-top:8px;
-      font-size:17px;
-      color:#6b7280;
-      font-weight:700;
-    }
-
-    .top-actions{
-      display:grid;
-      grid-template-columns:1fr 120px 90px;
-      gap:10px;
-      margin:24px 0;
-    }
-
-    input,select,button{
-      width:100%;
-      border:1px solid #e5e7eb;
-      outline:none;
-      background:white;
-      border-radius:18px;
-      padding:16px;
-      font-size:15px;
-      font-weight:800;
-      box-shadow:0 4px 14px rgba(0,0,0,.04);
-    }
-
-    button{
-      background:#2563eb;
-      color:white;
-      border:none;
-    }
-
     body.dark input,
     body.dark select,
-    body.dark .summary-card,
     body.dark .sector-card,
-    body.dark .rank-box,
-    body.dark .sector-title,
-    body.dark .sector-desc,
-    body.dark .chip-box,
-    body.dark .market-cap{
+    body.dark .add-box,
+    body.dark .stock-card{
       background:#1e293b;
       color:#e5e7eb;
       border-color:#334155;
     }
 
-    .summary-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin-bottom:24px;
+    body.dark .sector-desc{
+      background:#0f172a;
+      color:#cbd5e1;
     }
 
-    .summary-card{
-      background:white;
-      border-radius:22px;
-      padding:18px 8px;
-      text-align:center;
-      border:1px solid #e5e7eb;
-    }
-
-    .summary-label{
-      font-size:14px;
-      font-weight:900;
-    }
-
-    .summary-number{
-      margin-top:8px;
-      font-size:34px;
-      color:#2563eb;
-      font-weight:900;
-    }
-
-    .sector-card{
-      background:white;
-      border-radius:26px;
-      padding:18px;
-      margin-bottom:22px;
-      border:1px solid #e5e7eb;
-      box-shadow:0 8px 24px rgba(0,0,0,.06);
-    }
-
-    .rank-box{
-      background:#f8fafc;
-      border:1px solid #e5e7eb;
-      border-radius:18px;
-      padding:14px;
-      font-size:15px;
-      font-weight:900;
-      color:#2563eb;
-      margin-bottom:14px;
-    }
-
-    .sector-title{
-      border:1px solid #e5e7eb;
-      border-radius:18px;
-      padding:18px;
-      font-size:25px;
-      font-weight:900;
-      margin-bottom:14px;
-      background:white;
-    }
-
-    .sector-desc{
-      background:#f8fafc;
-      border:1px solid #e5e7eb;
-      border-radius:18px;
-      padding:15px;
-      font-size:14px;
-      line-height:1.55;
-      font-weight:800;
-      color:#6b7280;
-      margin-bottom:14px;
-    }
-
-    .leader-box{
-      background:#eef4ff;
-      border-radius:18px;
-      padding:16px;
-      font-size:16px;
-      font-weight:900;
-      margin-bottom:14px;
-      color:#111827;
-    }
-
-    body.dark .leader-box,
-    body.dark .ai-box{
+    body.dark .leader-box{
       background:#172554;
+    }
+
+    body.dark .part-btn{
+      background:#334155;
       color:#e5e7eb;
     }
 
-    .chip-box{
-      border:1px solid #e5e7eb;
-      border-radius:18px;
-      padding:14px;
-      margin-bottom:14px;
-    }
-
-    .stock-chip{
-      display:inline-block;
-      background:#eef2ff;
-      border-radius:999px;
-      padding:10px 13px;
-      margin:5px;
-      font-size:13px;
-      font-weight:900;
-      color:#111827;
-      cursor:pointer;
-    }
-
-    .stock-chip.up{color:#dc2626}
-    .stock-chip.down{color:#2563eb}
-
-    .market-cap{
-      background:#f8fafc;
-      border:1px solid #e5e7eb;
-      border-radius:18px;
-      padding:14px;
-      font-size:14px;
-      font-weight:900;
-      color:#6b7280;
-      margin-bottom:14px;
-    }
-
-    .ai-box{
-      background:#eef4ff;
-      border-left:6px solid #2563eb;
-      border-radius:18px;
-      padding:16px;
-      font-size:14px;
-      line-height:1.55;
-      font-weight:800;
-    }
-
-    .chart-modal{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.55);
-      z-index:999;
-      padding:20px;
-    }
-
-    .chart-box{
-      background:white;
-      border-radius:22px;
-      padding:16px;
-      height:80vh;
-    }
-
-    body.dark .chart-box{
-      background:#0f172a;
-    }
-
-    .chart-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-weight:900;
-      margin-bottom:12px;
-    }
-
-    iframe{
-      width:100%;
-      height:90%;
-      border:none;
-      border-radius:16px;
+    body.dark .part-btn.active{
+      background:#2563eb;
     }
   </style>
 </head>
 
 <body>
   <h1>한국 증시 섹터맵</h1>
-  <div class="subtitle">실시간 주가 · 차트 · 자동 대장주 · 다크모드 · 홈화면 앱</div>
+  <div class="subtitle">섹터 클릭 → 대장주 · 소부장 · 종목 관리</div>
 
-  <div class="top-actions">
-    <input id="searchInput" placeholder="종목명 또는 섹터 검색" />
-    <select id="sortSelect">
-      <option value="score">섹터점수</option>
-      <option value="cap">시총순</option>
-      <option value="change">등락률순</option>
-    </select>
-    <button onclick="toggleDark()">다크</button>
+  <div class="top-bar">
+    <input id="searchInput" placeholder="섹터 또는 종목 검색" />
+    <button class="dark-btn" onclick="toggleDark()">다크</button>
   </div>
 
-  <div class="summary-grid">
-    <div class="summary-card">
-      <div class="summary-label">섹터</div>
-      <div class="summary-number" id="sectorCount">8</div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-label">종목</div>
-      <div class="summary-number" id="stockCount">40</div>
-    </div>
-    <div class="summary-card">
-      <div class="summary-label">대장주</div>
-      <div class="summary-number" id="leaderCount">8</div>
-    </div>
-  </div>
-
+  <div class="section-title">섹터 목록</div>
   <div id="sectorList"></div>
 
-  <div class="chart-modal" id="chartModal">
-    <div class="chart-box">
-      <div class="chart-header">
-        <span id="chartTitle">차트</span>
-        <button style="width:80px" onclick="closeChart()">닫기</button>
-      </div>
-      <iframe id="chartFrame"></iframe>
+  <div class="section-title">섹터 추가</div>
+  <div class="add-box">
+    <div class="form-grid">
+      <input id="newSectorName" placeholder="섹터명 예: 로봇" />
+      <input id="newSectorDesc" placeholder="섹터 설명 예: 산업용 로봇, 감속기, 자동화" />
+      <input id="newSectorScore" type="number" placeholder="섹터점수 예: 85" />
+      <button onclick="addSector()">섹터 추가</button>
     </div>
   </div>
 
-<script>
-const sectors = [
-  {
-    name:"반도체", score:98, cap:870,
-    desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
-    stocks:[
-      {name:"삼성전자", code:"005930.KS", tv:"KRX:005930", cap:470},
-      {name:"SK하이닉스", code:"000660.KS", tv:"KRX:000660", cap:150},
-      {name:"한미반도체", code:"042700.KS", tv:"KRX:042700", cap:12},
-      {name:"리노공업", code:"058470.KQ", tv:"KOSDAQ:058470", cap:4},
-      {name:"솔브레인", code:"357780.KQ", tv:"KOSDAQ:357780", cap:2}
-    ],
-    ai:"AI 요약: HBM·AI 서버·고대역폭 메모리 중심으로 수급이 집중되는 핵심 섹터입니다."
-  },
-  {
-    name:"조선", score:94, cap:210,
-    desc:"LNG선, 특수선, 친환경 선박 중심 수주 산업",
-    stocks:[
-      {name:"HD현대중공업", code:"329180.KS", tv:"KRX:329180", cap:16},
-      {name:"한화오션", code:"042660.KS", tv:"KRX:042660", cap:12},
-      {name:"삼성중공업", code:"010140.KS", tv:"KRX:010140", cap:10},
-      {name:"HD한국조선해양", code:"009540.KS", tv:"KRX:009540", cap:14},
-      {name:"현대미포조선", code:"010620.KS", tv:"KRX:010620", cap:4}
-    ],
-    ai:"AI 요약: LNG선 수요와 장기 수주잔고가 핵심입니다."
-  },
-  {
-    name:"방산", score:92, cap:190,
-    desc:"K방산, 수출, 미사일, 항공우주, 지상무기 중심 섹터",
-    stocks:[
-      {name:"한화에어로스페이스", code:"012450.KS", tv:"KRX:012450", cap:20},
-      {name:"LIG넥스원", code:"079550.KS", tv:"KRX:079550", cap:5},
-      {name:"현대로템", code:"064350.KS", tv:"KRX:064350", cap:6},
-      {name:"한국항공우주", code:"047810.KS", tv:"KRX:047810", cap:5},
-      {name:"풍산", code:"103140.KS", tv:"KRX:103140", cap:2}
-    ],
-    ai:"AI 요약: 지정학적 리스크와 수출 계약 확대가 핵심입니다."
-  },
-  {
-    name:"바이오", score:88, cap:230,
-    desc:"신약, CDMO, 바이오시밀러, 항체치료제 중심 성장 섹터",
-    stocks:[
-      {name:"삼성바이오로직스", code:"207940.KS", tv:"KRX:207940", cap:70},
-      {name:"셀트리온", code:"068270.KS", tv:"KRX:068270", cap:40},
-      {name:"유한양행", code:"000100.KS", tv:"KRX:000100", cap:8},
-      {name:"알테오젠", code:"196170.KQ", tv:"KOSDAQ:196170", cap:15},
-      {name:"리가켐바이오", code:"141080.KQ", tv:"KOSDAQ:141080", cap:4}
-    ],
-    ai:"AI 요약: 임상 성과와 금리 안정에 민감합니다."
-  },
-  {
-    name:"전력기기", score:86, cap:120,
-    desc:"변압기, 전력망, 초고압 케이블, AI 데이터센터 전력 수요 섹터",
-    stocks:[
-      {name:"HD현대일렉트릭", code:"267260.KS", tv:"KRX:267260", cap:14},
-      {name:"LS ELECTRIC", code:"010120.KS", tv:"KRX:010120", cap:7},
-      {name:"효성중공업", code:"298040.KS", tv:"KRX:298040", cap:4},
-      {name:"일진전기", code:"103590.KS", tv:"KRX:103590", cap:1},
-      {name:"대한전선", code:"001440.KS", tv:"KRX:001440", cap:2}
-    ],
-    ai:"AI 요약: AI 데이터센터와 전력망 투자가 핵심입니다."
-  },
-  {
-    name:"2차전지", score:82, cap:260,
-    desc:"배터리, 양극재, 음극재, 전해질, 리튬 밸류체인 섹터",
-    stocks:[
-      {name:"LG에너지솔루션", code:"373220.KS", tv:"KRX:373220", cap:90},
-      {name:"삼성SDI", code:"006400.KS", tv:"KRX:006400", cap:25},
-      {name:"포스코퓨처엠", code:"003670.KS", tv:"KRX:003670", cap:15},
-      {name:"에코프로비엠", code:"247540.KQ", tv:"KOSDAQ:247540", cap:15},
-      {name:"엘앤에프", code:"066970.KQ", tv:"KOSDAQ:066970", cap:5}
-    ],
-    ai:"AI 요약: 전기차 수요와 메탈 가격에 민감합니다."
-  },
-  {
-    name:"자동차", score:80, cap:310,
-    desc:"완성차, 부품, 전장, 전기차, 하이브리드 중심 섹터",
-    stocks:[
-      {name:"현대차", code:"005380.KS", tv:"KRX:005380", cap:50},
-      {name:"기아", code:"000270.KS", tv:"KRX:000270", cap:45},
-      {name:"현대모비스", code:"012330.KS", tv:"KRX:012330", cap:20},
-      {name:"HL만도", code:"204320.KS", tv:"KRX:204320", cap:2},
-      {name:"성우하이텍", code:"015750.KQ", tv:"KOSDAQ:015750", cap:1}
-    ],
-    ai:"AI 요약: 환율, 미국 판매량, 주주환원 정책이 핵심입니다."
-  },
-  {
-    name:"인터넷·AI", score:78, cap:180,
-    desc:"플랫폼, 생성형 AI, 클라우드, 광고, 커머스 중심 섹터",
-    stocks:[
-      {name:"NAVER", code:"035420.KS", tv:"KRX:035420", cap:30},
-      {name:"카카오", code:"035720.KS", tv:"KRX:035720", cap:18},
-      {name:"더존비즈온", code:"012510.KS", tv:"KRX:012510", cap:2},
-      {name:"솔트룩스", code:"304100.KQ", tv:"KOSDAQ:304100", cap:1},
-      {name:"폴라리스AI", code:"039980.KQ", tv:"KOSDAQ:039980", cap:1}
-    ],
-    ai:"AI 요약: AI 서비스 상용화와 광고 경기 회복이 핵심입니다."
-  }
-];
+  <div class="section-title">종목 추가</div>
+  <div class="add-box">
+    <div class="form-grid">
+      <select id="stockSectorSelect"></select>
+      <input id="newStockName" placeholder="종목명 예: 삼성전자" />
+      <select id="newStockType">
+        <option value="대장주">대장주</option>
+        <option value="장비">장비</option>
+        <option value="소재">소재</option>
+        <option value="부품">부품</option>
+        <option value="플랫폼">플랫폼</option>
+        <option value="완성품">완성품</option>
+        <option value="기타">기타</option>
+      </select>
+      <input id="newStockCap" type="number" placeholder="시총점수 예: 100" />
+      <button onclick="addStock()">종목 추가</button>
+    </div>
+  </div>
 
-const sectorList = document.getElementById("sectorList");
-const searchInput = document.getElementById("searchInput");
-const sortSelect = document.getElementById("sortSelect");
+  <script>
+    const defaultData = [
+      {
+        name:"반도체",
+        score:98,
+        desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
+        stocks:[
+          {name:"삼성전자", type:"대장주", cap:470},
+          {name:"SK하이닉스", type:"대장주", cap:150},
+          {name:"한미반도체", type:"장비", cap:12},
+          {name:"리노공업", type:"부품", cap:4},
+          {name:"솔브레인", type:"소재", cap:2}
+        ]
+      },
+      {
+        name:"조선",
+        score:94,
+        desc:"LNG선, 특수선, 친환경 선박 중심 수주 산업",
+        stocks:[
+          {name:"HD현대중공업", type:"대장주", cap:16},
+          {name:"한화오션", type:"완성품", cap:12},
+          {name:"삼성중공업", type:"완성품", cap:10},
+          {name:"HD한국조선해양", type:"대장주", cap:14},
+          {name:"현대미포조선", type:"완성품", cap:4}
+        ]
+      },
+      {
+        name:"방산",
+        score:92,
+        desc:"K방산, 수출, 미사일, 항공우주, 지상무기 중심 섹터",
+        stocks:[
+          {name:"한화에어로스페이스", type:"대장주", cap:20},
+          {name:"LIG넥스원", type:"부품", cap:5},
+          {name:"현대로템", type:"완성품", cap:6},
+          {name:"한국항공우주", type:"완성품", cap:5},
+          {name:"풍산", type:"소재", cap:2}
+        ]
+      },
+      {
+        name:"바이오",
+        score:88,
+        desc:"신약, CDMO, 바이오시밀러, 항체치료제 중심 성장 섹터",
+        stocks:[
+          {name:"삼성바이오로직스", type:"대장주", cap:70},
+          {name:"셀트리온", type:"대장주", cap:40},
+          {name:"유한양행", type:"신약", cap:8},
+          {name:"알테오젠", type:"플랫폼", cap:15},
+          {name:"리가켐바이오", type:"플랫폼", cap:4}
+        ]
+      }
+    ];
 
-async function getQuote(stock){
-  try{
-    const url = "https://api.allorigins.win/raw?url=" + encodeURIComponent(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${stock.code}?interval=1d&range=1d`
-    );
-    const res = await fetch(url);
-    const data = await res.json();
-    const r = data.chart.result[0];
-    const meta = r.meta;
-    const price = Math.round(meta.regularMarketPrice || 0);
-    const prev = meta.previousClose || price;
-    const change = ((price - prev) / prev * 100);
-    stock.price = price;
-    stock.change = change;
-  }catch(e){
-    stock.price = stock.price || 0;
-    stock.change = stock.change ?? 0;
-  }
-}
+    let sectors = JSON.parse(localStorage.getItem("sectorData")) || defaultData;
+    let openedSector = null;
+    let selectedPart = "전체";
 
-function autoLeader(sector){
-  const sorted = [...sector.stocks].sort((a,b)=>{
-    const aa = (a.cap || 0) + ((a.change || 0) * 2);
-    const bb = (b.cap || 0) + ((b.change || 0) * 2);
-    return bb - aa;
-  });
-  return sorted[0];
-}
+    const sectorList = document.getElementById("sectorList");
+    const searchInput = document.getElementById("searchInput");
+    const stockSectorSelect = document.getElementById("stockSectorSelect");
 
-function sectorChange(sector){
-  const total = sector.stocks.reduce((sum,s)=>sum+(s.change||0),0);
-  return total / sector.stocks.length;
-}
-
-function renderSectors(){
-  const keyword = searchInput.value.toLowerCase();
-  const sortType = sortSelect.value;
-
-  let filtered = sectors.filter(sector =>
-    sector.name.toLowerCase().includes(keyword) ||
-    sector.stocks.some(s => s.name.toLowerCase().includes(keyword))
-  );
-
-  filtered.sort((a,b)=>{
-    if(sortType === "cap") return b.cap - a.cap;
-    if(sortType === "change") return sectorChange(b) - sectorChange(a);
-    return b.score - a.score;
-  });
-
-  sectorList.innerHTML = filtered.map((sector,index)=>{
-    const leader = autoLeader(sector);
-
-    return `
-      <div class="sector-card">
-        <div class="rank-box">
-          #${index+1} · 섹터점수 ${sector.score} · 평균등락 ${sectorChange(sector).toFixed(2)}%
-        </div>
-
-        <div class="sector-title">${sector.name}</div>
-        <div class="sector-desc">${sector.desc}</div>
-
-        <div class="leader-box">자동 대장주 · ${leader.name}</div>
-
-        <div class="chip-box">
-          ${sector.stocks.map(stock=>{
-            const cls = (stock.change||0) >= 0 ? "up" : "down";
-            const price = stock.price ? stock.price.toLocaleString()+"원" : "로딩중";
-            const change = stock.change ? stock.change.toFixed(2)+"%" : "0.00%";
-            const star = stock.name === leader.name ? " ★" : "";
-            return `
-              <span class="stock-chip ${cls}" onclick="openChart('${stock.name}','${stock.tv}')">
-                ${stock.name}${star}<br>${price} / ${change}
-              </span>
-            `;
-          }).join("")}
-        </div>
-
-        <div class="market-cap">추정 섹터 시총: ${sector.cap}조원</div>
-        <div class="ai-box">${sector.ai}</div>
-      </div>
-    `;
-  }).join("");
-}
-
-async function loadPrices(){
-  renderSectors();
-
-  for(const sector of sectors){
-    for(const stock of sector.stocks){
-      await getQuote(stock);
+    function saveData(){
+      localStorage.setItem("sectorData", JSON.stringify(sectors));
     }
-  }
 
-  renderSectors();
-}
+    function getLeader(sector){
+      if(!sector.stocks.length) return null;
+      const leaders = sector.stocks.filter(s => s.type === "대장주");
+      const pool = leaders.length ? leaders : sector.stocks;
+      return [...pool].sort((a,b)=>(b.cap||0)-(a.cap||0))[0];
+    }
 
-function openChart(name, symbol){
-  document.getElementById("chartTitle").innerText = name + " 차트";
-  document.getElementById("chartFrame").src =
-    "https://s.tradingview.com/widgetembed/?symbol=" + symbol +
-    "&interval=D&theme=light&style=1&locale=kr";
-  document.getElementById("chartModal").style.display = "block";
-}
+    function renderSectorOptions(){
+      stockSectorSelect.innerHTML = sectors.map((s,i)=>
+        `<option value="${i}">${s.name}</option>`
+      ).join("");
+    }
 
-function closeChart(){
-  document.getElementById("chartModal").style.display = "none";
-  document.getElementById("chartFrame").src = "";
-}
+    function renderSectors(){
+      const keyword = searchInput.value.toLowerCase();
 
-function toggleDark(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
-}
+      const filtered = sectors
+        .map((sector,index)=>({...sector, originalIndex:index}))
+        .filter(sector =>
+          sector.name.toLowerCase().includes(keyword) ||
+          sector.stocks.some(stock => stock.name.toLowerCase().includes(keyword))
+        )
+        .sort((a,b)=>b.score-a.score);
 
-if(localStorage.getItem("darkMode") === "true"){
-  document.body.classList.add("dark");
-}
+      sectorList.innerHTML = filtered.map(sector=>{
+        const leader = getLeader(sector);
+        const isOpen = openedSector === sector.originalIndex;
 
-searchInput.addEventListener("input", renderSectors);
-sortSelect.addEventListener("change", renderSectors);
+        const parts = ["전체", ...new Set(sector.stocks.map(s=>s.type))];
 
-loadPrices();
-setInterval(loadPrices, 60000);
-</script>
+        const visibleStocks = selectedPart === "전체"
+          ? sector.stocks
+          : sector.stocks.filter(s => s.type === selectedPart);
+
+        return `
+          <div class="sector-card">
+            <div class="sector-head" onclick="toggleSector(${sector.originalIndex})">
+              <div>
+                <div class="sector-name">${sector.name}</div>
+                <div class="sector-score">섹터점수 ${sector.score}</div>
+              </div>
+              <div style="font-weight:900;">${isOpen ? "접기" : "열기"}</div>
+            </div>
+
+            <div class="sector-desc">${sector.desc}</div>
+
+            <div class="detail ${isOpen ? "open" : ""}">
+              <div class="leader-box">
+                대장주 · ${leader ? leader.name : "없음"}
+              </div>
+
+              <div class="parts-row">
+                ${parts.map(part=>`
+                  <button class="part-btn ${selectedPart===part ? "active" : ""}"
+                    onclick="event.stopPropagation(); selectPart('${part}')">
+                    ${part}
+                  </button>
+                `).join("")}
+              </div>
+
+              <div class="stock-list">
+                ${visibleStocks.map((stock,stockIndex)=>{
+                  const realIndex = sector.stocks.findIndex(s => s.name === stock.name && s.type === stock.type);
+                  return `
+                    <div class="stock-card">
+                      <div>
+                        <div class="stock-name">${stock.name}</div>
+                        <div class="stock-type">${stock.type} · 시총점수 ${stock.cap || 0}</div>
+                      </div>
+                      <button class="delete-btn" onclick="event.stopPropagation(); deleteStock(${sector.originalIndex},${realIndex})">
+                        삭제
+                      </button>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+
+              <button class="danger" style="margin-top:14px;" onclick="event.stopPropagation(); deleteSector(${sector.originalIndex})">
+                이 섹터 삭제
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      renderSectorOptions();
+    }
+
+    function toggleSector(index){
+      openedSector = openedSector === index ? null : index;
+      selectedPart = "전체";
+      renderSectors();
+    }
+
+    function selectPart(part){
+      selectedPart = part;
+      renderSectors();
+    }
+
+    function addSector(){
+      const name = document.getElementById("newSectorName").value.trim();
+      const desc = document.getElementById("newSectorDesc").value.trim();
+      const score = Number(document.getElementById("newSectorScore").value || 70);
+
+      if(!name){
+        alert("섹터명을 입력하세요.");
+        return;
+      }
+
+      sectors.push({
+        name,
+        desc: desc || "설명을 입력하세요.",
+        score,
+        stocks:[]
+      });
+
+      saveData();
+
+      document.getElementById("newSectorName").value = "";
+      document.getElementById("newSectorDesc").value = "";
+      document.getElementById("newSectorScore").value = "";
+
+      renderSectors();
+    }
+
+    function deleteSector(index){
+      if(!confirm("이 섹터를 삭제할까요?")) return;
+
+      sectors.splice(index,1);
+      openedSector = null;
+      saveData();
+      renderSectors();
+    }
+
+    function addStock(){
+      const sectorIndex = Number(stockSectorSelect.value);
+      const name = document.getElementById("newStockName").value.trim();
+      const type = document.getElementById("newStockType").value;
+      const cap = Number(document.getElementById("newStockCap").value || 1);
+
+      if(!name){
+        alert("종목명을 입력하세요.");
+        return;
+      }
+
+      sectors[sectorIndex].stocks.push({name,type,cap});
+
+      saveData();
+
+      openedSector = sectorIndex;
+      selectedPart = "전체";
+
+      document.getElementById("newStockName").value = "";
+      document.getElementById("newStockCap").value = "";
+
+      renderSectors();
+    }
+
+    function deleteStock(sectorIndex,stockIndex){
+      if(!confirm("이 종목을 삭제할까요?")) return;
+
+      sectors[sectorIndex].stocks.splice(stockIndex,1);
+      saveData();
+      renderSectors();
+    }
+
+    function toggleDark(){
+      document.body.classList.toggle("dark");
+      localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+    }
+
+    if(localStorage.getItem("darkMode") === "true"){
+      document.body.classList.add("dark");
+    }
+
+    searchInput.addEventListener("input", renderSectors);
+
+    renderSectors();
+  </script>
 </body>
 </html>
