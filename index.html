@@ -102,13 +102,8 @@ button{background:#2563eb;color:white;border:none;cursor:pointer}
   display:none;position:fixed;inset:0;background:rgba(0,0,0,.58);
   z-index:999;padding:18px;
 }
-.chart-box{
-  background:white;border-radius:22px;padding:14px;height:82vh;
-}
-.chart-header{
-  display:flex;justify-content:space-between;align-items:center;
-  font-weight:900;margin-bottom:10px;
-}
+.chart-box{background:white;border-radius:22px;padding:14px;height:82vh}
+.chart-header{display:flex;justify-content:space-between;align-items:center;font-weight:900;margin-bottom:10px}
 iframe{width:100%;height:90%;border:none;border-radius:16px}
 
 body.dark{background:#0f172a;color:#e5e7eb}
@@ -126,7 +121,7 @@ body.dark .part-btn.active{background:#2563eb}
 
 <body>
 <h1>한국 증시 섹터맵</h1>
-<div class="subtitle">목표가 · 상태 · 메모 · 차트 · 백업/복원</div>
+<div class="subtitle">종목명 입력 → 차트코드 자동 연결 · 목표가 · 상태 · 메모</div>
 
 <div class="top-bar">
   <input id="searchInput" placeholder="섹터 또는 종목 검색" />
@@ -158,8 +153,8 @@ body.dark .part-btn.active{background:#2563eb}
   <div class="section-title">종목 추가</div>
   <div class="form-grid">
     <select id="stockSectorSelect"></select>
-    <input id="newStockName" placeholder="종목명 예: 삼성전자" />
-    <input id="newStockCode" placeholder="차트코드 예: KRX:005930" />
+    <input id="newStockName" placeholder="종목명 예: 삼성전자" oninput="autoFillCode()" />
+    <input id="newStockCode" placeholder="차트코드 자동입력 예: KRX:005930" />
     <select id="newStockType">
       <option value="대장주">대장주</option>
       <option value="장비">장비</option>
@@ -200,6 +195,61 @@ body.dark .part-btn.active{background:#2563eb}
 </div>
 
 <script>
+const stockCodeMap = {
+  "삼성전자":"KRX:005930",
+  "SK하이닉스":"KRX:000660",
+  "한미반도체":"KRX:042700",
+  "리노공업":"KOSDAQ:058470",
+  "솔브레인":"KOSDAQ:357780",
+  "DB하이텍":"KRX:000990",
+  "원익IPS":"KOSDAQ:240810",
+  "주성엔지니어링":"KOSDAQ:036930",
+  "이오테크닉스":"KOSDAQ:039030",
+  "동진쎄미켐":"KOSDAQ:005290",
+
+  "HD현대중공업":"KRX:329180",
+  "한화오션":"KRX:042660",
+  "삼성중공업":"KRX:010140",
+  "HD한국조선해양":"KRX:009540",
+  "현대미포조선":"KRX:010620",
+
+  "한화에어로스페이스":"KRX:012450",
+  "LIG넥스원":"KRX:079550",
+  "현대로템":"KRX:064350",
+  "한국항공우주":"KRX:047810",
+  "풍산":"KRX:103140",
+
+  "삼성바이오로직스":"KRX:207940",
+  "셀트리온":"KRX:068270",
+  "유한양행":"KRX:000100",
+  "알테오젠":"KOSDAQ:196170",
+  "리가켐바이오":"KOSDAQ:141080",
+
+  "LG에너지솔루션":"KRX:373220",
+  "삼성SDI":"KRX:006400",
+  "포스코퓨처엠":"KRX:003670",
+  "에코프로비엠":"KOSDAQ:247540",
+  "엘앤에프":"KRX:066970",
+
+  "현대차":"KRX:005380",
+  "기아":"KRX:000270",
+  "현대모비스":"KRX:012330",
+  "HL만도":"KRX:204320",
+  "성우하이텍":"KOSDAQ:015750",
+
+  "HD현대일렉트릭":"KRX:267260",
+  "LS ELECTRIC":"KRX:010120",
+  "효성중공업":"KRX:298040",
+  "일진전기":"KRX:103590",
+  "대한전선":"KRX:001440",
+
+  "NAVER":"KRX:035420",
+  "카카오":"KRX:035720",
+  "더존비즈온":"KRX:012510",
+  "솔트룩스":"KOSDAQ:304100",
+  "폴라리스AI":"KOSDAQ:039980"
+};
+
 const defaultData = [
   {
     name:"반도체", score:98,
@@ -218,7 +268,9 @@ const defaultData = [
     stocks:[
       {name:"HD현대중공업", code:"KRX:329180", type:"대장주", cap:16, target:"", status:"관심", memo:"LNG선·특수선·해양플랜트 중심 대형 조선사."},
       {name:"한화오션", code:"KRX:042660", type:"완성품", cap:12, target:"", status:"관심", memo:"상선과 방산 선박을 함께 보유."},
-      {name:"삼성중공업", code:"KRX:010140", type:"완성품", cap:10, target:"", status:"관심", memo:"LNG선과 해양플랜트 중심."}
+      {name:"삼성중공업", code:"KRX:010140", type:"완성품", cap:10, target:"", status:"관심", memo:"LNG선과 해양플랜트 중심."},
+      {name:"HD한국조선해양", code:"KRX:009540", type:"대장주", cap:14, target:"", status:"관심", memo:"HD현대 조선 지주 성격."},
+      {name:"현대미포조선", code:"KRX:010620", type:"완성품", cap:4, target:"", status:"관심", memo:"중형선 중심 조선사."}
     ]
   },
   {
@@ -227,7 +279,9 @@ const defaultData = [
     stocks:[
       {name:"한화에어로스페이스", code:"KRX:012450", type:"대장주", cap:20, target:"", status:"관심", memo:"항공엔진·자주포·방산 수출 중심 K방산 대표주."},
       {name:"LIG넥스원", code:"KRX:079550", type:"부품", cap:5, target:"", status:"관심", memo:"미사일·유도무기·레이더 중심."},
-      {name:"현대로템", code:"KRX:064350", type:"완성품", cap:6, target:"", status:"관심", memo:"K2 전차와 철도 사업 보유."}
+      {name:"현대로템", code:"KRX:064350", type:"완성품", cap:6, target:"", status:"관심", memo:"K2 전차와 철도 사업 보유."},
+      {name:"한국항공우주", code:"KRX:047810", type:"완성품", cap:5, target:"", status:"관심", memo:"항공기·훈련기·우주항공 관련."},
+      {name:"풍산", code:"KRX:103140", type:"소재", cap:2, target:"", status:"관심", memo:"탄약·동소재 기업."}
     ]
   },
   {
@@ -236,7 +290,9 @@ const defaultData = [
     stocks:[
       {name:"삼성바이오로직스", code:"KRX:207940", type:"대장주", cap:70, target:"", status:"관심", memo:"글로벌 CDMO 대형주."},
       {name:"셀트리온", code:"KRX:068270", type:"대장주", cap:40, target:"", status:"관심", memo:"바이오시밀러 대표주."},
-      {name:"알테오젠", code:"KOSDAQ:196170", type:"플랫폼", cap:15, target:"", status:"관심", memo:"SC 제형변경 플랫폼 기술 보유."}
+      {name:"유한양행", code:"KRX:000100", type:"신약", cap:8, target:"", status:"관심", memo:"신약 모멘텀 보유."},
+      {name:"알테오젠", code:"KOSDAQ:196170", type:"플랫폼", cap:15, target:"", status:"관심", memo:"SC 제형변경 플랫폼 기술 보유."},
+      {name:"리가켐바이오", code:"KOSDAQ:141080", type:"플랫폼", cap:4, target:"", status:"관심", memo:"ADC 플랫폼 중심 바이오텍."}
     ]
   }
 ];
@@ -260,9 +316,21 @@ function normalizeData(){
       if(stock.target === undefined) stock.target = "";
       if(stock.status === undefined) stock.status = "관심";
       if(stock.code === undefined) stock.code = "";
+      if((!stock.code || stock.code === "") && stockCodeMap[stock.name]){
+        stock.code = stockCodeMap[stock.name];
+      }
     });
   });
   saveData();
+}
+
+function autoFillCode(){
+  const name = document.getElementById("newStockName").value.trim();
+  const codeInput = document.getElementById("newStockCode");
+
+  if(stockCodeMap[name]){
+    codeInput.value = stockCodeMap[name];
+  }
 }
 
 function togglePanel(id){
@@ -428,7 +496,12 @@ function addSector(){
 function addStock(){
   const sectorIndex = Number(stockSectorSelect.value);
   const name = document.getElementById("newStockName").value.trim();
-  const code = document.getElementById("newStockCode").value.trim();
+  let code = document.getElementById("newStockCode").value.trim();
+
+  if(!code){
+    code = stockCodeMap[name] || "";
+  }
+
   const type = document.getElementById("newStockType").value;
   const cap = Number(document.getElementById("newStockCap").value || 1);
   const target = document.getElementById("newStockTarget").value.trim();
@@ -469,15 +542,18 @@ function deleteStock(sectorIndex,stockIndex){
 }
 
 function openChart(name, code){
-  if(!code){
+  let finalCode = code || stockCodeMap[name] || "";
+
+  if(!finalCode){
     alert("차트코드가 없습니다. 종목 추가 시 예: KRX:005930 형태로 입력하세요.");
     return;
   }
 
   document.getElementById("chartTitle").innerText = name + " 차트";
   document.getElementById("chartFrame").src =
-    "https://s.tradingview.com/widgetembed/?symbol=" + encodeURIComponent(code) +
+    "https://s.tradingview.com/widgetembed/?symbol=" + encodeURIComponent(finalCode) +
     "&interval=D&theme=light&style=1&locale=kr";
+
   document.getElementById("chartModal").style.display = "block";
 }
 
