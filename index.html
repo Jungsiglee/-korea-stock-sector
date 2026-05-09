@@ -1,265 +1,265 @@
 <!DOCTYPE html>
-
 <html lang="ko">
-
 <head>
-
-<meta charset="UTF-8" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>한국 주식 섹터맵</title>
-
-<style>
-
-body{
-
-    margin:0;
-
-    background:#0f172a;
-
-    color:white;
-
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-
-}
-
-.header{
-
-    padding:20px;
-
-    font-size:28px;
-
-    font-weight:bold;
-
-}
-
-.grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:14px;
-
-    padding:16px;
-
-}
-
-.card{
-
-    background:#1e293b;
-
-    border-radius:20px;
-
-    padding:20px;
-
-    transition:0.2s;
-
-}
-
-.card:hover{
-
-    transform:scale(1.03);
-
-    background:#334155;
-
-}
-
-.title{
-
-    font-size:22px;
-
-    font-weight:bold;
-
-    margin-bottom:10px;
-
-}
-
-.stock{
-
-    opacity:0.85;
-
-    margin:6px 0;
-
-}
-
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>한국 증시 섹터맵</title>
+  <meta name="theme-color" content="#0f172a" />
+  <style>
+    :root {
+      --bg:#f4f6f8; --card:#ffffff; --text:#111827; --sub:#6b7280;
+      --accent:#2563eb; --border:#e5e7eb; --chip:#eef2ff;
+    }
+    body.dark {
+      --bg:#0f172a; --card:#1e293b; --text:#f8fafc; --sub:#94a3b8;
+      --accent:#60a5fa; --border:#334155; --chip:#172554;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg); color:var(--text);
+    }
+    header {
+      position:sticky; top:0; z-index:10; background:var(--bg);
+      padding:18px 16px 12px; border-bottom:1px solid var(--border);
+    }
+    h1 { margin:0 0 8px; font-size:24px; }
+    .top { display:flex; gap:8px; align-items:center; }
+    input, select, button {
+      border:1px solid var(--border); border-radius:12px; padding:11px;
+      background:var(--card); color:var(--text); font-size:15px;
+    }
+    input { flex:1; }
+    button { cursor:pointer; }
+    main { padding:16px; max-width:980px; margin:auto; }
+    .summary {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px;
+    }
+    .box {
+      background:var(--card); border:1px solid var(--border); border-radius:16px;
+      padding:14px; text-align:center;
+    }
+    .box b { display:block; font-size:20px; margin-top:4px; color:var(--accent); }
+    .grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px;
+    }
+    .card {
+      background:var(--card); border:1px solid var(--border); border-radius:20px;
+      padding:16px; box-shadow:0 4px 14px rgba(0,0,0,.05);
+    }
+    .rank { color:var(--accent); font-weight:700; }
+    .title { font-size:20px; font-weight:800; margin:6px 0; }
+    .desc { color:var(--sub); font-size:14px; line-height:1.45; }
+    .leader {
+      margin:12px 0; padding:10px; border-radius:14px; background:var(--chip);
+      font-weight:700;
+    }
+    .stocks { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+    .chip {
+      background:var(--chip); color:var(--text); border-radius:999px;
+      padding:7px 10px; font-size:13px;
+    }
+    .meta { margin-top:10px; color:var(--sub); font-size:13px; }
+    .ai {
+      margin-top:10px; padding:10px; border-left:4px solid var(--accent);
+      background:rgba(37,99,235,.08); font-size:13px; line-height:1.45;
+    }
+    @media(max-width:600px){
+      .summary { grid-template-columns:1fr 1fr 1fr; }
+      h1 { font-size:22px; }
+      select { max-width:120px; }
+    }
+  </style>
 </head>
-
 <body>
+<header>
+  <h1>한국 증시 섹터맵</h1>
+  <div class="top">
+    <input id="search" placeholder="종목명 또는 섹터 검색" />
+    <select id="sort">
+      <option value="marketCap">시총순</option>
+      <option value="score">섹터점수순</option>
+      <option value="name">이름순</option>
+    </select>
+    <button onclick="toggleDark()">🌙</button>
+  </div>
+</header>
 
-<div class="header">
+<main>
+  <section class="summary">
+    <div class="box">섹터<b id="sectorCount">0</b></div>
+    <div class="box">종목<b id="stockCount">0</b></div>
+    <div class="box">대장주<b id="leaderCount">0</b></div>
+  </section>
 
-📈 한국 주식 섹터맵
+  <section id="app" class="grid"></section>
+</main>
 
-</div>
+<script>
+const sectors = [
+  {
+    name:"반도체",
+    score:98,
+    marketCap:870,
+    desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
+    stocks:[
+      {name:"삼성전자", cap:450, leader:true},
+      {name:"SK하이닉스", cap:190},
+      {name:"한미반도체", cap:18},
+      {name:"리노공업", cap:4},
+      {name:"솔브레인", cap:3}
+    ],
+    ai:"AI 서버 수요와 HBM 사이클이 핵심 변수입니다. 대형주는 실적 민감도, 소부장은 밸류체인 확장성이 중요합니다."
+  },
+  {
+    name:"방산",
+    score:94,
+    marketCap:95,
+    desc:"수출, 지정학 리스크, 장기 수주 모멘텀 중심",
+    stocks:[
+      {name:"한화에어로스페이스", cap:20, leader:true},
+      {name:"현대로템", cap:8},
+      {name:"LIG넥스원", cap:5},
+      {name:"한국항공우주", cap:5},
+      {name:"한화시스템", cap:4}
+    ],
+    ai:"수출 계약과 인도 일정이 주가 핵심입니다. 단기 테마보다 수주잔고와 마진 개선을 봐야 합니다."
+  },
+  {
+    name:"조선",
+    score:91,
+    marketCap:120,
+    desc:"LNG선, 친환경 선박, 해양플랜트, 수주잔고 중심",
+    stocks:[
+      {name:"HD현대중공업", cap:18, leader:true},
+      {name:"한화오션", cap:11},
+      {name:"삼성중공업", cap:9},
+      {name:"HD한국조선해양", cap:12},
+      {name:"HD현대미포", cap:4}
+    ],
+    ai:"고선가 수주분의 매출 인식과 후판가 안정 여부가 핵심입니다."
+  },
+  {
+    name:"바이오",
+    score:88,
+    marketCap:210,
+    desc:"CDMO, 신약, 바이오시밀러, 플랫폼 기술 중심",
+    stocks:[
+      {name:"삼성바이오로직스", cap:60, leader:true},
+      {name:"셀트리온", cap:40},
+      {name:"알테오젠", cap:15},
+      {name:"유한양행", cap:8},
+      {name:"리가켐바이오", cap:5}
+    ],
+    ai:"임상 결과, 기술수출, FDA 승인 이벤트가 강한 변동성을 만듭니다."
+  },
+  {
+    name:"2차전지",
+    score:84,
+    marketCap:260,
+    desc:"셀, 양극재, 음극재, 전해액, 장비 밸류체인",
+    stocks:[
+      {name:"LG에너지솔루션", cap:90, leader:true},
+      {name:"삼성SDI", cap:40},
+      {name:"에코프로비엠", cap:18},
+      {name:"포스코퓨처엠", cap:20},
+      {name:"엘앤에프", cap:5}
+    ],
+    ai:"전기차 수요 회복, 리튬 가격, 미국 정책 변화가 핵심 변수입니다."
+  },
+  {
+    name:"전력기기",
+    score:90,
+    marketCap:80,
+    desc:"AI 데이터센터, 전력망, 변압기, 송배전 투자 수혜",
+    stocks:[
+      {name:"HD현대일렉트릭", cap:12, leader:true},
+      {name:"LS ELECTRIC", cap:8},
+      {name:"효성중공업", cap:4},
+      {name:"일진전기", cap:2}
+    ],
+    ai:"북미 전력망 투자와 데이터센터 전력 수요 증가가 구조적 모멘텀입니다."
+  },
+  {
+    name:"자동차",
+    score:82,
+    marketCap:230,
+    desc:"완성차, 부품, 전장, 하이브리드, 전기차",
+    stocks:[
+      {name:"현대차", cap:50, leader:true},
+      {name:"기아", cap:45},
+      {name:"현대모비스", cap:20},
+      {name:"HL만도", cap:2}
+    ],
+    ai:"환율, 미국 판매, 하이브리드 믹스, 주주환원이 주요 포인트입니다."
+  },
+  {
+    name:"인터넷/플랫폼",
+    score:76,
+    marketCap:120,
+    desc:"검색, 커머스, 콘텐츠, 광고, AI 서비스",
+    stocks:[
+      {name:"NAVER", cap:35, leader:true},
+      {name:"카카오", cap:20},
+      {name:"카페24", cap:2}
+    ],
+    ai:"광고 경기와 AI 서비스 수익화 여부가 핵심입니다."
+  }
+];
 
-<div class="grid">
+function getLeader(sector){
+  return sector.stocks.find(s => s.leader) || sector.stocks.sort((a,b)=>b.cap-a.cap)[0];
+}
 
-<div class="card">
-  <h2>🤖 AI 반도체</h2>
-  <p>대장주: SK하이닉스</p>
-  <p>HBM: 한미반도체</p>
-  <p>소부장: 이오테크닉스</p>
-  <p>후공정: 리노공업</p>
-</div>
+function render(){
+  const q = document.getElementById("search").value.toLowerCase();
+  const sort = document.getElementById("sort").value;
 
-<div class="card">
-  <h2>⚡ 전력기기</h2>
-  <p>대장주: HD현대일렉트릭</p>
-  <p>변압기: 효성중공업</p>
-  <p>전선: LS ELECTRIC</p>
-  <p>송배전: 일진전기</p>
-</div>
+  let data = sectors.filter(sec =>
+    sec.name.toLowerCase().includes(q) ||
+    sec.stocks.some(s => s.name.toLowerCase().includes(q))
+  );
 
-<div class="card">
-  <h2>☢️ 원전 / SMR</h2>
-  <p>대장주: 두산에너빌리티</p>
-  <p>기자재: 비에이치아이</p>
-  <p>원전설계: 한전기술</p>
-  <p>전력공기업: 한국전력</p>
-</div>
+  data.sort((a,b)=>{
+    if(sort==="marketCap") return b.marketCap - a.marketCap;
+    if(sort==="score") return b.score - a.score;
+    return a.name.localeCompare(b.name);
+  });
 
-<div class="card">
-  <h2>🚢 조선</h2>
-  <p>대장주: HD한국조선해양</p>
-  <p>LNG선: 삼성중공업</p>
-  <p>특수선: 한화오션</p>
-  <p>엔진: 한화엔진</p>
-</div>
+  document.getElementById("sectorCount").textContent = data.length;
+  document.getElementById("stockCount").textContent = data.reduce((sum,s)=>sum+s.stocks.length,0);
+  document.getElementById("leaderCount").textContent = data.length;
 
-<div class="card">
-  <h2>🛡️ 방산</h2>
-  <p>대장주: 한화에어로스페이스</p>
-  <p>미사일: LIG넥스원</p>
-  <p>전차: 현대로템</p>
-  <p>항공: 한국항공우주</p>
-</div>
+  document.getElementById("app").innerHTML = data.map((sec,i)=>{
+    const leader = getLeader(sec);
+    return `
+      <article class="card">
+        <div class="rank">#${i+1} · 섹터점수 ${sec.score}</div>
+        <div class="title">${sec.name}</div>
+        <div class="desc">${sec.desc}</div>
+        <div class="leader">대장주: ${leader.name}</div>
+        <div class="stocks">
+          ${sec.stocks.map(s=>`<span class="chip">${s.name}${s.leader ? " ★" : ""}</span>`).join("")}
+        </div>
+        <div class="meta">추정 섹터 시총: ${sec.marketCap}조원 기준 정렬</div>
+        <div class="ai">AI 요약: ${sec.ai}</div>
+      </article>
+    `;
+  }).join("");
+}
 
-<div class="card">
-  <h2>🧬 바이오</h2>
-  <p>대장주: 삼성바이오로직스</p>
-  <p>바이오시밀러: 셀트리온</p>
-  <p>신약: 유한양행</p>
-  <p>미용의료: 휴젤</p>
-</div>
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("dark", document.body.classList.contains("dark"));
+}
 
-<div class="card">
-  <h2>🚗 자동차</h2>
-  <p>대장주: 현대차</p>
-  <p>부품: 현대모비스</p>
-  <p>타이어: 한국타이어앤테크놀로지</p>
-  <p>전장: HL만도</p>
-</div>
+if(localStorage.getItem("dark")==="true") document.body.classList.add("dark");
 
-<div class="card">
-  <h2>🔋 2차전지</h2>
-  <p>대장주: LG에너지솔루션</p>
-  <p>양극재: 에코프로비엠</p>
-  <p>소재: 포스코퓨처엠</p>
-  <p>장비: 피엔티</p>
-</div>
-
-<div class="card">
-  <h2>🌐 인터넷 / 플랫폼</h2>
-  <p>대장주: NAVER</p>
-  <p>메신저: 카카오</p>
-  <p>핀테크: 카카오페이</p>
-  <p>커머스: 쿠팡 관련주</p>
-</div>
-
-<div class="card">
-  <h2>🎮 게임</h2>
-  <p>대장주: 크래프톤</p>
-  <p>MMORPG: 엔씨소프트</p>
-  <p>모바일: 넷마블</p>
-  <p>글로벌: 시프트업</p>
-</div>
-
-<div class="card">
-  <h2>🤖 로봇</h2>
-  <p>대장주: 두산로보틱스</p>
-  <p>감속기: 에스비비테크</p>
-  <p>협동로봇: 레인보우로보틱스</p>
-  <p>자동화: 로보스타</p>
-</div>
-
-<div class="card">
-  <h2>💄 화장품</h2>
-  <p>대장주: 아모레퍼시픽</p>
-  <p>ODM: 코스맥스</p>
-  <p>브랜드: 실리콘투</p>
-  <p>미용기기: 클래시스</p>
-</div>
-
-<div class="card">
-  <h2>🎤 엔터</h2>
-  <p>대장주: 하이브</p>
-  <p>K팝: JYP Ent.</p>
-  <p>콘텐츠: CJ ENM</p>
-  <p>음원: YG PLUS</p>
-</div>
-
-<div class="card">
-  <h2>🏦 금융</h2>
-  <p>대장주: KB금융</p>
-  <p>은행: 신한지주</p>
-  <p>증권: 미래에셋증권</p>
-  <p>보험: 삼성생명</p>
-</div>
-
-<div class="card">
-  <h2>🏗️ 건설 / 인프라</h2>
-  <p>대장주: 현대건설</p>
-  <p>플랜트: 삼성E&A</p>
-  <p>시멘트: 한일시멘트</p>
-  <p>건자재: KCC</p>
-</div>
-
-<div class="card">
-  <h2>🧪 화학</h2>
-  <p>대장주: LG화학</p>
-  <p>정밀화학: 롯데정밀화학</p>
-  <p>소재: 금호석유</p>
-  <p>첨단소재: 코오롱인더</p>
-</div>
-
-<div class="card">
-  <h2>⛽ 정유 / 에너지</h2>
-  <p>대장주: S-Oil</p>
-  <p>정유: SK이노베이션</p>
-  <p>가스: 한국가스공사</p>
-  <p>윤활유: GS</p>
-</div>
-
-<div class="card">
-  <h2>🚚 해운 / 물류</h2>
-  <p>대장주: HMM</p>
-  <p>벌크선: 팬오션</p>
-  <p>물류: CJ대한통운</p>
-  <p>항만: 동방</p>
-</div>
-
-<div class="card">
-  <h2>🛰️ 우주항공</h2>
-  <p>대장주: 한국항공우주</p>
-  <p>위성: 쎄트렉아이</p>
-  <p>발사체: 한화시스템</p>
-  <p>부품: AP위성</p>
-</div>
-
-<div class="card">
-  <h2>🔐 보안 / 클라우드</h2>
-  <p>대장주: 안랩</p>
-  <p>보안: 지니언스</p>
-  <p>클라우드: 더존비즈온</p>
-  <p>SI: 삼성에스디에스</p>
-</div>
-    
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("sort").addEventListener("change", render);
+render();
+</script>
 </body>
-
 </html>
 
 
