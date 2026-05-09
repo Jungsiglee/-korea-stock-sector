@@ -1,596 +1,565 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>한국 증시 섹터맵</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>한국 증시 섹터맵</title>
 
-  <style>
-    *{box-sizing:border-box}
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;padding:18px 18px 120px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#f4f6fb;color:#111827;
+}
+h1{margin:0;font-size:30px;font-weight:900}
+.subtitle{margin-top:6px;color:#6b7280;font-size:14px;font-weight:700}
 
-    body{
-      margin:0;
-      padding:18px;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:#f4f6fb;
-      color:#111827;
-      padding-bottom:120px;
-    }
+input,select,button,textarea{
+  width:100%;border:1px solid #e5e7eb;background:white;
+  border-radius:16px;padding:13px;font-size:14px;font-weight:800;outline:none;
+}
+textarea{min-height:70px;resize:vertical;line-height:1.5;font-weight:700}
+button{background:#2563eb;color:white;border:none;cursor:pointer}
 
-    h1{margin:0;font-size:30px;font-weight:900}
+.top-bar{display:grid;grid-template-columns:1fr 90px;gap:10px;margin:18px 0 12px}
+.dark-btn{background:#111827}
 
-    .subtitle{
-      margin-top:6px;
-      color:#6b7280;
-      font-size:14px;
-      font-weight:700;
-    }
+.fixed-actions{
+  position:sticky;top:0;z-index:50;
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  background:#f4f6fb;padding:10px 0 14px;margin-bottom:10px;
+}
+.add-sector-btn{background:#2563eb}
+.add-stock-btn{background:#16a34a}
 
-    .top-bar{
-      display:grid;
-      grid-template-columns:1fr 90px;
-      gap:10px;
-      margin:18px 0 12px;
-    }
+.utility-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;
+}
+.backup-btn{background:#7c3aed}
+.restore-btn{background:#f97316}
 
-    input,select,button,textarea{
-      border:1px solid #e5e7eb;
-      background:white;
-      border-radius:16px;
-      padding:13px;
-      font-size:14px;
-      font-weight:800;
-      outline:none;
-      width:100%;
-    }
+.section-title{font-size:18px;font-weight:900;margin:18px 0 10px}
 
-    textarea{
-      min-height:80px;
-      resize:vertical;
-      line-height:1.5;
-      font-weight:700;
-    }
+.panel{
+  display:none;background:white;border:1px solid #e5e7eb;
+  border-radius:22px;padding:16px;margin-bottom:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
+}
+.panel.open{display:block}
+.form-grid{display:grid;gap:9px}
 
-    button{
-      background:#2563eb;
-      color:white;
-      border:none;
-      cursor:pointer;
-    }
+.sector-card{
+  background:white;border:1px solid #e5e7eb;border-radius:22px;
+  padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.05);
+}
+.sector-head{display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer}
+.sector-name{font-size:24px;font-weight:900}
+.sector-score{color:#2563eb;font-weight:900;font-size:14px}
+.sector-desc{
+  margin-top:12px;background:#f8fafc;padding:13px;border-radius:14px;
+  font-size:13px;line-height:1.5;color:#6b7280;font-weight:700;
+}
+.detail{display:none;margin-top:16px}
+.detail.open{display:block}
 
-    .dark-btn{background:#111827}
+.leader-box{background:#eef4ff;border-radius:16px;padding:14px;font-weight:900;margin-bottom:14px}
 
-    .fixed-actions{
-      position:sticky;
-      top:0;
-      z-index:50;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      background:#f4f6fb;
-      padding:10px 0 14px;
-      margin-bottom:10px;
-    }
+.parts-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.part-btn{
+  width:auto;background:#eef2ff;color:#111827;padding:10px 14px;
+  border-radius:999px;font-size:13px;
+}
+.part-btn.active{background:#2563eb;color:white}
 
-    .add-sector-btn{background:#2563eb}
-    .add-stock-btn{background:#16a34a}
+.stock-list{display:grid;gap:12px}
+.stock-card{
+  background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;
+  padding:13px;display:grid;gap:10px;
+}
+.stock-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.stock-name{font-weight:900;font-size:16px}
+.stock-type{color:#6b7280;font-size:12px;font-weight:800;margin-top:3px}
+.memo-label{font-size:12px;font-weight:900;color:#2563eb;margin-bottom:4px}
+.delete-btn{width:auto;background:#ef4444;padding:9px 11px;font-size:12px;border-radius:12px}
+.chart-btn{width:auto;background:#0ea5e9;padding:9px 11px;font-size:12px;border-radius:12px}
+.danger{background:#ef4444}
+.reset-btn{background:#f97316;margin-top:10px;width:100%}
 
-    .section-title{
-      font-size:18px;
-      font-weight:900;
-      margin:18px 0 10px;
-    }
+.status-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+}
+.status-badge{
+  display:inline-block;margin-top:6px;padding:5px 9px;border-radius:999px;
+  font-size:12px;font-weight:900;background:#e5e7eb;color:#111827;
+}
+.status-관심{background:#dbeafe;color:#1d4ed8}
+.status-매수대기{background:#fef3c7;color:#b45309}
+.status-보유{background:#dcfce7;color:#15803d}
+.status-매도검토{background:#fee2e2;color:#b91c1c}
 
-    .panel{
-      display:none;
-      background:white;
-      border:1px solid #e5e7eb;
-      border-radius:22px;
-      padding:16px;
-      margin-bottom:16px;
-      box-shadow:0 8px 24px rgba(0,0,0,.05);
-    }
+.chart-modal{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.58);
+  z-index:999;padding:18px;
+}
+.chart-box{
+  background:white;border-radius:22px;padding:14px;height:82vh;
+}
+.chart-header{
+  display:flex;justify-content:space-between;align-items:center;
+  font-weight:900;margin-bottom:10px;
+}
+iframe{width:100%;height:90%;border:none;border-radius:16px}
 
-    .panel.open{display:block}
-
-    .form-grid{display:grid;gap:9px}
-
-    .sector-card{
-      background:white;
-      border:1px solid #e5e7eb;
-      border-radius:22px;
-      padding:18px;
-      margin-bottom:14px;
-      box-shadow:0 8px 24px rgba(0,0,0,.05);
-    }
-
-    .sector-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      cursor:pointer;
-    }
-
-    .sector-name{font-size:24px;font-weight:900}
-
-    .sector-score{
-      color:#2563eb;
-      font-weight:900;
-      font-size:14px;
-    }
-
-    .sector-desc{
-      margin-top:12px;
-      background:#f8fafc;
-      padding:13px;
-      border-radius:14px;
-      font-size:13px;
-      line-height:1.5;
-      color:#6b7280;
-      font-weight:700;
-    }
-
-    .detail{display:none;margin-top:16px}
-    .detail.open{display:block}
-
-    .leader-box{
-      background:#eef4ff;
-      border-radius:16px;
-      padding:14px;
-      font-weight:900;
-      margin-bottom:14px;
-    }
-
-    .parts-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:14px;
-    }
-
-    .part-btn{
-      width:auto;
-      background:#eef2ff;
-      color:#111827;
-      padding:10px 14px;
-      border-radius:999px;
-      font-size:13px;
-    }
-
-    .part-btn.active{
-      background:#2563eb;
-      color:white;
-    }
-
-    .stock-list{display:grid;gap:12px}
-
-    .stock-card{
-      background:#f8fafc;
-      border:1px solid #e5e7eb;
-      border-radius:16px;
-      padding:13px;
-      display:grid;
-      gap:10px;
-    }
-
-    .stock-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-    }
-
-    .stock-name{
-      font-weight:900;
-      font-size:16px;
-    }
-
-    .stock-type{
-      color:#6b7280;
-      font-size:12px;
-      font-weight:800;
-      margin-top:3px;
-    }
-
-    .memo-label{
-      font-size:12px;
-      font-weight:900;
-      color:#2563eb;
-      margin-bottom:4px;
-    }
-
-    .memo-input{
-      background:white;
-      font-size:13px;
-    }
-
-    .delete-btn{
-      width:auto;
-      background:#ef4444;
-      padding:9px 11px;
-      font-size:12px;
-      border-radius:12px;
-    }
-
-    .danger{background:#ef4444}
-
-    .reset-btn{
-      background:#f97316;
-      margin-top:10px;
-      width:100%;
-    }
-
-    body.dark{
-      background:#0f172a;
-      color:#e5e7eb;
-    }
-
-    body.dark .fixed-actions{background:#0f172a}
-
-    body.dark input,
-    body.dark select,
-    body.dark textarea,
-    body.dark .sector-card,
-    body.dark .panel,
-    body.dark .stock-card{
-      background:#1e293b;
-      color:#e5e7eb;
-      border-color:#334155;
-    }
-
-    body.dark .sector-desc{
-      background:#0f172a;
-      color:#cbd5e1;
-    }
-
-    body.dark .leader-box{background:#172554}
-
-    body.dark .part-btn{
-      background:#334155;
-      color:#e5e7eb;
-    }
-
-    body.dark .part-btn.active{background:#2563eb}
-  </style>
+body.dark{background:#0f172a;color:#e5e7eb}
+body.dark .fixed-actions{background:#0f172a}
+body.dark input,body.dark select,body.dark textarea,
+body.dark .sector-card,body.dark .panel,body.dark .stock-card,body.dark .chart-box{
+  background:#1e293b;color:#e5e7eb;border-color:#334155;
+}
+body.dark .sector-desc{background:#0f172a;color:#cbd5e1}
+body.dark .leader-box{background:#172554}
+body.dark .part-btn{background:#334155;color:#e5e7eb}
+body.dark .part-btn.active{background:#2563eb}
+</style>
 </head>
 
 <body>
-  <h1>한국 증시 섹터맵</h1>
-  <div class="subtitle">섹터 클릭 → 대장주 · 소부장 · 회사 특징 메모</div>
+<h1>한국 증시 섹터맵</h1>
+<div class="subtitle">목표가 · 상태 · 메모 · 차트 · 백업/복원</div>
 
-  <div class="top-bar">
-    <input id="searchInput" placeholder="섹터 또는 종목 검색" />
-    <button class="dark-btn" onclick="toggleDark()">다크</button>
+<div class="top-bar">
+  <input id="searchInput" placeholder="섹터 또는 종목 검색" />
+  <button class="dark-btn" onclick="toggleDark()">다크</button>
+</div>
+
+<div class="fixed-actions">
+  <button class="add-sector-btn" onclick="togglePanel('sectorPanel')">+ 섹터 추가</button>
+  <button class="add-stock-btn" onclick="togglePanel('stockPanel')">+ 종목 추가</button>
+</div>
+
+<div class="utility-actions">
+  <button class="backup-btn" onclick="backupData()">백업 저장</button>
+  <button class="restore-btn" onclick="document.getElementById('restoreFile').click()">백업 복원</button>
+</div>
+<input id="restoreFile" type="file" accept=".json" style="display:none" onchange="restoreData(event)" />
+
+<div id="sectorPanel" class="panel">
+  <div class="section-title">섹터 추가</div>
+  <div class="form-grid">
+    <input id="newSectorName" placeholder="섹터명 예: 로봇" />
+    <input id="newSectorDesc" placeholder="섹터 설명 예: 산업용 로봇, 감속기, 자동화" />
+    <input id="newSectorScore" type="number" placeholder="섹터점수 예: 85" />
+    <button onclick="addSector()">섹터 저장</button>
   </div>
+</div>
 
-  <div class="fixed-actions">
-    <button class="add-sector-btn" onclick="togglePanel('sectorPanel')">+ 섹터 추가</button>
-    <button class="add-stock-btn" onclick="togglePanel('stockPanel')">+ 종목 추가</button>
+<div id="stockPanel" class="panel">
+  <div class="section-title">종목 추가</div>
+  <div class="form-grid">
+    <select id="stockSectorSelect"></select>
+    <input id="newStockName" placeholder="종목명 예: 삼성전자" />
+    <input id="newStockCode" placeholder="차트코드 예: KRX:005930" />
+    <select id="newStockType">
+      <option value="대장주">대장주</option>
+      <option value="장비">장비</option>
+      <option value="소재">소재</option>
+      <option value="부품">부품</option>
+      <option value="플랫폼">플랫폼</option>
+      <option value="완성품">완성품</option>
+      <option value="신약">신약</option>
+      <option value="AI">AI</option>
+      <option value="기타">기타</option>
+    </select>
+    <input id="newStockCap" type="number" placeholder="시총점수 예: 100" />
+    <input id="newStockTarget" placeholder="목표가 예: 95,000원" />
+    <select id="newStockStatus">
+      <option value="관심">관심</option>
+      <option value="매수대기">매수대기</option>
+      <option value="보유">보유</option>
+      <option value="매도검토">매도검토</option>
+    </select>
+    <textarea id="newStockMemo" placeholder="회사 특징 메모"></textarea>
+    <button onclick="addStock()">종목 저장</button>
   </div>
+</div>
 
-  <div id="sectorPanel" class="panel">
-    <div class="section-title">섹터 추가</div>
-    <div class="form-grid">
-      <input id="newSectorName" placeholder="섹터명 예: 로봇" />
-      <input id="newSectorDesc" placeholder="섹터 설명 예: 산업용 로봇, 감속기, 자동화" />
-      <input id="newSectorScore" type="number" placeholder="섹터점수 예: 85" />
-      <button onclick="addSector()">섹터 저장</button>
+<div class="section-title">섹터 목록</div>
+<div id="sectorList"></div>
+
+<button class="reset-btn" onclick="resetData()">초기 데이터로 복구</button>
+
+<div class="chart-modal" id="chartModal">
+  <div class="chart-box">
+    <div class="chart-header">
+      <span id="chartTitle">차트</span>
+      <button style="width:80px" onclick="closeChart()">닫기</button>
     </div>
+    <iframe id="chartFrame"></iframe>
   </div>
+</div>
 
-  <div id="stockPanel" class="panel">
-    <div class="section-title">종목 추가</div>
-    <div class="form-grid">
-      <select id="stockSectorSelect"></select>
-      <input id="newStockName" placeholder="종목명 예: 삼성전자" />
-      <select id="newStockType">
-        <option value="대장주">대장주</option>
-        <option value="장비">장비</option>
-        <option value="소재">소재</option>
-        <option value="부품">부품</option>
-        <option value="플랫폼">플랫폼</option>
-        <option value="완성품">완성품</option>
-        <option value="신약">신약</option>
-        <option value="AI">AI</option>
-        <option value="기타">기타</option>
-      </select>
-      <input id="newStockCap" type="number" placeholder="시총점수 예: 100" />
-      <textarea id="newStockMemo" placeholder="회사 특징 메모 예: HBM 장비 수혜, 고객사 SK하이닉스 비중 높음"></textarea>
-      <button onclick="addStock()">종목 저장</button>
-    </div>
-  </div>
+<script>
+const defaultData = [
+  {
+    name:"반도체", score:98,
+    desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
+    stocks:[
+      {name:"삼성전자", code:"KRX:005930", type:"대장주", cap:470, target:"", status:"관심", memo:"메모리·파운드리·스마트폰을 함께 보유한 국내 최대 반도체 기업."},
+      {name:"SK하이닉스", code:"KRX:000660", type:"대장주", cap:150, target:"", status:"관심", memo:"HBM과 고대역폭 메모리에서 강한 경쟁력을 가진 AI 반도체 핵심주."},
+      {name:"한미반도체", code:"KRX:042700", type:"장비", cap:12, target:"", status:"관심", memo:"HBM 본딩 장비 수혜주."},
+      {name:"리노공업", code:"KOSDAQ:058470", type:"부품", cap:4, target:"", status:"관심", memo:"반도체 테스트 소켓·핀 중심의 고마진 부품 기업."},
+      {name:"솔브레인", code:"KOSDAQ:357780", type:"소재", cap:2, target:"", status:"관심", memo:"반도체 식각액·소재 중심."}
+    ]
+  },
+  {
+    name:"조선", score:94,
+    desc:"LNG선, 특수선, 친환경 선박 중심 수주 산업",
+    stocks:[
+      {name:"HD현대중공업", code:"KRX:329180", type:"대장주", cap:16, target:"", status:"관심", memo:"LNG선·특수선·해양플랜트 중심 대형 조선사."},
+      {name:"한화오션", code:"KRX:042660", type:"완성품", cap:12, target:"", status:"관심", memo:"상선과 방산 선박을 함께 보유."},
+      {name:"삼성중공업", code:"KRX:010140", type:"완성품", cap:10, target:"", status:"관심", memo:"LNG선과 해양플랜트 중심."}
+    ]
+  },
+  {
+    name:"방산", score:92,
+    desc:"K방산, 수출, 미사일, 항공우주, 지상무기 중심 섹터",
+    stocks:[
+      {name:"한화에어로스페이스", code:"KRX:012450", type:"대장주", cap:20, target:"", status:"관심", memo:"항공엔진·자주포·방산 수출 중심 K방산 대표주."},
+      {name:"LIG넥스원", code:"KRX:079550", type:"부품", cap:5, target:"", status:"관심", memo:"미사일·유도무기·레이더 중심."},
+      {name:"현대로템", code:"KRX:064350", type:"완성품", cap:6, target:"", status:"관심", memo:"K2 전차와 철도 사업 보유."}
+    ]
+  },
+  {
+    name:"바이오", score:88,
+    desc:"신약, CDMO, 바이오시밀러, 항체치료제 중심 성장 섹터",
+    stocks:[
+      {name:"삼성바이오로직스", code:"KRX:207940", type:"대장주", cap:70, target:"", status:"관심", memo:"글로벌 CDMO 대형주."},
+      {name:"셀트리온", code:"KRX:068270", type:"대장주", cap:40, target:"", status:"관심", memo:"바이오시밀러 대표주."},
+      {name:"알테오젠", code:"KOSDAQ:196170", type:"플랫폼", cap:15, target:"", status:"관심", memo:"SC 제형변경 플랫폼 기술 보유."}
+    ]
+  }
+];
 
-  <div class="section-title">섹터 목록</div>
-  <div id="sectorList"></div>
+let sectors = JSON.parse(localStorage.getItem("sectorData")) || defaultData;
+let openedSector = null;
+let selectedPart = "전체";
 
-  <button class="reset-btn" onclick="resetData()">초기 데이터로 복구</button>
+const sectorList = document.getElementById("sectorList");
+const searchInput = document.getElementById("searchInput");
+const stockSectorSelect = document.getElementById("stockSectorSelect");
 
-  <script>
-    const defaultData = [
-      {
-        name:"반도체",
-        score:98,
-        desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
-        stocks:[
-          {name:"삼성전자", type:"대장주", cap:470, memo:"메모리·파운드리·스마트폰을 함께 보유한 국내 최대 반도체 기업."},
-          {name:"SK하이닉스", type:"대장주", cap:150, memo:"HBM과 고대역폭 메모리에서 강한 경쟁력을 가진 AI 반도체 핵심주."},
-          {name:"한미반도체", type:"장비", cap:12, memo:"HBM 본딩 장비 수혜주. AI 반도체 투자 사이클과 연동."},
-          {name:"리노공업", type:"부품", cap:4, memo:"반도체 테스트 소켓·핀 중심의 고마진 부품 기업."},
-          {name:"솔브레인", type:"소재", cap:2, memo:"반도체 식각액·소재 중심. 삼성전자 밸류체인 관련."}
-        ]
-      },
-      {
-        name:"조선",
-        score:94,
-        desc:"LNG선, 특수선, 친환경 선박 중심 수주 산업",
-        stocks:[
-          {name:"HD현대중공업", type:"대장주", cap:16, memo:"LNG선·특수선·해양플랜트 중심 대형 조선사."},
-          {name:"한화오션", type:"완성품", cap:12, memo:"상선과 방산 선박을 함께 보유. 한화그룹 편입 후 방산 시너지 기대."},
-          {name:"삼성중공업", type:"완성품", cap:10, memo:"LNG선과 해양플랜트 중심. 수주잔고와 선가가 중요."},
-          {name:"HD한국조선해양", type:"대장주", cap:14, memo:"HD현대 조선 지주 성격. 계열 조선사 실적을 반영."},
-          {name:"현대미포조선", type:"완성품", cap:4, memo:"중형선 중심. 석유화학제품 운반선과 친환경 선박 수혜."}
-        ]
-      },
-      {
-        name:"방산",
-        score:92,
-        desc:"K방산, 수출, 미사일, 항공우주, 지상무기 중심 섹터",
-        stocks:[
-          {name:"한화에어로스페이스", type:"대장주", cap:20, memo:"항공엔진·자주포·방산 수출 중심 K방산 대표주."},
-          {name:"LIG넥스원", type:"부품", cap:5, memo:"미사일·유도무기·레이더 중심. 수출 계약이 핵심 변수."},
-          {name:"현대로템", type:"완성품", cap:6, memo:"K2 전차와 철도 사업 보유. 지상무기 수출 모멘텀."},
-          {name:"한국항공우주", type:"완성품", cap:5, memo:"항공기·훈련기·우주항공 관련. KF-21과 수출이 관전 포인트."},
-          {name:"풍산", type:"소재", cap:2, memo:"탄약·동소재 기업. 방산과 구리 가격 양쪽에 영향."}
-        ]
-      },
-      {
-        name:"바이오",
-        score:88,
-        desc:"신약, CDMO, 바이오시밀러, 항체치료제 중심 성장 섹터",
-        stocks:[
-          {name:"삼성바이오로직스", type:"대장주", cap:70, memo:"글로벌 CDMO 대형주. 공장 증설과 수주가 핵심."},
-          {name:"셀트리온", type:"대장주", cap:40, memo:"바이오시밀러 대표주. 미국·유럽 판매 확대가 중요."},
-          {name:"유한양행", type:"신약", cap:8, memo:"렉라자 등 신약 모멘텀 보유. 기술료와 글로벌 판매가 핵심."},
-          {name:"알테오젠", type:"플랫폼", cap:15, memo:"SC 제형변경 플랫폼 기술 보유. 기술이전 계약이 주요 변수."},
-          {name:"리가켐바이오", type:"플랫폼", cap:4, memo:"ADC 플랫폼 중심 바이오텍. 파이프라인 가치가 중요."}
-        ]
-      }
-    ];
+function saveData(){
+  localStorage.setItem("sectorData", JSON.stringify(sectors));
+}
 
-    let sectors = JSON.parse(localStorage.getItem("sectorData")) || defaultData;
-    let openedSector = null;
-    let selectedPart = "전체";
+function normalizeData(){
+  sectors.forEach(sector=>{
+    sector.stocks.forEach(stock=>{
+      if(stock.memo === undefined) stock.memo = "";
+      if(stock.target === undefined) stock.target = "";
+      if(stock.status === undefined) stock.status = "관심";
+      if(stock.code === undefined) stock.code = "";
+    });
+  });
+  saveData();
+}
 
-    const sectorList = document.getElementById("sectorList");
-    const searchInput = document.getElementById("searchInput");
-    const stockSectorSelect = document.getElementById("stockSectorSelect");
+function togglePanel(id){
+  document.getElementById(id).classList.toggle("open");
+}
 
-    function normalizeData(){
-      sectors.forEach(sector=>{
-        sector.stocks.forEach(stock=>{
-          if(stock.memo === undefined) stock.memo = "";
-        });
-      });
-      saveData();
-    }
+function getLeader(sector){
+  if(!sector.stocks.length) return null;
+  const leaders = sector.stocks.filter(s => s.type === "대장주");
+  const pool = leaders.length ? leaders : sector.stocks;
+  return [...pool].sort((a,b)=>(b.cap||0)-(a.cap||0))[0];
+}
 
-    function saveData(){
-      localStorage.setItem("sectorData", JSON.stringify(sectors));
-    }
+function renderSectorOptions(){
+  stockSectorSelect.innerHTML = sectors.map((s,i)=>`<option value="${i}">${s.name}</option>`).join("");
+}
 
-    function togglePanel(id){
-      document.getElementById(id).classList.toggle("open");
-    }
+function renderSectors(){
+  const keyword = searchInput.value.toLowerCase();
 
-    function getLeader(sector){
-      if(!sector.stocks.length) return null;
-      const leaders = sector.stocks.filter(s => s.type === "대장주");
-      const pool = leaders.length ? leaders : sector.stocks;
-      return [...pool].sort((a,b)=>(b.cap||0)-(a.cap||0))[0];
-    }
+  const filtered = sectors
+    .map((sector,index)=>({...sector, originalIndex:index}))
+    .filter(sector =>
+      sector.name.toLowerCase().includes(keyword) ||
+      sector.stocks.some(stock =>
+        stock.name.toLowerCase().includes(keyword) ||
+        (stock.memo || "").toLowerCase().includes(keyword)
+      )
+    )
+    .sort((a,b)=>b.score-a.score);
 
-    function renderSectorOptions(){
-      stockSectorSelect.innerHTML = sectors.map((s,i)=>
-        `<option value="${i}">${s.name}</option>`
-      ).join("");
-    }
+  sectorList.innerHTML = filtered.map(sector=>{
+    const leader = getLeader(sector);
+    const isOpen = openedSector === sector.originalIndex;
+    const parts = ["전체", ...new Set(sector.stocks.map(s=>s.type))];
 
-    function renderSectors(){
-      const keyword = searchInput.value.toLowerCase();
+    const visibleStocks = selectedPart === "전체"
+      ? sector.stocks
+      : sector.stocks.filter(s => s.type === selectedPart);
 
-      const filtered = sectors
-        .map((sector,index)=>({...sector, originalIndex:index}))
-        .filter(sector =>
-          sector.name.toLowerCase().includes(keyword) ||
-          sector.stocks.some(stock =>
-            stock.name.toLowerCase().includes(keyword) ||
-            (stock.memo || "").toLowerCase().includes(keyword)
-          )
-        )
-        .sort((a,b)=>b.score-a.score);
-
-      sectorList.innerHTML = filtered.map(sector=>{
-        const leader = getLeader(sector);
-        const isOpen = openedSector === sector.originalIndex;
-        const parts = ["전체", ...new Set(sector.stocks.map(s=>s.type))];
-
-        const visibleStocks = selectedPart === "전체"
-          ? sector.stocks
-          : sector.stocks.filter(s => s.type === selectedPart);
-
-        return `
-          <div class="sector-card">
-            <div class="sector-head" onclick="toggleSector(${sector.originalIndex})">
-              <div>
-                <div class="sector-name">${sector.name}</div>
-                <div class="sector-score">섹터점수 ${sector.score}</div>
-              </div>
-              <div style="font-weight:900;">${isOpen ? "접기" : "열기"}</div>
-            </div>
-
-            <div class="sector-desc">${sector.desc}</div>
-
-            <div class="detail ${isOpen ? "open" : ""}">
-              <div class="leader-box">
-                대장주 · ${leader ? leader.name : "없음"}
-              </div>
-
-              <div class="parts-row">
-                ${parts.map(part=>`
-                  <button class="part-btn ${selectedPart===part ? "active" : ""}"
-                    onclick="event.stopPropagation(); selectPart('${part}')">
-                    ${part}
-                  </button>
-                `).join("")}
-              </div>
-
-              <div class="stock-list">
-                ${visibleStocks.map(stock=>{
-                  const realIndex = sector.stocks.findIndex(s => s.name === stock.name && s.type === stock.type);
-                  return `
-                    <div class="stock-card">
-                      <div class="stock-head">
-                        <div>
-                          <div class="stock-name">${stock.name}</div>
-                          <div class="stock-type">${stock.type} · 시총점수 ${stock.cap || 0}</div>
-                        </div>
-                        <button class="delete-btn" onclick="event.stopPropagation(); deleteStock(${sector.originalIndex},${realIndex})">
-                          삭제
-                        </button>
-                      </div>
-
-                      <div>
-                        <div class="memo-label">회사 특징 메모</div>
-                        <textarea class="memo-input"
-                          onclick="event.stopPropagation()"
-                          oninput="updateMemo(${sector.originalIndex},${realIndex},this.value)"
-                          placeholder="예: HBM 수혜, 장비 국산화, 수출 비중 높음">${stock.memo || ""}</textarea>
-                      </div>
-                    </div>
-                  `;
-                }).join("")}
-              </div>
-
-              <button class="danger" style="margin-top:14px;width:100%;" onclick="event.stopPropagation(); deleteSector(${sector.originalIndex})">
-                이 섹터 삭제
-              </button>
-            </div>
+    return `
+      <div class="sector-card">
+        <div class="sector-head" onclick="toggleSector(${sector.originalIndex})">
+          <div>
+            <div class="sector-name">${sector.name}</div>
+            <div class="sector-score">섹터점수 ${sector.score}</div>
           </div>
-        `;
-      }).join("");
+          <div style="font-weight:900;">${isOpen ? "접기" : "열기"}</div>
+        </div>
 
-      renderSectorOptions();
-    }
+        <div class="sector-desc">${sector.desc}</div>
 
-    function toggleSector(index){
-      openedSector = openedSector === index ? null : index;
-      selectedPart = "전체";
-      renderSectors();
-    }
+        <div class="detail ${isOpen ? "open" : ""}">
+          <div class="leader-box">대장주 · ${leader ? leader.name : "없음"}</div>
 
-    function selectPart(part){
-      selectedPart = part;
-      renderSectors();
-    }
+          <div class="parts-row">
+            ${parts.map(part=>`
+              <button class="part-btn ${selectedPart===part ? "active" : ""}"
+                onclick="event.stopPropagation(); selectPart('${part}')">
+                ${part}
+              </button>
+            `).join("")}
+          </div>
 
-    function updateMemo(sectorIndex, stockIndex, value){
-      sectors[sectorIndex].stocks[stockIndex].memo = value;
-      saveData();
-    }
+          <div class="stock-list">
+            ${visibleStocks.map(stock=>{
+              const realIndex = sector.stocks.findIndex(s => s.name === stock.name && s.type === stock.type);
+              return `
+                <div class="stock-card">
+                  <div class="stock-head">
+                    <div onclick="event.stopPropagation(); openChart('${stock.name}','${stock.code || ""}')">
+                      <div class="stock-name">${stock.name}</div>
+                      <div class="stock-type">${stock.type} · 시총점수 ${stock.cap || 0}</div>
+                      <span class="status-badge status-${stock.status}">${stock.status || "관심"}</span>
+                    </div>
+                    <div style="display:flex;gap:6px;">
+                      <button class="chart-btn" onclick="event.stopPropagation(); openChart('${stock.name}','${stock.code || ""}')">차트</button>
+                      <button class="delete-btn" onclick="event.stopPropagation(); deleteStock(${sector.originalIndex},${realIndex})">삭제</button>
+                    </div>
+                  </div>
 
-    function addSector(){
-      const name = document.getElementById("newSectorName").value.trim();
-      const desc = document.getElementById("newSectorDesc").value.trim();
-      const score = Number(document.getElementById("newSectorScore").value || 70);
+                  <div class="status-row">
+                    <select onclick="event.stopPropagation()" onchange="updateStatus(${sector.originalIndex},${realIndex},this.value)">
+                      <option value="관심" ${stock.status==="관심"?"selected":""}>관심</option>
+                      <option value="매수대기" ${stock.status==="매수대기"?"selected":""}>매수대기</option>
+                      <option value="보유" ${stock.status==="보유"?"selected":""}>보유</option>
+                      <option value="매도검토" ${stock.status==="매도검토"?"selected":""}>매도검토</option>
+                    </select>
 
-      if(!name){
-        alert("섹터명을 입력하세요.");
+                    <input onclick="event.stopPropagation()"
+                      value="${stock.target || ""}"
+                      oninput="updateTarget(${sector.originalIndex},${realIndex},this.value)"
+                      placeholder="목표가 예: 95,000원" />
+                  </div>
+
+                  <div>
+                    <div class="memo-label">회사 특징 메모</div>
+                    <textarea onclick="event.stopPropagation()"
+                      oninput="updateMemo(${sector.originalIndex},${realIndex},this.value)"
+                      placeholder="회사 특징 메모">${stock.memo || ""}</textarea>
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+
+          <button class="danger" style="margin-top:14px;width:100%;" onclick="event.stopPropagation(); deleteSector(${sector.originalIndex})">
+            이 섹터 삭제
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  renderSectorOptions();
+}
+
+function toggleSector(index){
+  openedSector = openedSector === index ? null : index;
+  selectedPart = "전체";
+  renderSectors();
+}
+
+function selectPart(part){
+  selectedPart = part;
+  renderSectors();
+}
+
+function updateMemo(sectorIndex, stockIndex, value){
+  sectors[sectorIndex].stocks[stockIndex].memo = value;
+  saveData();
+}
+
+function updateTarget(sectorIndex, stockIndex, value){
+  sectors[sectorIndex].stocks[stockIndex].target = value;
+  saveData();
+}
+
+function updateStatus(sectorIndex, stockIndex, value){
+  sectors[sectorIndex].stocks[stockIndex].status = value;
+  saveData();
+  renderSectors();
+}
+
+function addSector(){
+  const name = document.getElementById("newSectorName").value.trim();
+  const desc = document.getElementById("newSectorDesc").value.trim();
+  const score = Number(document.getElementById("newSectorScore").value || 70);
+
+  if(!name){ alert("섹터명을 입력하세요."); return; }
+
+  sectors.push({name, desc:desc || "설명을 입력하세요.", score, stocks:[]});
+  saveData();
+
+  document.getElementById("newSectorName").value = "";
+  document.getElementById("newSectorDesc").value = "";
+  document.getElementById("newSectorScore").value = "";
+  document.getElementById("sectorPanel").classList.remove("open");
+
+  renderSectors();
+}
+
+function addStock(){
+  const sectorIndex = Number(stockSectorSelect.value);
+  const name = document.getElementById("newStockName").value.trim();
+  const code = document.getElementById("newStockCode").value.trim();
+  const type = document.getElementById("newStockType").value;
+  const cap = Number(document.getElementById("newStockCap").value || 1);
+  const target = document.getElementById("newStockTarget").value.trim();
+  const status = document.getElementById("newStockStatus").value;
+  const memo = document.getElementById("newStockMemo").value.trim();
+
+  if(!name){ alert("종목명을 입력하세요."); return; }
+
+  sectors[sectorIndex].stocks.push({name, code, type, cap, target, status, memo});
+  saveData();
+
+  openedSector = sectorIndex;
+  selectedPart = "전체";
+
+  document.getElementById("newStockName").value = "";
+  document.getElementById("newStockCode").value = "";
+  document.getElementById("newStockCap").value = "";
+  document.getElementById("newStockTarget").value = "";
+  document.getElementById("newStockMemo").value = "";
+  document.getElementById("stockPanel").classList.remove("open");
+
+  renderSectors();
+}
+
+function deleteSector(index){
+  if(!confirm("이 섹터를 삭제할까요?")) return;
+  sectors.splice(index,1);
+  openedSector = null;
+  saveData();
+  renderSectors();
+}
+
+function deleteStock(sectorIndex,stockIndex){
+  if(!confirm("이 종목을 삭제할까요?")) return;
+  sectors[sectorIndex].stocks.splice(stockIndex,1);
+  saveData();
+  renderSectors();
+}
+
+function openChart(name, code){
+  if(!code){
+    alert("차트코드가 없습니다. 종목 추가 시 예: KRX:005930 형태로 입력하세요.");
+    return;
+  }
+
+  document.getElementById("chartTitle").innerText = name + " 차트";
+  document.getElementById("chartFrame").src =
+    "https://s.tradingview.com/widgetembed/?symbol=" + encodeURIComponent(code) +
+    "&interval=D&theme=light&style=1&locale=kr";
+  document.getElementById("chartModal").style.display = "block";
+}
+
+function closeChart(){
+  document.getElementById("chartModal").style.display = "none";
+  document.getElementById("chartFrame").src = "";
+}
+
+function backupData(){
+  const data = {
+    app:"korea-stock-sector-map",
+    savedAt:new Date().toISOString(),
+    sectors
+  };
+
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "sector-map-backup.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function restoreData(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+    try{
+      const imported = JSON.parse(e.target.result);
+      const importedSectors = imported.sectors || imported;
+
+      if(!Array.isArray(importedSectors)){
+        alert("복원 파일 형식이 맞지 않습니다.");
         return;
       }
 
-      sectors.push({
-        name,
-        desc: desc || "설명을 입력하세요.",
-        score,
-        stocks:[]
-      });
+      if(!confirm("현재 데이터를 백업 파일 내용으로 교체할까요?")) return;
 
-      saveData();
-
-      document.getElementById("newSectorName").value = "";
-      document.getElementById("newSectorDesc").value = "";
-      document.getElementById("newSectorScore").value = "";
-      document.getElementById("sectorPanel").classList.remove("open");
-
-      renderSectors();
-    }
-
-    function deleteSector(index){
-      if(!confirm("이 섹터를 삭제할까요?")) return;
-      sectors.splice(index,1);
-      openedSector = null;
-      saveData();
-      renderSectors();
-    }
-
-    function addStock(){
-      const sectorIndex = Number(stockSectorSelect.value);
-      const name = document.getElementById("newStockName").value.trim();
-      const type = document.getElementById("newStockType").value;
-      const cap = Number(document.getElementById("newStockCap").value || 1);
-      const memo = document.getElementById("newStockMemo").value.trim();
-
-      if(!name){
-        alert("종목명을 입력하세요.");
-        return;
-      }
-
-      sectors[sectorIndex].stocks.push({name,type,cap,memo});
-
-      saveData();
-
-      openedSector = sectorIndex;
-      selectedPart = "전체";
-
-      document.getElementById("newStockName").value = "";
-      document.getElementById("newStockCap").value = "";
-      document.getElementById("newStockMemo").value = "";
-      document.getElementById("stockPanel").classList.remove("open");
-
-      renderSectors();
-    }
-
-    function deleteStock(sectorIndex,stockIndex){
-      if(!confirm("이 종목을 삭제할까요?")) return;
-      sectors[sectorIndex].stocks.splice(stockIndex,1);
-      saveData();
-      renderSectors();
-    }
-
-    function resetData(){
-      if(!confirm("추가/삭제/메모 내용을 모두 지우고 초기 데이터로 복구할까요?")) return;
-      localStorage.removeItem("sectorData");
-      sectors = defaultData;
+      sectors = importedSectors;
+      normalizeData();
       openedSector = null;
       selectedPart = "전체";
       saveData();
       renderSectors();
+      alert("복원 완료");
+    }catch(err){
+      alert("JSON 파일을 읽을 수 없습니다.");
     }
+  };
 
-    function toggleDark(){
-      document.body.classList.toggle("dark");
-      localStorage.setItem("darkMode", document.body.classList.contains("dark"));
-    }
+  reader.readAsText(file);
+}
 
-    if(localStorage.getItem("darkMode") === "true"){
-      document.body.classList.add("dark");
-    }
+function resetData(){
+  if(!confirm("추가/삭제/메모/목표가/상태를 모두 지우고 초기 데이터로 복구할까요?")) return;
+  localStorage.removeItem("sectorData");
+  sectors = JSON.parse(JSON.stringify(defaultData));
+  openedSector = null;
+  selectedPart = "전체";
+  saveData();
+  renderSectors();
+}
 
-    searchInput.addEventListener("input", renderSectors);
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+}
 
-    normalizeData();
-    renderSectors();
-  </script>
+if(localStorage.getItem("darkMode") === "true"){
+  document.body.classList.add("dark");
+}
+
+searchInput.addEventListener("input", renderSectors);
+
+normalizeData();
+renderSectors();
+</script>
 </body>
 </html>
