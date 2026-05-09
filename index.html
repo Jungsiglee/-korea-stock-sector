@@ -11,9 +11,8 @@
   --bg:#f0f2f8;--card:#fff;--border:#e2e6f0;--text:#0d1117;--sub:#6b7280;
   --blue:#1d4ed8;--blue-light:#dbeafe;--green:#15803d;--green-light:#dcfce7;
   --red:#b91c1c;--red-light:#fee2e2;--yellow:#92400e;--yellow-light:#fef3c7;
-  --purple:#6d28d9;--purple-light:#ede9fe;
-  --rocket:#ea580c;--rocket-light:#fff7ed;
-  --shadow:0 2px 16px rgba(0,0,0,.07);--shadow-lg:0 8px 32px rgba(0,0,0,.1);--radius:18px;
+  --purple:#6d28d9;--purple-light:#ede9fe;--rocket:#ea580c;--rocket-light:#fff7ed;
+  --shadow:0 2px 16px rgba(0,0,0,.07);--radius:18px;
 }
 body.dark{
   --bg:#0b0f1a;--card:#141928;--border:#1e2740;--text:#e8ecf4;--sub:#8b95a8;
@@ -24,34 +23,29 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
 .header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px;}
 .header h1{font-size:26px;font-weight:900;letter-spacing:-1px;}
-.tagline{font-size:12px;color:var(--sub);font-weight:700;margin-top:4px;}
+.tagline{font-size:11px;color:var(--sub);font-weight:700;margin-top:4px;}
 .dark-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:12px;font-size:12px;font-weight:900;cursor:pointer;}
 
-/* 순환매 전체 보기 토글 */
-.rotation-bar{
-  background:linear-gradient(135deg,#ea580c,#dc2626);
-  border-radius:16px;padding:14px 16px;margin-bottom:14px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-}
-.rotation-bar-left{display:flex;align-items:center;gap:10px;}
-.rotation-bar-icon{font-size:22px;}
-.rotation-bar-text .title{font-size:14px;font-weight:900;color:white;}
-.rotation-bar-text .sub{font-size:11px;color:rgba(255,255,255,.75);font-weight:700;margin-top:2px;}
-.rotation-toggle{background:white;color:#ea580c;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:900;cursor:pointer;font-family:inherit;white-space:nowrap;}
-.rotation-toggle.active{background:#78350f;color:white;}
+/* ── 배너들 ── */
+.banner{border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.banner.teal{background:linear-gradient(135deg,#0f766e,#0d9488);}
+.banner.rocket{background:linear-gradient(135deg,#ea580c,#dc2626);}
+.banner-left{display:flex;align-items:center;gap:10px;}
+.banner-icon{font-size:22px;}
+.banner-text .title{font-size:14px;font-weight:900;color:white;}
+.banner-text .sub{font-size:11px;color:rgba(255,255,255,.75);font-weight:700;margin-top:2px;}
+.banner-btn{background:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:900;cursor:pointer;font-family:inherit;white-space:nowrap;}
+.banner-btn.teal{color:#0f766e;}
+.banner-btn.rocket{color:#ea580c;}
+.banner-btn.active-teal{background:#134e4a;color:white;}
+.banner-btn.active-rocket{background:#7c2d12;color:white;}
 
-.search-wrap{position:relative;margin-bottom:12px;}
-.search-wrap input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 14px 14px 42px;font-size:14px;font-weight:700;color:var(--text);outline:none;font-family:inherit;}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
+/* ── 캘린더·순환매 뷰 ── */
+.extra-view{display:none;}
+.extra-view.open{display:block;}
 
-.fixed-bar{position:sticky;top:0;z-index:40;background:var(--bg);padding:8px 0 12px;}
-.action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-.action-row.three{grid-template-columns:1fr 1fr 1fr;}
-.btn{padding:12px;border:none;border-radius:14px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;color:white;}
-.btn-blue{background:#1d4ed8}.btn-green{background:#16a34a}.btn-purple{background:#7c3aed}
-.btn-orange{background:#ea580c}.btn-red{background:#dc2626}.btn-gray{background:#6b7280}
-
-.dart-key-panel{background:var(--purple-light);border:1px solid #c4b5fd;border-radius:16px;padding:14px;margin-bottom:14px;}
+/* ── DART ── */
+.dart-key-panel{background:var(--purple-light);border:1px solid #c4b5fd;border-radius:16px;padding:14px;margin-bottom:10px;}
 .dart-key-title{font-size:13px;font-weight:900;color:var(--purple);margin-bottom:8px;}
 .dart-key-row{display:flex;gap:8px;}
 .dart-key-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:700;color:var(--text);outline:none;font-family:'JetBrains Mono',monospace;}
@@ -59,30 +53,64 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .dart-key-guide{font-size:11px;color:var(--sub);font-weight:700;margin-top:6px;line-height:1.6;}
 .dart-key-guide a{color:var(--purple);text-decoration:none;font-weight:900;}
 
+/* ── 검색 ── */
+.search-wrap{position:relative;margin-bottom:12px;}
+.search-wrap input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 14px 14px 42px;font-size:14px;font-weight:700;color:var(--text);outline:none;font-family:inherit;}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none;}
+
+/* ── 액션 바 ── */
+.fixed-bar{position:sticky;top:0;z-index:40;background:var(--bg);padding:8px 0 12px;}
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.action-row.three{grid-template-columns:1fr 1fr 1fr;}
+.btn{padding:12px;border:none;border-radius:14px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;color:white;}
+.btn-blue{background:#1d4ed8}.btn-green{background:#16a34a}.btn-purple{background:#7c3aed}
+.btn-orange{background:#ea580c}.btn-red{background:#dc2626}.btn-gray{background:#6b7280}
+
+/* ── 패널 ── */
 .panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:var(--shadow);}
 .panel.open{display:block}
 .panel-title{font-size:16px;font-weight:900;margin-bottom:12px;}
 .form-grid{display:grid;gap:9px;}
 .form-input,.form-select,.form-textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:var(--text);outline:none;font-family:inherit;}
-.form-textarea{min-height:64px;resize:vertical;line-height:1.6;}
+.form-textarea{min-height:60px;resize:vertical;line-height:1.6;}
 .form-label{font-size:11px;font-weight:900;color:var(--sub);margin-bottom:3px;}
 
-/* 순환매 전체 뷰 */
-.rotation-view{display:none;}
-.rotation-view.open{display:block;}
-.rotation-grid{display:grid;gap:10px;}
-.rotation-sector-group{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:var(--shadow);}
-.rotation-sector-name{font-size:14px;font-weight:900;color:var(--sub);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.rotation-sector-name span{background:var(--blue);color:white;padding:2px 8px;border-radius:999px;font-size:10px;}
-.rotation-stocks{display:grid;gap:8px;}
+/* ── 자동완성 박스 ── */
+.autofill-wrap{position:relative;}
+.autofill-dropdown{
+  display:none;position:absolute;top:100%;left:0;right:0;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:100;
+  max-height:200px;overflow-y:auto;margin-top:4px;
+}
+.autofill-dropdown.open{display:block;}
+.autofill-item{padding:10px 12px;font-size:13px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.autofill-item:hover{background:var(--blue-light);}
+.autofill-sector-tag{font-size:10px;font-weight:900;color:var(--sub);background:var(--border);padding:2px 6px;border-radius:999px;white-space:nowrap;}
 
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+/* ── 자동입력 알림 배지 ── */
+.autofill-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--green-light);color:var(--green);
+  border:1px solid #86efac;border-radius:999px;
+  font-size:11px;font-weight:900;padding:4px 9px;
+  margin-bottom:6px;animation:fadeIn .3s;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.autofill-badge.hidden{display:none;}
+
+/* ── highlight 효과 ── */
+@keyframes highlight{0%{background:var(--green-light)}100%{background:transparent}}
+.just-filled{animation:highlight .8s ease-out;}
+
+/* ── 통계 바 ── */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 10px;text-align:center;}
 .stat-num{font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;}
 .stat-label{font-size:10px;color:var(--sub);font-weight:700;margin-top:2px;}
 
-.section-title{font-size:13px;font-weight:900;color:var(--sub);text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px;}
-
+/* ── 섹터 카드 ── */
+.section-title{font-size:13px;font-weight:900;color:var(--sub);text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px;}
 .sector-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);}
 .sector-head{display:flex;justify-content:space-between;align-items:flex-start;cursor:pointer;gap:10px;}
 .sector-name-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -92,8 +120,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .preview-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
 .preview-chip{background:var(--blue-light);color:var(--blue);padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;}
 .preview-chip.rocket{background:var(--rocket-light);color:var(--rocket);}
+.preview-chip.imminent{background:#fee2e2;color:#b91c1c;}
 .toggle-btn{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:10px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-
 .detail{display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px;}
 .detail.open{display:block}
 .leader-box{background:var(--blue-light);border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
@@ -103,12 +131,14 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .filter-btn{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:999px;font-size:12px;font-weight:900;cursor:pointer;}
 .filter-btn.active{background:var(--blue);color:white;border-color:var(--blue);}
 .filter-btn.rocket-btn{border-color:var(--rocket);color:var(--rocket);}
-.filter-btn.rocket-btn.active{background:var(--rocket);color:white;border-color:var(--rocket);}
+.filter-btn.rocket-btn.active{background:var(--rocket);color:white;}
 
+/* ── 종목 카드 ── */
 .stock-list{display:grid;gap:10px;}
 .stock-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px;}
 .stock-card.is-rocket{border-left:3px solid var(--rocket);background:linear-gradient(to right,var(--rocket-light),var(--bg));}
-.stock-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px;}
+.stock-card.has-imminent{border-top:2px solid #dc2626;}
+.stock-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
 .sname{font-size:15px;font-weight:900;}
 .ssub{font-size:11px;color:var(--sub);font-weight:700;margin-top:2px;}
 .badge-row{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
@@ -117,26 +147,32 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .type-소재{background:#bbf7d0;color:#14532d;}.type-부품{background:#fde68a;color:#78350f;}
 .type-완성품{background:#c4b5fd;color:#3b0764;}.type-플랫폼{background:#fbcfe8;color:#831843;}
 .type-신약{background:#fed7aa;color:#7c2d12;}.type-AI{background:#e0e7ff;color:#3730a3;}
-.type-기타{background:#f1f5f9;color:#475569;}
 .type-순환매{background:linear-gradient(135deg,#ea580c,#dc2626);color:white;}
+.type-기타{background:#f1f5f9;color:#475569;}
 .status-badge{padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;}
 .status-관심{background:var(--blue-light);color:var(--blue);}.status-매수대기{background:var(--yellow-light);color:var(--yellow);}
 .status-보유{background:var(--green-light);color:var(--green);}.status-매도검토{background:var(--red-light);color:var(--red);}
+.earnings-row{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap;}
+.e-badge{padding:4px 9px;border-radius:999px;font-size:11px;font-weight:900;}
+.e-today{background:#dc2626;color:white;animation:pulse 1s infinite;}
+.e-urgent{background:#fee2e2;color:#b91c1c;}.e-soon{background:#fef3c7;color:#92400e;}
+.e-far{background:var(--blue-light);color:var(--blue);}.e-past{background:#f1f5f9;color:#6b7280;}.e-none{background:var(--border);color:var(--sub);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.spike-history{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;}
+.spike-chip{background:var(--rocket-light);color:var(--rocket);border:1px solid #fed7aa;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:900;}
+body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
 .stock-btns{display:flex;gap:5px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
 .icon-btn{border:none;border-radius:10px;font-size:11px;font-weight:900;cursor:pointer;padding:7px 10px;color:white;font-family:inherit;white-space:nowrap;}
 .btn-chart{background:#0ea5e9}.btn-info{background:#8b5cf6}.btn-del{background:#ef4444}
-
-/* 순환매 급등 히스토리 뱃지 */
-.spike-history{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
-.spike-chip{background:var(--rocket-light);color:var(--rocket);border:1px solid #fed7aa;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:900;}
-body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
-
-.scontrols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.scontrols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0;}
 .scontrols select,.scontrols input{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:var(--text);outline:none;font-family:inherit;width:100%;}
-.memo-lbl{font-size:11px;font-weight:900;color:var(--blue);margin-bottom:4px;}
+.lbl-sm{font-size:11px;font-weight:900;color:var(--blue);margin-bottom:4px;}
 .memo-ta{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:var(--text);outline:none;font-family:inherit;min-height:52px;resize:vertical;line-height:1.5;}
+.e-edit{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap;}
+.e-input{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:7px 10px;font-size:12px;font-weight:700;color:var(--text);outline:none;font-family:inherit;}
+.e-input[type="date"]{flex:1;min-width:130px;}.e-input.note{flex:2;min-width:110px;}
 
-/* MODAL */
+/* ── 모달 ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;padding:16px;align-items:flex-end;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal-box{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:540px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,.25);}
@@ -147,10 +183,8 @@ body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
 .quick-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
 .quick-btn{border:none;border-radius:14px;padding:14px 10px;font-size:12px;font-weight:900;cursor:pointer;color:white;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:5px;line-height:1.3;text-align:center;}
 .quick-btn .icon{font-size:22px;}
-.q-naver{background:linear-gradient(135deg,#03c75a,#028a3d);}
-.q-naverstock{background:linear-gradient(135deg,#0ea5e9,#0369a1);}
-.q-dart{background:linear-gradient(135deg,#8b5cf6,#5b21b6);}
-.q-tv{background:linear-gradient(135deg,#1d4ed8,#1e3a8a);}
+.q-naver{background:linear-gradient(135deg,#03c75a,#028a3d);}.q-naverstock{background:linear-gradient(135deg,#0ea5e9,#0369a1);}
+.q-dart{background:linear-gradient(135deg,#8b5cf6,#5b21b6);}.q-tv{background:linear-gradient(135deg,#1d4ed8,#1e3a8a);}
 .dart-section-title{font-size:13px;font-weight:900;margin-bottom:10px;}
 .dart-loading{text-align:center;padding:24px;color:var(--sub);font-size:13px;font-weight:700;}
 .dart-spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:8px;}
@@ -170,6 +204,36 @@ body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
 .dart-nokey p{font-size:13px;font-weight:700;color:var(--purple);line-height:1.7;}
 .dart-nokey a{color:var(--purple);font-weight:900;}
 .dart-nokey button{margin-top:10px;width:100%;background:var(--purple);color:white;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;}
+
+/* ── 캘린더 뷰 ── */
+.cal-header-info{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow);}
+.cal-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.cal-filter-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:7px 13px;border-radius:999px;font-size:12px;font-weight:900;cursor:pointer;}
+.cal-filter-btn.active{background:#0f766e;color:white;border-color:#0f766e;}
+.cal-group{margin-bottom:16px;}
+.cal-group-title{font-size:12px;font-weight:900;color:var(--sub);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px;}
+.cal-cards{display:grid;gap:8px;}
+.cal-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);}
+.cal-card.urgent{border-left:3px solid #dc2626;}.cal-card.soon{border-left:3px solid #f59e0b;}
+.cal-card.normal{border-left:3px solid var(--blue);}.cal-card.past{border-left:3px solid #9ca3af;opacity:.7;}
+.cal-dday{min-width:60px;text-align:center;}
+.cal-dday .dd-num{font-size:18px;font-weight:900;font-family:'JetBrains Mono',monospace;line-height:1;}
+.cal-dday .dd-label{font-size:10px;font-weight:700;color:var(--sub);margin-top:2px;}
+.cal-dday.urgent .dd-num{color:#dc2626;}.cal-dday.soon .dd-num{color:#f59e0b;}
+.cal-dday.normal .dd-num{color:var(--blue);}.cal-dday.past .dd-num{color:#9ca3af;}.cal-dday.today .dd-num{color:#dc2626;}
+.cal-info{flex:1;min-width:0;}
+.cal-stock-name{font-size:14px;font-weight:900;}
+.cal-sector-chip{display:inline-block;background:var(--blue-light);color:var(--blue);padding:2px 7px;border-radius:999px;font-size:10px;font-weight:900;margin-top:3px;}
+.cal-earnings-note{font-size:11px;color:var(--sub);font-weight:700;margin-top:3px;}
+.cal-btns{display:flex;gap:5px;flex-shrink:0;}
+.cal-btn{border:none;border-radius:8px;font-size:11px;font-weight:900;cursor:pointer;padding:6px 9px;color:white;font-family:inherit;}
+.cb-chart{background:#0ea5e9;}.cb-info{background:#8b5cf6;}.cb-naver{background:#03c75a;}
+
+/* ── 순환매 뷰 ── */
+.rotation-sector-group{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow);}
+.rotation-sector-name{font-size:14px;font-weight:900;color:var(--sub);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.rotation-sector-name span{background:var(--blue);color:white;padding:2px 8px;border-radius:999px;font-size:10px;}
+.rotation-stocks{display:grid;gap:8px;}
 .reset-wrap{margin-top:12px;text-align:center;}
 .reset-btn{background:none;border:1px solid var(--border);color:var(--sub);padding:10px 20px;border-radius:12px;font-size:12px;font-weight:900;cursor:pointer;font-family:inherit;}
 </style>
@@ -179,42 +243,50 @@ body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
 <div class="header">
   <div>
     <h1>🇰🇷 섹터맵 Pro</h1>
-    <div class="tagline">대장주 · 소부장 · 🚀 순환매 소형주 · DART 공시</div>
+    <div class="tagline">대장주 · 소부장 · 🚀 순환매 · 📅 실적 D-day · ✨ 자동입력</div>
   </div>
   <button class="dark-btn" onclick="toggleDark()">🌙 다크</button>
 </div>
 
-<!-- 순환매 소형주 전체 보기 토글 -->
-<div class="rotation-bar">
-  <div class="rotation-bar-left">
-    <div class="rotation-bar-icon">🚀</div>
-    <div class="rotation-bar-text">
-      <div class="title">순환매 급등 소형주 모아보기</div>
-      <div class="sub">섹터 불 때 따라 올라오는 테마 소형주 전종목</div>
+<div class="banner teal">
+  <div class="banner-left">
+    <div class="banner-icon">📅</div>
+    <div class="banner-text">
+      <div class="title">실적발표 캘린더</div>
+      <div class="sub" id="calSummaryText">로딩 중...</div>
     </div>
   </div>
-  <button class="rotation-toggle" id="rotationToggleBtn" onclick="toggleRotationView()">전체 보기</button>
+  <button class="banner-btn teal" id="calToggleBtn" onclick="toggleCal()">캘린더 보기</button>
 </div>
+<div class="extra-view" id="calView"></div>
 
-<!-- 순환매 전체 뷰 -->
-<div class="rotation-view" id="rotationView"></div>
+<div class="banner rocket">
+  <div class="banner-left">
+    <div class="banner-icon">🚀</div>
+    <div class="banner-text">
+      <div class="title">순환매 급등 소형주 모아보기</div>
+      <div class="sub">섹터 불 때 따라 올라오는 테마 소형주</div>
+    </div>
+  </div>
+  <button class="banner-btn rocket" id="rotToggleBtn" onclick="toggleRot()">전체 보기</button>
+</div>
+<div class="extra-view" id="rotView"></div>
 
-<!-- DART KEY -->
 <div class="dart-key-panel">
   <div class="dart-key-title">📋 DART 전자공시 API 연동</div>
   <div class="dart-key-row">
-    <input type="password" id="dartKeyInput" placeholder="DART OpenAPI 키 입력" />
+    <input type="password" id="dartKeyInput" placeholder="DART OpenAPI 키 입력"/>
     <button onclick="saveDartKey()">저장</button>
   </div>
   <div class="dart-key-guide">
-    키 없으면 → <a href="https://opendart.fss.or.kr" target="_blank">opendart.fss.or.kr</a> 무료 발급<br>
+    <a href="https://opendart.fss.or.kr" target="_blank">opendart.fss.or.kr</a> 무료 발급 후 입력하면 공시가 앱 안에서 바로 조회돼요<br>
     <span id="dartKeyStatus"></span>
   </div>
 </div>
 
 <div class="search-wrap">
   <span class="search-icon">🔍</span>
-  <input id="searchInput" placeholder="섹터명, 종목명, 메모 검색..." />
+  <input id="searchInput" placeholder="섹터명, 종목명, 메모 검색..."/>
 </div>
 
 <div class="fixed-bar">
@@ -230,22 +302,34 @@ body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
 </div>
 <input id="restoreFile" type="file" accept=".json" style="display:none" onchange="restoreData(event)"/>
 
+<!-- 섹터 추가 패널 -->
 <div id="sectorPanel" class="panel">
   <div class="panel-title">📁 섹터 추가</div>
   <div class="form-grid">
-    <input id="newSectorName" class="form-input" placeholder="섹터명 예: 원전"/>
-    <input id="newSectorDesc" class="form-input" placeholder="설명"/>
-    <input id="newSectorScore" class="form-input" type="number" placeholder="섹터점수 1~100"/>
+    <div class="autofill-wrap">
+      <div class="form-label">섹터명</div>
+      <input id="newSectorName" class="form-input" placeholder="예: 원전, 로봇, 반도체..." oninput="autoFillSector()"/>
+      <div class="autofill-dropdown" id="sectorDropdown"></div>
+    </div>
+    <input id="newSectorDesc" class="form-input" placeholder="섹터 설명 (자동입력됩니다)"/>
+    <input id="newSectorScore" class="form-input" type="number" placeholder="섹터점수 1~100 (자동입력됩니다)"/>
+    <div id="sectorAutofillBadge" class="autofill-badge hidden">✨ 섹터 정보 자동입력 완료</div>
     <button class="btn btn-blue" onclick="addSector()">저장</button>
   </div>
 </div>
 
+<!-- 종목 추가 패널 -->
 <div id="stockPanel" class="panel">
   <div class="panel-title">📈 종목 추가</div>
   <div class="form-grid">
     <div><div class="form-label">소속 섹터</div><select id="stockSectorSelect" class="form-select"></select></div>
-    <div><div class="form-label">종목명</div><input id="newStockName" class="form-input" placeholder="예: 삼성전자" oninput="autoFillCode()"/></div>
-    <div><div class="form-label">차트코드</div><input id="newStockCode" class="form-input" placeholder="예: KRX:005930"/></div>
+    <div class="autofill-wrap">
+      <div class="form-label">종목명 <span style="color:var(--green);font-weight:900;font-size:10px;">✨ 입력하면 자동완성</span></div>
+      <input id="newStockName" class="form-input" placeholder="예: 삼성전자, SK하이닉스..." oninput="autoFillStock()" autocomplete="off"/>
+      <div class="autofill-dropdown" id="stockDropdown"></div>
+    </div>
+    <div id="stockAutofillBadge" class="autofill-badge hidden">✨ 회사 정보 자동입력 완료</div>
+    <div><div class="form-label">차트코드</div><input id="newStockCode" class="form-input" placeholder="예: KRX:005930 (자동입력됩니다)"/></div>
     <div><div class="form-label">구분</div>
       <select id="newStockType" class="form-select">
         <option>대장주</option><option>장비</option><option>소재</option><option>부품</option>
@@ -253,17 +337,21 @@ body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
         <option>순환매</option><option>기타</option>
       </select>
     </div>
-    <div><div class="form-label">시총점수</div><input id="newStockCap" class="form-input" type="number" placeholder="예: 2"/></div>
-    <div><div class="form-label">목표가</div><input id="newStockTarget" class="form-input" placeholder="예: 15,000원"/></div>
+    <div><div class="form-label">시총점수</div><input id="newStockCap" class="form-input" type="number" placeholder="예: 5"/></div>
+    <div><div class="form-label">목표가</div><input id="newStockTarget" class="form-input" placeholder="예: 95,000원"/></div>
     <div><div class="form-label">매매 상태</div>
       <select id="newStockStatus" class="form-select">
         <option>관심</option><option>매수대기</option><option>보유</option><option>매도검토</option>
       </select>
     </div>
-    <div><div class="form-label">급등 트리거 (순환매 종목이면 언제 올랐는지)</div>
-      <input id="newStockSpike" class="form-input" placeholder="예: 방산수주·방산ETF급등시"/>
+    <div><div class="form-label">📅 실적발표일 (예정)</div><input id="newStockEarnings" class="form-input" type="date"/></div>
+    <div><div class="form-label">실적 구분</div><input id="newStockEarningsNote" class="form-input" placeholder="예: 2Q26 잠정실적 (자동입력됩니다)"/></div>
+    <div><div class="form-label">⚡ 급등 트리거 <span style="color:var(--green);font-size:10px;">✨ 자동입력</span></div>
+      <input id="newStockSpike" class="form-input" placeholder="예: AI반도체 ETF 급등시 (자동입력됩니다)"/>
     </div>
-    <div><div class="form-label">메모</div><textarea id="newStockMemo" class="form-textarea" placeholder="투자 근거, 리스크, 모멘텀 등"></textarea></div>
+    <div><div class="form-label">📝 회사 특징 메모 <span style="color:var(--green);font-size:10px;">✨ 자동입력</span></div>
+      <textarea id="newStockMemo" class="form-textarea" placeholder="회사 특징과 투자 근거 (자동입력됩니다)"></textarea>
+    </div>
     <button class="btn btn-green" onclick="addStock()">종목 저장</button>
   </div>
 </div>
@@ -283,7 +371,7 @@ body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
 </div>
 
 <div class="stats-bar" id="statsBar"></div>
-<div class="section-title" id="mainSectionTitle">섹터 목록</div>
+<div class="section-title">섹터 목록</div>
 <div id="sectorList"></div>
 <div class="reset-wrap"><button class="reset-btn" onclick="resetData()">초기 데이터로 복구</button></div>
 
@@ -299,365 +387,511 @@ body.dark .spike-chip{background:#3b1f0a;color:#fb923c;border-color:#7c2d12;}
 </div>
 
 <script>
-/* ══════════ 종목 코드맵 ══════════ */
-const stockCodeMap={
-  /* 반도체 */
-  "삼성전자":"KRX:005930","SK하이닉스":"KRX:000660","한미반도체":"KRX:042700",
-  "리노공업":"KOSDAQ:058470","솔브레인":"KOSDAQ:357780","DB하이텍":"KRX:000990",
-  "원익IPS":"KOSDAQ:240810","주성엔지니어링":"KOSDAQ:036930","이오테크닉스":"KOSDAQ:039030",
-  "동진쎄미켐":"KOSDAQ:005290","HPSP":"KOSDAQ:403870",
-  "가온칩스":"KOSDAQ:399720","퀄리타스반도체":"KOSDAQ:432720","칩스앤미디어":"KOSDAQ:094360",
-  "오픈엣지테크놀로지":"KOSDAQ:394870","유니테스트":"KOSDAQ:086390","테크윙":"KOSDAQ:089030",
-  "SFA반도체":"KRX:036540",
-  /* 조선 */
-  "HD현대중공업":"KRX:329180","한화오션":"KRX:042660","삼성중공업":"KRX:010140",
-  "HD한국조선해양":"KRX:009540","현대미포조선":"KRX:010620","HSD엔진":"KRX:082740",
-  "세진중공업":"KOSDAQ:075580","동성화인텍":"KRX:033500","한국카본":"KRX:017960",
-  "성광벤드":"KOSDAQ:014620","STX":"KRX:011810","태광":"KRX:023160",
-  /* 방산 */
-  "한화에어로스페이스":"KRX:012450","LIG넥스원":"KRX:079550","현대로템":"KRX:064350",
-  "한국항공우주":"KRX:047810","풍산":"KRX:103140","한화시스템":"KRX:272210","빅텍":"KOSDAQ:065690",
-  "쎄트렉아이":"KOSDAQ:099830","퍼스텍":"KOSDAQ:010820","아스트":"KOSDAQ:067390",
-  "켄코아에어로스페이스":"KOSDAQ:274090","이노뎁":"KOSDAQ:307131","스페코":"KOSDAQ:013810",
-  /* 원전 */
-  "두산에너빌리티":"KRX:034020","한전기술":"KRX:052690","비에이치아이":"KOSDAQ:083650",
-  "우진":"KOSDAQ:105840","한전KPS":"KRX:051600","보성파워텍":"KOSDAQ:006162",
-  "우진엔텍":"KOSDAQ:369990","일진파워":"KOSDAQ:094820","수산인더스트리":"KOSDAQ:097780",
-  "한전산업":"KRX:130660","에너토크":"KOSDAQ:066700",
-  /* 전력인프라 */
-  "HD현대일렉트릭":"KRX:267260","LS ELECTRIC":"KRX:010120","효성중공업":"KRX:298040",
-  "일진전기":"KRX:103590","대한전선":"KRX:001440","가온전선":"KRX:000500","LS":"KRX:006260",
-  "제일전기공업":"KOSDAQ:093190","선도전기":"KOSDAQ:006090","광명전기":"KOSDAQ:017010",
-  "대원전선":"KRX:006340","엘에스에코에너지":"KOSDAQ:229660",
-  /* 로봇 */
-  "두산로보틱스":"KRX:454910","레인보우로보틱스":"KOSDAQ:277810","에스비비테크":"KOSDAQ:389500",
-  "로보티즈":"KOSDAQ:108490","스맥":"KRX:099440",
-  "에스피지":"KRX:058610","티로보틱스":"KOSDAQ:117730","뉴로메카":"KOSDAQ:348680",
-  "라온테크":"KOSDAQ:232680","삼익THK":"KRX:004380",
-  /* 2차전지 */
-  "LG에너지솔루션":"KRX:373220","삼성SDI":"KRX:006400","SK이노베이션":"KRX:096770",
-  "포스코퓨처엠":"KRX:003670","에코프로비엠":"KOSDAQ:247540","엘앤에프":"KRX:066970",
-  "에코프로":"KOSDAQ:086520","천보":"KOSDAQ:278280",
-  "나노신소재":"KOSDAQ:091970","엔켐":"KOSDAQ:348370","동화기업":"KRX:025900",
-  "코스모신소재":"KOSDAQ:005070","상아프론테크":"KOSDAQ:089980","씨아이에스":"KOSDAQ:222080",
-  /* 자동차 */
-  "현대차":"KRX:005380","기아":"KRX:000270","현대모비스":"KRX:012330",
-  "HL만도":"KRX:204320","현대위아":"KRX:011210",
-  "모베이스":"KOSDAQ:101330","서연이화":"KRX:200880","화신":"KRX:010690",
-  /* 바이오 */
-  "삼성바이오로직스":"KRX:207940","셀트리온":"KRX:068270","유한양행":"KRX:000100",
-  "알테오젠":"KOSDAQ:196170","리가켐바이오":"KOSDAQ:141080","한미약품":"KRX:128940",
-  "에이비엘바이오":"KOSDAQ:298380",
-  "오스코텍":"KOSDAQ:039200","파멥신":"KOSDAQ:208340","압타바이오":"KOSDAQ:293780",
-  "제넥신":"KOSDAQ:095700","메드팩토":"KOSDAQ:235980",
-  /* AI/플랫폼 */
-  "NAVER":"KRX:035420","카카오":"KRX:035720","더존비즈온":"KRX:012510",
-  "솔트룩스":"KOSDAQ:304100","크래프톤":"KRX:259960",
-  "코난테크놀로지":"KOSDAQ:402030","셀바스AI":"KOSDAQ:108860",
-  "라온시큐어":"KOSDAQ:042510","마인즈랩":"KOSDAQ:377480"
+/* ══════════════════════════════════════════
+   ✨ 자동완성 데이터베이스
+══════════════════════════════════════════ */
+const stockInfoMap = {
+  /* ── 반도체 ── */
+  "삼성전자":     {code:"KRX:005930",  type:"대장주", cap:470, sector:"반도체", earningsNote:"2Q26 잠정", spike:"엔비디아 실적 호조·HBM 납품 계약 뉴스·반도체 업황 반등 신호", memo:"메모리·파운드리·MX 통합 대기업. HBM 추격 중이며 파운드리 수율 개선이 핵심 모멘텀. 엔비디아·AMD 납품처 확대 여부가 주가 향방 결정."},
+  "SK하이닉스":   {code:"KRX:000660",  type:"대장주", cap:150, sector:"반도체", earningsNote:"2Q26 잠정", spike:"엔비디아 실적·GB시리즈 출하량·HBM 수요 급증 뉴스·AI서버 투자 확대", memo:"HBM3E 공급 선두. 엔비디아 GB200·B시리즈 핵심 납품사. AI 서버 투자 확대의 최대 직접 수혜주. 공급 대비 수요 초과 상태 지속."},
+  "한미반도체":   {code:"KRX:042700",  type:"장비",   cap:12,  sector:"반도체", earningsNote:"2Q26",      spike:"SK하이닉스 HBM 캐파 확장 발표·반도체 장비주 강세 장세", memo:"HBM 패키징 핵심 장비인 TC본더를 독점 공급. SK하이닉스 캐파 증설과 매출이 직결. 고객사 집중 리스크 존재하나 HBM 수요 구조적 성장으로 중장기 우위."},
+  "원익IPS":      {code:"KOSDAQ:240810",type:"장비",  cap:4,   sector:"반도체", earningsNote:"2Q26",      spike:"삼성·하이닉스 장비 발주 확대·신규 팹 투자 뉴스", memo:"CVD·ALD 증착 장비 국산화 선두. 삼성전자·SK하이닉스 동시 납품으로 고객 분산. 첨단 공정 전환 시 수주 증가."},
+  "주성엔지니어링":{code:"KOSDAQ:036930",type:"장비", cap:3,   sector:"반도체", earningsNote:"2Q26",      spike:"ALD 공정 중요성 부각·차세대 반도체 공정 전환시", memo:"원자층 증착(ALD) 장비 전문. 원자 단위 초박막 공정 필수 장비 공급사. 고종횡비 구조물 패턴에서 경쟁력."},
+  "솔브레인":     {code:"KOSDAQ:357780",type:"소재",  cap:3,   sector:"반도체", earningsNote:"2Q26",      spike:"반도체 소재 국산화·업황 반등 초입 장세", memo:"식각액·전해액·CMP슬러리 등 핵심 반도체 소재 공급. 국산화 수혜 기업. 안정적 매출 기반에 신규 소재 추가로 성장성 확보."},
+  "동진쎄미켐":   {code:"KOSDAQ:005290",type:"소재",  cap:2,   sector:"반도체", earningsNote:"2Q26",      spike:"EUV 포토레지스트 국산화·소재 업황 개선시", memo:"포토레지스트(PR)·전자재료 화학소재 전문. EUV용 PR 개발로 고부가 소재로 전환 중. 국산화 테마 수혜."},
+  "리노공업":     {code:"KOSDAQ:058470",type:"부품",  cap:4,   sector:"반도체", earningsNote:"2Q26",      spike:"반도체 테스트 수요 급증·HBM 양산 가속화", memo:"반도체 테스트 소켓·핀 제조 고마진 기업. 시장 내 독보적 지위와 안정적 고마진 구조가 특징. 장기 보유 우량주 성격."},
+  "HPSP":         {code:"KOSDAQ:403870",type:"장비",  cap:2,   sector:"반도체", earningsNote:"2Q26",      spike:"삼성·TSMC 고압어닐링 도입 확대·3나노 이하 공정 확산", memo:"고압 수소 어닐링 장비 독점 기술 보유. 삼성·SK하이닉스·TSMC 동시 공급. 3나노 이하 첨단 공정에서 반드시 사용하는 장비."},
+  "가온칩스":     {code:"KOSDAQ:399720",type:"순환매",cap:1,   sector:"반도체", earningsNote:"",          spike:"AI반도체·엔비디아 급등시·온디바이스 AI 부각시", memo:"ARM 기반 AI칩 설계(팹리스). SKT 자회사. 엔비디아 랠리 때마다 국내 팹리스 대표주로 동반 급등."},
+  "퀄리타스반도체":{code:"KOSDAQ:432720",type:"순환매",cap:1,  sector:"반도체", earningsNote:"",          spike:"HBM·AI반도체 테마 확산시·고대역폭 인터페이스 부각시", memo:"HBM·메모리 인터페이스 IP 설계 팹리스. 소형주 특성상 테마 확산 시 변동성 극대화."},
+  "테크윙":       {code:"KOSDAQ:089030",type:"순환매",cap:1,   sector:"반도체", earningsNote:"2Q26",      spike:"메모리 업황 상승 전환·반도체 핸들러 발주 증가시", memo:"반도체 핸들러·번인소켓 제조. 메모리 업황 반등 초입 순환매 수혜. SK하이닉스·삼성 발주와 연동."},
+
+  /* ── 전력인프라 ── */
+  "HD현대일렉트릭":{code:"KRX:267260",  type:"대장주",cap:8,   sector:"전력인프라",earningsNote:"2Q26 잠정",spike:"美 전력망 교체 수주 발표·초고압 변압기 글로벌 수요 급증 뉴스", memo:"초고압 변압기 글로벌 공급 선두. 미국 전력망 노후화 교체 수혜. 수주잔고 사상 최고 경신 중이며 AI 데이터센터 전력 수요 직접 수혜."},
+  "LS ELECTRIC":  {code:"KRX:010120",   type:"대장주",cap:5,   sector:"전력인프라",earningsNote:"2Q26",    spike:"전력 설비 투자 확대·배전 인프라 업그레이드 뉴스", memo:"변압기·배전반·솔루션·EV 충전 복합 기업. LS그룹 전력 사업 핵심. 해외 수주 확대로 성장성 강화."},
+  "효성중공업":   {code:"KRX:298040",   type:"완성품",cap:4,   sector:"전력인프라",earningsNote:"2Q26",    spike:"미국 GE버노바 수출 확대·초고압 변압기 수주 급증시", memo:"초고압 변압기·차단기 제조. 미국 GE버노바 OEM 공급. 전력인프라 수혜 핵심 소재."},
+  "일진전기":     {code:"KRX:103590",   type:"부품",  cap:1,   sector:"전력인프라",earningsNote:"2Q26",    spike:"전력 인프라 투자 증가·중대형 변압기 발주 확대시", memo:"중·대형 변압기·GIS 전문. 전력망 현대화 수혜. HD현대일렉트릭 강세 후 동반 주목받는 부품주."},
+  "대한전선":     {code:"KRX:001440",   type:"소재",  cap:2,   sector:"전력인프라",earningsNote:"2Q26",    spike:"해저케이블 수주·전력케이블 수요 급증시", memo:"초고압 전력케이블 및 해저케이블 진출 중. 신재생에너지 해상풍력 연결망 구축 수혜 기대."},
+  "LS":           {code:"KRX:006260",   type:"대장주",cap:3,   sector:"전력인프라",earningsNote:"2Q26",    spike:"LS ELECTRIC 급등·LS엠트론 실적 호조·그룹 전력 수혜", memo:"LS ELECTRIC 지주 성격. 전력·소재·트레이딩 복합. LS그룹 전력 인프라 수혜 통합 수취."},
+  "제일전기공업": {code:"KOSDAQ:093190",type:"순환매",cap:1,   sector:"전력인프라",earningsNote:"",          spike:"변압기·전력인프라 ETF 급등시·HD현대일렉트릭 강세시", memo:"배전반·분전반 제조 소형주. 전력인프라 테마 확산 시 대형주 급등 이후 빠르게 동반 상승하는 단골 순환매."},
+  "선도전기":     {code:"KOSDAQ:006090",type:"순환매",cap:1,   sector:"전력인프라",earningsNote:"",          spike:"전력망·스위치기어 부각시·전력인프라 2차 순환매", memo:"전력 스위치기어·배전반 소형주. 전력인프라 1차 수혜 이후 2차 순환매 수혜주로 자주 등장."},
+  "광명전기":     {code:"KOSDAQ:017010",type:"순환매",cap:1,   sector:"전력인프라",earningsNote:"",          spike:"국내 배전 투자 확대·몰드변압기 수요 증가시", memo:"몰드변압기 전문 소형주. 국내 배전 인프라 투자 수혜. 대형 변압기주 강세 이후 소형주 순환."},
+
+  /* ── 원전 ── */
+  "두산에너빌리티":{code:"KRX:034020",  type:"대장주",cap:6,   sector:"원전",  earningsNote:"2Q26",      spike:"원전 수출 계약·SMR 발주·원전 르네상스 부각 뉴스", memo:"원전 주기기(원자로·터빈·증기발생기) 독점 공급사. APR1400 및 SMR 핵심 밸류체인. 체코·폴란드·중동 수출 모멘텀."},
+  "한전기술":     {code:"KRX:052690",   type:"대장주",cap:3,   sector:"원전",  earningsNote:"2Q26",      spike:"원전 설계 수출 계약·원전 르네상스 부각시", memo:"원전 설계 전문 기업. 한국전력 자회사로 APR1400 기본 설계 보유. 수출 확대 시 직접 수혜."},
+  "비에이치아이":  {code:"KOSDAQ:083650",type:"부품", cap:1,   sector:"원전",  earningsNote:"2Q26",      spike:"원전 보조기기 수주·두산에너빌리티 강세시", memo:"원전 보조기기·폐열회수장치(HRSG) 제조. 원전과 가스발전 겸업으로 안정성 확보."},
+  "한전KPS":      {code:"KRX:051600",   type:"기타",  cap:2,   sector:"원전",  earningsNote:"2Q26",      spike:"원전 가동률 상승·정비 수요 증가·배당 관련 정책 변화", memo:"국내외 원전·화력 정비 전문. 안정적 매출과 배당 성향이 높아 배당주 성격. 원전 르네상스 수혜 방어주."},
+  "우진":         {code:"KOSDAQ:105840",type:"부품",  cap:1,   sector:"원전",  earningsNote:"2Q26",      spike:"원전 계측제어 국산화·수출 계약 체결시", memo:"원전 계측·제어 기기 국산화 선도 기업. 해외 원전 수출 시 국산 계측제어 패키지 수요 증가."},
+  "우진엔텍":     {code:"KOSDAQ:369990",type:"순환매",cap:1,   sector:"원전",  earningsNote:"",          spike:"체코·폴란드·중동 원전수출 뉴스·원자력 정책 호재시", memo:"원전 정비 전문 소형주. 우진 그룹 계열. 원전 수출 소식 때마다 원자력 관련주 순환매에 편입."},
+  "일진파워":     {code:"KOSDAQ:094820",type:"순환매",cap:1,   sector:"원전",  earningsNote:"",          spike:"SMR·원전 르네상스 부각·발전소 투자 확대시", memo:"발전소용 열교환기·압력용기 제조. 원전과 가스발전 양방향 수혜 가능. 원전 소형주 테마 순환매 대표주."},
+  "수산인더스트리":{code:"KOSDAQ:097780",type:"순환매",cap:1,  sector:"원전",  earningsNote:"",          spike:"원전 해체·SMR 테마 확산시", memo:"원전 부품 및 해체 장비 제조. 원전 신규 건설·해체 양방향 스토리 보유. 원자력 테마 확산 시 편입."},
+  "에너토크":     {code:"KOSDAQ:066700",type:"순환매",cap:1,   sector:"원전",  earningsNote:"",          spike:"두산에너빌리티 급등·원전 밸류체인 순환매시", memo:"원전용 전동밸브 액추에이터 전문 소형주. 두산에너빌리티 강세 이후 원전 부품 소형주 순환매에 편입."},
+
+  /* ── 방산 ── */
+  "한화에어로스페이스":{code:"KRX:012450",type:"대장주",cap:20,sector:"방산",  earningsNote:"2Q26 잠정",spike:"K방산 수출 계약·폴란드·루마니아 수주·항공엔진 수주 뉴스", memo:"K9 자주포·항공엔진·SAM 포괄 K방산 대표주. 폴란드·루마니아 수출 확대 중. 국내 항공방산 밸류체인 핵심 기업."},
+  "LIG넥스원":    {code:"KRX:079550",   type:"완성품",cap:5,   sector:"방산",  earningsNote:"2Q26",      spike:"미사일 수출 계약·중동·동유럽 방산 수주 뉴스", memo:"미사일·레이더·유도무기·통신 전문 방산. 중동·동유럽 수출 급증. 천궁-II·비호복합 등 수출 경쟁력 보유."},
+  "현대로템":     {code:"KRX:064350",   type:"완성품",cap:6,   sector:"방산",  earningsNote:"2Q26",      spike:"K2 전차 수출·레드백 IFV 수주·철도 수주 뉴스", memo:"K2 전차·레드백 IFV 제조. 폴란드·루마니아 K2 수출 계약. 철도 사업도 병행해 이중 성장 동력."},
+  "한국항공우주":  {code:"KRX:047810",  type:"완성품",cap:5,   sector:"방산",  earningsNote:"2Q26",      spike:"FA-50 수출 계약·T-50 추가 수주·우주발사체 관련 뉴스", memo:"T-50·FA-50 훈련기·경공격기 제조. 말레이시아·폴란드 등 수출. KF-21 보라매 양산 수혜. 항공기 부품도 병행."},
+  "한화시스템":   {code:"KRX:272210",   type:"부품",  cap:3,   sector:"방산",  earningsNote:"2Q26",      spike:"레이더·위성 수출·전자전 장비 수주 뉴스", memo:"레이더·전자전·SAR위성·통신 방산. 한화에어로스페이스 계열. AI 기반 방산 전자 솔루션 영역 확장."},
+  "풍산":         {code:"KRX:103140",   type:"소재",  cap:2,   sector:"방산",  earningsNote:"2Q26",      spike:"탄약 수출 확대·동소재 가격 상승·방산 수요 급증시", memo:"탄약·동소재 제조. 미국 자체 생산 법인 운영으로 수출 장벽 극복. 글로벌 분쟁 증가 시 탄약 수요 구조적 성장."},
+  "빅텍":         {code:"KOSDAQ:065690",type:"부품",  cap:1,   sector:"방산",  earningsNote:"",          spike:"군용 배터리·전원장치 수주 확대시", memo:"군용 전원공급장치·배터리 전문 소형 방산주. 드론·무인체계 확대 수혜."},
+  "쎄트렉아이":   {code:"KOSDAQ:099830",type:"순환매",cap:1,   sector:"방산",  earningsNote:"",          spike:"위성·우주방산 테마 부각·SAR위성 수출시", memo:"소형위성 시스템 설계·제조. 방산 수출 및 우주방산 부각 시 급등. 뉴스페이스 테마와 결합."},
+  "퍼스텍":       {code:"KOSDAQ:010820",type:"순환매",cap:1,   sector:"방산",  earningsNote:"",          spike:"K방산 ETF 급등·방산 테마 전반 확산시", memo:"항공기 부품·방산전자 소형주. 방산 테마 확산 시 동반 편입. 한국항공우주 강세 때 연동."},
+  "아스트":       {code:"KOSDAQ:067390",type:"순환매",cap:1,   sector:"방산",  earningsNote:"",          spike:"항공방산·FA-50 수출·KF-21 양산 발표시", memo:"항공기 동체 구조물 부품 제조. FA-50·KF-21 수출 때마다 항공부품 대표 수혜주로 급등."},
+  "켄코아에어로스페이스":{code:"KOSDAQ:274090",type:"순환매",cap:1,sector:"방산",earningsNote:"",       spike:"우주·방산항공 복합 테마시·MRO 수요 증가시", memo:"항공우주 부품 및 MRO 전문. 방산+우주 이중 테마 부각 시 수혜. 보잉·에어버스 납품."},
+  "스페코":       {code:"KOSDAQ:013810",type:"순환매",cap:1,   sector:"방산",  earningsNote:"",          spike:"K2전차·자주포 수주 폭증시·현대로템 강세시", memo:"전차 부품·군수 소형주. 현대로템 K2 강세 때 전차 부품 소형주로 순환매 편입."},
+
+  /* ── 조선 ── */
+  "HD현대중공업": {code:"KRX:329180",   type:"대장주",cap:16,  sector:"조선",  earningsNote:"2Q26 잠정",spike:"LNG선 대규모 수주·조선 업황 호황·특수선 발주 증가", memo:"LNG선·특수선·해양플랜트 대형 조선사. 수주잔고 3년치 이상. 고부가가치 선박 비중 높아 선가 상승 수혜."},
+  "HD한국조선해양":{code:"KRX:009540",  type:"대장주",cap:14,  sector:"조선",  earningsNote:"2Q26",      spike:"조선 3사 합산 실적 호조·수주 급증 뉴스", memo:"HD현대중공업·미포조선·삼호중공업 지주. 조선 그룹 통합 실적 창구. 수주잔고 확인 시 동반 상승."},
+  "한화오션":     {code:"KRX:042660",   type:"완성품",cap:12,  sector:"조선",  earningsNote:"2Q26",      spike:"상선 수주·방산선박(잠수함) 계약·그룹시너지 뉴스", memo:"상선과 방산 선박(잠수함·특수함) 이원화. 한화그룹 편입 후 체질 개선. 방산+조선 시너지 기대."},
+  "삼성중공업":   {code:"KRX:010140",   type:"완성품",cap:10,  sector:"조선",  earningsNote:"2Q26 잠정",spike:"LNG운반선 수주·해양플랜트 발주·흑자 전환 확인", memo:"LNG 운반선·해양플랜트 전문. 연속 흑자 전환 구간 진입. 해양플랜트 재개 시 실적 레버리지 극대화."},
+  "현대미포조선": {code:"KRX:010620",   type:"완성품",cap:4,   sector:"조선",  earningsNote:"2Q26",      spike:"중형선·PC선 수주 급증·HD현대 계열 연동 상승", memo:"중형선·PC선(석유화학제품 운반선) 특화. HD현대 계열. 중형 친환경 선박 수요 증가 수혜."},
+  "HSD엔진":      {code:"KRX:082740",   type:"부품",  cap:1,   sector:"조선",  earningsNote:"2Q26",      spike:"선박 엔진 발주 증가·조선 수주잔고 확인시", memo:"선박용 대형 엔진(저속2행정) 공급사. 조선 수주잔고 증가 후 약 2년 내 엔진 발주 증가로 후행 수혜."},
+  "세진중공업":   {code:"KOSDAQ:075580",type:"순환매",cap:1,   sector:"조선",  earningsNote:"",          spike:"LNG선 수주 폭증·조선 빅3 업황 급등시", memo:"선박 블록(중간재) 제조. 조선 빅3 수주 폭증 시 직결 수혜. 조선 순환매 단골 소형주."},
+  "동성화인텍":   {code:"KRX:033500",   type:"순환매",cap:1,   sector:"조선",  earningsNote:"",          spike:"LNG선·가스선 집중 수주시·천연가스 운반 수요 급증시", memo:"선박 LNG 단열재(초저온 보냉재) 소재. LNG선 발주 급증 때마다 동반 급등."},
+  "한국카본":     {code:"KRX:017960",   type:"순환매",cap:1,   sector:"조선",  earningsNote:"",          spike:"LNG 카고 단열재 수요 급증·동성화인텍 급등시", memo:"선박 LNG 카고 단열재. 동성화인텍과 함께 LNG선 소형주 양대 대표주."},
+  "성광벤드":     {code:"KOSDAQ:014620",type:"순환매",cap:1,   sector:"조선",  earningsNote:"",          spike:"해양플랜트·배관 발주 확대시", memo:"파이프 피팅 부품. 해양플랜트·선박 발주 증가 시 동반 상승."},
+  "태광":         {code:"KRX:023160",   type:"순환매",cap:1,   sector:"조선",  earningsNote:"",          spike:"해양플랜트·LNG 수주시·배관 부품 수요 증가시", memo:"피팅·밸브 제조. 해양 및 조선 순환매 수혜 단골."},
+
+  /* ── 로봇 ── */
+  "두산로보틱스": {code:"KRX:454910",   type:"대장주",cap:5,   sector:"로봇",  earningsNote:"2Q26",      spike:"삼성전자 로봇 투자 확대·협동로봇 수주 급증 뉴스", memo:"협동로봇 국내 1위. 삼성전자 전략적 투자 통해 레퍼런스 확보. 글로벌 시장 확장 중이며 휴머노이드 개발도 병행."},
+  "레인보우로보틱스":{code:"KOSDAQ:277810",type:"대장주",cap:3,sector:"로봇",  earningsNote:"2Q26",      spike:"삼성전자 로봇사업 발표·휴머노이드 테마 급등시", memo:"휴머노이드·이동로봇. 삼성전자 자회사 편입으로 레퍼런스 확보. AI+로봇 복합 테마 핵심주."},
+  "에스비비테크": {code:"KOSDAQ:389500",type:"부품",  cap:1,   sector:"로봇",  earningsNote:"2Q26",      spike:"로봇 감속기 국산화·두산로보틱스 수주 급증시", memo:"로봇 감속기(하모닉 드라이브) 국산화 기업. 감속기는 로봇 원가의 35%를 차지하는 핵심 부품."},
+  "로보티즈":     {code:"KOSDAQ:108490",type:"부품",  cap:1,   sector:"로봇",  earningsNote:"2Q26",      spike:"AI·로봇 테마 확산·교육용로봇 수요 증가시", memo:"서보 액추에이터·모듈형 로봇 키트. 교육·연구·산업용 다양한 로봇 플랫폼 공급."},
+  "에스피지":     {code:"KRX:058610",   type:"순환매",cap:1,   sector:"로봇",  earningsNote:"2Q26",      spike:"로봇·자동화 테마 급등·감속기 소형주 순환매시", memo:"모터·감속기·정밀 구동부품 복합 기업. 로봇 테마 확산 시 감속기 소형주 대표로 빠르게 편입."},
+  "티로보틱스":   {code:"KOSDAQ:117730",type:"순환매",cap:1,   sector:"로봇",  earningsNote:"",          spike:"삼성·하이닉스 반도체팹 로봇 도입 확대시", memo:"반도체 이송로봇·진공로봇 전문. 반도체+로봇 이중 테마 수혜주. 팹 자동화 확대 수혜."},
+  "뉴로메카":     {code:"KOSDAQ:348680",type:"순환매",cap:1,   sector:"로봇",  earningsNote:"",          spike:"협동로봇·인간형로봇 테마 급등시", memo:"협동로봇 스타트업. 두산로보틱스·레인보우로보틱스 급등 시 동반 상승하는 테마 수혜주."},
+  "삼익THK":      {code:"KRX:004380",   type:"순환매",cap:1,   sector:"로봇",  earningsNote:"2Q26",      spike:"로봇·공작기계·반도체 설비투자 증가시", memo:"LM가이드·볼스크류 정밀 이송부품. 로봇·반도체 장비·공작기계 다방면 수혜."},
+
+  /* ── 2차전지 ── */
+  "LG에너지솔루션":{code:"KRX:373220",  type:"대장주",cap:70,  sector:"2차전지",earningsNote:"2Q26 잠정",spike:"전기차 수요 회복·GM·BMW 추가 공급 계약·ESS 수주 뉴스", memo:"원통형·파우치·LFP 포트폴리오 다변화. GM·BMW·현대차 장기 공급. ESS 사업 확대로 수익 안정화."},
+  "삼성SDI":      {code:"KRX:006400",   type:"대장주",cap:25,  sector:"2차전지",earningsNote:"2Q26",      spike:"각형 배터리 수주·전고체 개발 성과·BMW 수주 확대", memo:"각형 배터리 강자. BMW·스텔란티스·리비안 공급. 전고체 배터리 조기 상용화 연구 선행 중."},
+  "SK이노베이션": {code:"KRX:096770",   type:"대장주",cap:15,  sector:"2차전지",earningsNote:"2Q26",      spike:"SK온 흑자 전환·포드 배터리 공급 계약 확대", memo:"SK온 배터리+정유(SK에너지) 복합. 포드·현대차 공급. SK온 흑자 전환이 주가 핵심 트리거."},
+  "포스코퓨처엠": {code:"KRX:003670",   type:"소재",  cap:8,   sector:"2차전지",earningsNote:"2Q26",      spike:"양극재 수주 급증·음극재 출하 확대·포스코 리튬 조달 뉴스", memo:"양극재(NCMA)·음극재(천연/인조흑연) 수직계열화. 포스코홀딩스 리튬 원재료 조달 우위."},
+  "에코프로비엠": {code:"KOSDAQ:247540",type:"소재",  cap:10,  sector:"2차전지",earningsNote:"2Q26",      spike:"하이니켈 양극재 수주 급증·고성능 배터리 수요 확대시", memo:"하이니켈 양극재 국내 선두. 삼성SDI·SK온 납품. 고에너지밀도 전기차용 하이니켈 시장 지배."},
+  "에코프로":     {code:"KOSDAQ:086520",type:"대장주",cap:15,  sector:"2차전지",earningsNote:"2Q26",      spike:"에코프로비엠 수주·에이치엔 환경 수익 증가·그룹 성장 뉴스", memo:"에코프로비엠·에이치엔 지주. 양극재+환경 이중 사업. 에코프로비엠 실적이 지주 주가 핵심 드라이버."},
+  "엘앤에프":     {code:"KRX:066970",   type:"소재",  cap:5,   sector:"2차전지",earningsNote:"2Q26",      spike:"테슬라 추가 수주·단결정 양극재 기술 인정·전기차 판매 반등", memo:"양극재 전문. 테슬라·파나소닉 공급망 편입. 단결정 하이니켈 양극재 기술 우위."},
+  "천보":         {code:"KOSDAQ:278280",type:"소재",  cap:2,   sector:"2차전지",earningsNote:"2Q26",      spike:"리튬염 수요 급증·전해질 첨가제 부각·LFP 배터리 전환시", memo:"리튬염(LiFSI)·전해질 첨가제 고부가 소재 전문. 전기차 배터리 고성능화 필수 소재."},
+  "나노신소재":   {code:"KOSDAQ:091970",type:"순환매",cap:1,   sector:"2차전지",earningsNote:"",          spike:"CNT·전도성카본 배터리 소재 부각·전고체 배터리 테마시", memo:"CNT 분산액·전도성 카본 소재. 배터리 도전재 핵심 소재. 전고체 배터리 상용화 테마와 연동."},
+  "엔켐":         {code:"KOSDAQ:348370",type:"순환매",cap:1,   sector:"2차전지",earningsNote:"",          spike:"LFP 배터리 전환·전해질 수요 급증시", memo:"전해질 전문 소형주. LFP·하이니켈 배터리 확산 시 고순도 전해질 수요 증가 수혜."},
+  "씨아이에스":   {code:"KOSDAQ:222080",type:"순환매",cap:1,   sector:"2차전지",earningsNote:"",          spike:"배터리 셀 업체 캐파 증설 발표시", memo:"배터리 전극 공정(코팅·롤프레스) 장비 소형주. 셀 업체 신규 라인 투자 시 수주 기대."},
+
+  /* ── 바이오 ── */
+  "삼성바이오로직스":{code:"KRX:207940",type:"대장주",cap:70,  sector:"바이오", earningsNote:"2Q26 잠정",spike:"글로벌 CDMO 수주 급증·신규 공장 가동·빅파마 위탁생산 계약", memo:"글로벌 CDMO 3위. 5공장 가동으로 캐파 확대. 빅파마 위탁생산 수요 급증 중. 삼성그룹 바이오 핵심."},
+  "셀트리온":     {code:"KRX:068270",   type:"대장주",cap:30,  sector:"바이오", earningsNote:"2Q26",      spike:"바이오시밀러 미국 점유율 확대·짐펜트라 판매 급증 뉴스", memo:"바이오시밀러 글로벌 직판 체계 구축. 짐펜트라(피하주사형 렘시마) 미국 확장 중."},
+  "한미약품":     {code:"KRX:128940",   type:"신약",  cap:8,   sector:"바이오", earningsNote:"2Q26",      spike:"GLP-1·비만치료제 글로벌 빅딜·임상 성과 발표시", memo:"비만치료제·GLP-1 파이프라인 다수 보유. 글로벌 빅파마 기술이전 이력. 에피노페그듀타이드 등 차별화 약물."},
+  "유한양행":     {code:"KRX:000100",   type:"신약",  cap:8,   sector:"바이오", earningsNote:"2Q26",      spike:"렉라자 미국 매출 성장·BMS 공동 판매 확대·추가 파이프라인 빅딜", memo:"렉라자(레이저티닙) 美 FDA 승인. BMS 공동 판매. 3세대 EGFR 표적항암제 미국 시장 점유율 확대 중."},
+  "알테오젠":     {code:"KOSDAQ:196170",type:"플랫폼",cap:15,  sector:"바이오", earningsNote:"2Q26",      spike:"SC 제형 변경 추가 기술이전·머크 공동개발 성과 발표시", memo:"피하주사(SC) 제형변경 플랫폼(ALT-B4) 보유. 머크·얀센 등 다수 글로벌 기술이전 성사. 플랫폼 기술 희소성 높음."},
+  "리가켐바이오": {code:"KOSDAQ:141080",type:"플랫폼",cap:5,   sector:"바이오", earningsNote:"2Q26",      spike:"ADC 빅딜 추가 체결·글로벌 빅파마 파트너링 뉴스", memo:"항체-약물접합체(ADC) 플랫폼 기업. 얀센 빅딜 성사로 밸류 급상승. ADC 글로벌 트렌드 핵심 수혜."},
+  "에이비엘바이오":{code:"KOSDAQ:298380",type:"플랫폼",cap:2,  sector:"바이오", earningsNote:"2Q26",      spike:"이중항체 임상 결과·CNS 파이프라인 기술이전시", memo:"이중항체(Grabody-B) 플랫폼 보유. BBB 통과 기술로 뇌질환 신약 개발. CNS+종양 파이프라인 다수."},
+  "오스코텍":     {code:"KOSDAQ:039200",type:"순환매",cap:1,   sector:"바이오", earningsNote:"",          spike:"ADC·표적항암 임상 결과·유한양행 렉라자 매출 급성장시", memo:"유한양행 렉라자 원천기술 보유 모회사. 바이오 랠리 때 항암신약 테마주로 급등. 자체 파이프라인도 다수."},
+  "파멥신":       {code:"KOSDAQ:208340",type:"순환매",cap:1,   sector:"바이오", earningsNote:"",          spike:"항암·ADC 빅딜 발표·글로벌 AACR 학회 이슈시", memo:"항체 기반 항암신약 전문 바이오텍. ADC 빅딜 뉴스 발생 시 동반 급등."},
+  "메드팩토":     {code:"KOSDAQ:235980",type:"순환매",cap:1,   sector:"바이오", earningsNote:"",          spike:"면역항암 병용요법 임상 성과·항암 빅딜 발표시", memo:"TGF-β 억제제 백토서팁 개발. 면역항암 병용요법 이슈 발생 시 순환매 편입."},
+
+  /* ── 자동차 ── */
+  "현대차":       {code:"KRX:005380",   type:"대장주",cap:55,  sector:"자동차", earningsNote:"2Q26 잠정",spike:"전기차 판매 호조·아이오닉 신모델 수주·배당 확대 정책", memo:"아이오닉6·9·HEV 확대. 글로벌 3위 완성차. 미국 현지 생산 확대로 관세 영향 방어. PBV 사업 신성장 동력."},
+  "기아":         {code:"KRX:000270",   type:"대장주",cap:40,  sector:"자동차", earningsNote:"2Q26 잠정",spike:"EV6·EV9 글로벌 판매 호조·PBV 수주 확대·배당 증가 발표", memo:"EV6·EV9·PBV. 현대차 대비 고마진 구조 유지. 배당 우수. 법인 전용 전기차(PBV) 신규 시장 개척."},
+  "현대모비스":   {code:"KRX:012330",   type:"부품",  cap:15,  sector:"자동차", earningsNote:"2Q26",      spike:"전동화 부품 수주 급증·자율주행 모듈 공급 계약시", memo:"전동화 핵심부품·자율주행 모듈·헤드램프. 현대차그룹 핵심 부품사. 전동화 전환 가속 수혜."},
+  "HL만도":       {code:"KRX:204320",   type:"부품",  cap:3,   sector:"자동차", earningsNote:"2Q26",      spike:"ADAS 수주 확대·글로벌 완성차 신규 공급 계약시", memo:"ADAS·전동조향·전동브레이크 전문. 글로벌 완성차사 공급 다각화. 자율주행 부품 성장 수혜."},
+  "현대위아":     {code:"KRX:011210",   type:"부품",  cap:2,   sector:"자동차", earningsNote:"2Q26",      spike:"방산·공작기계 수주·현대차 신차 출시 사이클시", memo:"엔진·변속기·공작기계·방산 복합. 현대차그룹 계열. 방산+자동차 이중 수익 구조."},
+  "모베이스":     {code:"KOSDAQ:101330",type:"순환매",cap:1,   sector:"자동차", earningsNote:"",          spike:"현대차·기아 판매 사상 최대 발표시", memo:"현대차·기아 내장재·플라스틱 부품 소형 납품사. 현대·기아 실적 랠리 때 동반 상승."},
+  "화신":         {code:"KRX:010690",   type:"순환매",cap:1,   sector:"자동차", earningsNote:"",          spike:"현대차 신차 출시·아이오닉 시리즈 판매 급증시", memo:"자동차 섀시·브레이크 부품. 현대차그룹 신차 출시 사이클마다 부품 수혜 순환."},
+
+  /* ── AI/플랫폼 ── */
+  "NAVER":        {code:"KRX:035420",   type:"대장주",cap:30,  sector:"AI/플랫폼",earningsNote:"2Q26",    spike:"하이퍼클로바X B2B 계약·네이버클라우드 성장·일본 라인 수익 개선", memo:"하이퍼클로바X·네이버클라우드 AI 생태계. 국내 AI 소버린 핵심. 일본 검색 강자. AI 검색 광고 수익화 중."},
+  "카카오":       {code:"KRX:035720",   type:"대장주",cap:15,  sector:"AI/플랫폼",earningsNote:"2Q26",    spike:"AI 서비스 출시·플랫폼 수익 개선·지배구조 개선 뉴스", memo:"플랫폼 독과점 사업자. AI·콘텐츠 확장. 지배구조 개선 요구 속 주주환원 확대 기대."},
+  "더존비즈온":   {code:"KRX:012510",   type:"AI",    cap:3,   sector:"AI/플랫폼",earningsNote:"2Q26",    spike:"AI 기업용 SaaS 계약 확대·공공 ERP 수주 급증시", memo:"ERP·AI 기업용 SaaS 선두. 국내 기업 디지털 전환 수혜. AI 회계·인사 자동화 솔루션 확대."},
+  "솔트룩스":     {code:"KOSDAQ:304100",type:"AI",    cap:1,   sector:"AI/플랫폼",earningsNote:"2Q26",    spike:"공공AI·생성AI 사업 수주·AI 솔루션 도입 확대시", memo:"공공·B2B AI 솔루션. 언어모델(LLM) 자체 개발. 공공기관 AI 도입 수혜."},
+  "크래프톤":     {code:"KRX:259960",   type:"플랫폼",cap:12,  sector:"AI/플랫폼",earningsNote:"2Q26",    spike:"인도 시장 MAU 급증·신작 배틀로얄 흥행·AI 게임 테마", memo:"배그·인조이 글로벌 게임. 인도 시장 점유율 독보적. AI 게임 콘텐츠 개발로 차세대 성장 기대."},
+  "코난테크놀로지":{code:"KOSDAQ:402030",type:"순환매",cap:1,  sector:"AI/플랫폼",earningsNote:"",        spike:"ChatGPT·생성AI·대규모언어모델 이슈 부각시", memo:"자연어처리·검색AI 소형주. 생성AI 이슈 터질 때마다 국내 AI 소형주 상위 급등주로 단골 편입."},
+  "셀바스AI":     {code:"KOSDAQ:108860",type:"순환매",cap:1,   sector:"AI/플랫폼",earningsNote:"",        spike:"온디바이스AI·AI 헬스케어·음성인식 테마 부각시", memo:"음성인식·AI 헬스케어 솔루션. AI+의료 이중 테마 부각 시 급등. 공공 헬스케어 AI 수주 기대."},
+  "마인즈랩":     {code:"KOSDAQ:377480",type:"순환매",cap:1,   sector:"AI/플랫폼",earningsNote:"",        spike:"생성AI·AI에이전트·음성AI 테마 급등시", memo:"AI 음성·언어모델 솔루션. 생성AI 붐 시 국내 AI 소형주 대표 급등주로 편입."},
+  "라온시큐어":   {code:"KOSDAQ:042510",type:"순환매",cap:1,   sector:"AI/플랫폼",earningsNote:"",        spike:"AI보안·제로트러스트·생체인증 테마시", memo:"AI 보안·생체인증 솔루션. AI+사이버보안 복합 테마 부각 시 급등."}
 };
 
-/* ══════════ 기본 데이터 (대장주+소부장+순환매 포함) ══════════ */
+/* ══ 섹터 정보맵 ══ */
+const sectorInfoMap = {
+  "반도체":     {score:98, desc:"AI 가속·HBM·DRAM·파운드리·반도체 장비·소재 핵심 섹터"},
+  "전력인프라":  {score:95, desc:"전력망 슈퍼사이클. AI데이터센터·전기화 수혜. 변압기·전선·스위치기어"},
+  "원전":       {score:93, desc:"SMR·APR1400 수출, 원전 르네상스. 주기기·보조기기·정비 밸류체인"},
+  "방산":       {score:92, desc:"K방산 수출 급성장. 자주포·전차·미사일·항공엔진·함정 전방위 수혜"},
+  "조선":       {score:91, desc:"LNG선·친환경선·특수선 수주 호황. 2026~2028 인도 피크 구간"},
+  "AI":         {score:90, desc:"생성AI·LLM·온디바이스AI·AI 에이전트. 국내 AI 소버린 경쟁 심화"},
+  "AI/플랫폼":  {score:85, desc:"국내 AI 소버린, 엔터프라이즈 SaaS, 클라우드 인프라 전환 중심"},
+  "로봇":       {score:88, desc:"협동로봇·AMR·AI로봇 성장 초입. 감속기·액추에이터 소부장 동반 성장"},
+  "바이오":     {score:87, desc:"CDMO, ADC, 바이오시밀러, 신약 파이프라인 중심 성장 섹터"},
+  "2차전지":    {score:84, desc:"전기차·ESS 배터리. 소재·셀·팩 밸류체인. 구조적 성장 지속"},
+  "자동차":     {score:80, desc:"현대차그룹 글로벌 3위. 전동화·SDV 전환 중 소부장 구조 변화"},
+  "철강":       {score:70, desc:"POSCO홀딩스 중심. 이차전지 소재(리튬·니켈) 수직계열화 도전"},
+  "바이오/제약": {score:82, desc:"신약·CDMO·바이오시밀러·항체치료제 중심 성장 섹터"},
+  "플랫폼":     {score:78, desc:"국내 인터넷 플랫폼·게임·콘텐츠 기업군. AI 전환 과도기"},
+  "헬스케어":   {score:75, desc:"의료기기·디지털헬스·AI진단. 고령화 수혜 장기 성장 섹터"},
+  "디스플레이":  {score:72, desc:"OLED·마이크로LED 중심. 삼성디스플레이·LG디스플레이 공급망"},
+};
+
+/* ══ 코드맵 (하위 호환) ══ */
+const stockCodeMap = Object.fromEntries(
+  Object.entries(stockInfoMap).map(([k,v])=>[k,v.code])
+);
+
+/* ══ 자동입력 함수 ══ */
+function autoFillStock(){
+  const name = document.getElementById("newStockName").value.trim();
+  const dropdown = document.getElementById("stockDropdown");
+
+  // 드롭다운 — 2글자 이상 입력 시 매칭 목록 표시
+  if(name.length >= 1){
+    const matches = Object.keys(stockInfoMap).filter(k =>
+      k.includes(name) || name.includes(k.slice(0,Math.min(k.length,name.length)))
+    ).slice(0,8);
+    if(matches.length > 0){
+      dropdown.innerHTML = matches.map(m=>`
+        <div class="autofill-item" onclick="selectStockSuggestion('${m}')">
+          <span>${m}</span>
+          <span class="autofill-sector-tag">${stockInfoMap[m].type} · ${stockInfoMap[m].sector||""}</span>
+        </div>`).join("");
+      dropdown.classList.add("open");
+    } else {
+      dropdown.classList.remove("open");
+    }
+  } else {
+    dropdown.classList.remove("open");
+  }
+
+  // 정확히 일치하면 자동입력
+  if(stockInfoMap[name]) applyStockInfo(name);
+}
+
+function selectStockSuggestion(name){
+  document.getElementById("newStockName").value = name;
+  document.getElementById("stockDropdown").classList.remove("open");
+  applyStockInfo(name);
+}
+
+function applyStockInfo(name){
+  const info = stockInfoMap[name];
+  if(!info) return;
+
+  // 코드
+  const codeEl = document.getElementById("newStockCode");
+  if(!codeEl.value) codeEl.value = info.code || "";
+
+  // 구분
+  const typeEl = document.getElementById("newStockType");
+  if(info.type){
+    for(let opt of typeEl.options){
+      if(opt.value === info.type){ typeEl.value = info.type; break; }
+    }
+  }
+
+  // 시총점수
+  const capEl = document.getElementById("newStockCap");
+  if(!capEl.value && info.cap) capEl.value = info.cap;
+
+  // 실적 노트
+  const enEl = document.getElementById("newStockEarningsNote");
+  if(!enEl.value && info.earningsNote) enEl.value = info.earningsNote;
+
+  // 급등 트리거
+  const spikeEl = document.getElementById("newStockSpike");
+  if(!spikeEl.value && info.spike){
+    spikeEl.value = info.spike;
+    spikeEl.classList.add("just-filled");
+    setTimeout(()=>spikeEl.classList.remove("just-filled"),800);
+  }
+
+  // 메모
+  const memoEl = document.getElementById("newStockMemo");
+  if(!memoEl.value && info.memo){
+    memoEl.value = info.memo;
+    memoEl.classList.add("just-filled");
+    setTimeout(()=>memoEl.classList.remove("just-filled"),800);
+  }
+
+  // 배지 표시
+  const badge = document.getElementById("stockAutofillBadge");
+  badge.classList.remove("hidden");
+  setTimeout(()=>badge.classList.add("hidden"), 3000);
+}
+
+function autoFillSector(){
+  const name = document.getElementById("newSectorName").value.trim();
+  const dropdown = document.getElementById("sectorDropdown");
+
+  // 드롭다운
+  const matches = Object.keys(sectorInfoMap).filter(k => k.includes(name) && name.length>=1).slice(0,6);
+  if(matches.length > 0){
+    dropdown.innerHTML = matches.map(m=>`
+      <div class="autofill-item" onclick="selectSectorSuggestion('${m}')">
+        <span>${m}</span>
+        <span class="autofill-sector-tag">${sectorInfoMap[m].score}pt</span>
+      </div>`).join("");
+    dropdown.classList.add("open");
+  } else {
+    dropdown.classList.remove("open");
+  }
+
+  // 정확 일치
+  if(sectorInfoMap[name]) applySectorInfo(name);
+}
+
+function selectSectorSuggestion(name){
+  document.getElementById("newSectorName").value = name;
+  document.getElementById("sectorDropdown").classList.remove("open");
+  applySectorInfo(name);
+}
+
+function applySectorInfo(name){
+  const info = sectorInfoMap[name];
+  if(!info) return;
+  const descEl = document.getElementById("newSectorDesc");
+  const scoreEl = document.getElementById("newSectorScore");
+  if(!descEl.value && info.desc){
+    descEl.value = info.desc;
+    descEl.classList.add("just-filled");
+    setTimeout(()=>descEl.classList.remove("just-filled"),800);
+  }
+  if(!scoreEl.value && info.score) scoreEl.value = info.score;
+  const badge = document.getElementById("sectorAutofillBadge");
+  badge.classList.remove("hidden");
+  setTimeout(()=>badge.classList.add("hidden"),3000);
+}
+
+// 드롭다운 외부 클릭 시 닫기
+document.addEventListener("click", e=>{
+  if(!e.target.closest(".autofill-wrap")){
+    document.querySelectorAll(".autofill-dropdown").forEach(d=>d.classList.remove("open"));
+  }
+});
+
+/* ══ 기본 데이터 ══ */
 const defaultData=[
   {name:"반도체",score:98,desc:"AI 가속·HBM·DRAM·파운드리·반도체 장비·소재 핵심 섹터",stocks:[
-    {name:"삼성전자",code:"KRX:005930",type:"대장주",cap:470,target:"",status:"관심",spike:"",memo:"메모리·파운드리·스마트폰 통합. AI HBM 추격 중."},
-    {name:"SK하이닉스",code:"KRX:000660",type:"대장주",cap:150,target:"",status:"관심",spike:"",memo:"HBM3E 선두. 엔비디아 납품. AI 반도체 최대 수혜주."},
-    {name:"한미반도체",code:"KRX:042700",type:"장비",cap:12,target:"",status:"관심",spike:"",memo:"HBM TC 본더 독점 공급."},
-    {name:"원익IPS",code:"KOSDAQ:240810",type:"장비",cap:4,target:"",status:"관심",spike:"",memo:"CVD·ALD 증착 장비. 삼성·하이닉스 동시 납품."},
-    {name:"주성엔지니어링",code:"KOSDAQ:036930",type:"장비",cap:3,target:"",status:"관심",spike:"",memo:"원자층 증착(ALD) 장비."},
-    {name:"솔브레인",code:"KOSDAQ:357780",type:"소재",cap:3,target:"",status:"관심",spike:"",memo:"식각액·전해액·CMP슬러리 핵심 소재."},
-    {name:"동진쎄미켐",code:"KOSDAQ:005290",type:"소재",cap:2,target:"",status:"관심",spike:"",memo:"PR·포토레지스트 등 반도체 화학소재."},
-    {name:"리노공업",code:"KOSDAQ:058470",type:"부품",cap:4,target:"",status:"관심",spike:"",memo:"테스트 소켓·핀. 고마진 구조."},
-    {name:"HPSP",code:"KOSDAQ:403870",type:"장비",cap:2,target:"",status:"관심",spike:"",memo:"고압 어닐링 장비. 삼성·하이닉스·TSMC 공급."},
-    /* ── 순환매 소형주 ── */
-    {name:"가온칩스",code:"KOSDAQ:399720",type:"순환매",cap:1,target:"",status:"관심",spike:"AI반도체·엔비디아 급등시",memo:"ARM기반 AI칩 설계(팹리스). SK텔레콤 자회사. 엔비디아 랠리 때마다 동반 급등."},
-    {name:"퀄리타스반도체",code:"KOSDAQ:432720",type:"순환매",cap:1,target:"",status:"관심",spike:"HBM·AI반도체 테마 확산시",memo:"HBM 관련 인터페이스 IP 설계. 소형 팹리스로 테마 시 변동성 극대화."},
-    {name:"칩스앤미디어",code:"KOSDAQ:094360",type:"순환매",cap:1,target:"",status:"관심",spike:"AI엣지·온디바이스AI 부각시",memo:"멀티미디어 IP 설계. 온디바이스 AI 테마 수혜."},
-    {name:"유니테스트",code:"KOSDAQ:086390",type:"순환매",cap:1,target:"",status:"관심",spike:"HBM 테스트장비 부각시",memo:"반도체 테스트 장비 소형주. HBM 수요 급증 시 테마 편승."},
-    {name:"테크윙",code:"KOSDAQ:089030",type:"순환매",cap:1,target:"",status:"관심",spike:"메모리 업황 상승 전환시",memo:"반도체 핸들러·번인소켓. 업황 반등 초입 순환매 수혜."}
+    {name:"삼성전자",code:"KRX:005930",type:"대장주",cap:470,target:"",status:"관심",earningsDate:"2026-07-31",earningsNote:"2Q26 잠정",spike:"엔비디아 실적 호조·HBM 납품 계약 뉴스·반도체 업황 반등 신호",memo:"메모리·파운드리·MX 통합 대기업. HBM 추격 중이며 파운드리 수율 개선이 핵심 모멘텀."},
+    {name:"SK하이닉스",code:"KRX:000660",type:"대장주",cap:150,target:"",status:"관심",earningsDate:"2026-07-23",earningsNote:"2Q26 잠정",spike:"엔비디아 실적·GB시리즈 출하량·HBM 수요 급증 뉴스",memo:"HBM3E 공급 선두. 엔비디아 GB200·B시리즈 핵심 납품사. AI 서버 투자 최대 수혜주."},
+    {name:"한미반도체",code:"KRX:042700",type:"장비",cap:12,target:"",status:"관심",earningsDate:"2026-08-12",earningsNote:"2Q26",spike:"SK하이닉스 HBM 캐파 확장 발표·반도체 장비주 강세 장세",memo:"HBM 패키징 핵심 장비인 TC본더를 독점 공급. SK하이닉스 캐파 증설과 매출이 직결."},
+    {name:"원익IPS",code:"KOSDAQ:240810",type:"장비",cap:4,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"삼성·하이닉스 장비 발주 확대·신규 팹 투자 뉴스",memo:"CVD·ALD 증착 장비 국산화 선두. 삼성전자·SK하이닉스 동시 납품."},
+    {name:"주성엔지니어링",code:"KOSDAQ:036930",type:"장비",cap:3,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"ALD 공정 중요성 부각·차세대 반도체 공정 전환시",memo:"원자층 증착(ALD) 장비 전문. 고종횡비 구조물 패턴에서 경쟁력."},
+    {name:"솔브레인",code:"KOSDAQ:357780",type:"소재",cap:3,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"반도체 소재 국산화·업황 반등 초입 장세",memo:"식각액·전해액·CMP슬러리 등 핵심 반도체 소재 공급. 국산화 수혜."},
+    {name:"동진쎄미켐",code:"KOSDAQ:005290",type:"소재",cap:2,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"EUV 포토레지스트 국산화·소재 업황 개선시",memo:"포토레지스트(PR)·전자재료 화학소재 전문. EUV용 PR 개발로 고부가 소재 전환 중."},
+    {name:"리노공업",code:"KOSDAQ:058470",type:"부품",cap:4,target:"",status:"관심",earningsDate:"2026-08-12",earningsNote:"2Q26",spike:"반도체 테스트 수요 급증·HBM 양산 가속화",memo:"반도체 테스트 소켓·핀 제조 고마진 기업. 시장 독보적 지위와 안정적 고마진 구조."},
+    {name:"HPSP",code:"KOSDAQ:403870",type:"장비",cap:2,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"삼성·TSMC 고압어닐링 도입 확대·3나노 이하 공정 확산",memo:"고압 수소 어닐링 장비 독점 기술. 삼성·SK하이닉스·TSMC 동시 공급."},
+    {name:"가온칩스",code:"KOSDAQ:399720",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"AI반도체·엔비디아 급등시·온디바이스 AI 부각시",memo:"ARM 기반 AI칩 설계(팹리스). SKT 자회사. 엔비디아 랠리 때마다 국내 팹리스 대표주로 동반 급등."},
+    {name:"테크윙",code:"KOSDAQ:089030",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"메모리 업황 상승 전환·반도체 핸들러 발주 증가시",memo:"반도체 핸들러·번인소켓 제조. 메모리 업황 반등 초입 순환매 수혜."}
   ]},
   {name:"전력인프라",score:95,desc:"전력망 슈퍼사이클. AI데이터센터·전기화 수혜. 변압기·전선·스위치기어",stocks:[
-    {name:"HD현대일렉트릭",code:"KRX:267260",type:"대장주",cap:8,target:"",status:"관심",spike:"",memo:"초고압 변압기 글로벌 공급. 美 전력망 교체 수혜."},
-    {name:"LS ELECTRIC",code:"KRX:010120",type:"대장주",cap:5,target:"",status:"관심",spike:"",memo:"변압기·배전반·솔루션."},
-    {name:"효성중공업",code:"KRX:298040",type:"완성품",cap:4,target:"",status:"관심",spike:"",memo:"초고압 변압기·차단기. 美 수출."},
-    {name:"일진전기",code:"KRX:103590",type:"부품",cap:1,target:"",status:"관심",spike:"",memo:"중·대형 변압기·GIS."},
-    {name:"대한전선",code:"KRX:001440",type:"소재",cap:2,target:"",status:"관심",spike:"",memo:"초고압 전력케이블·해저케이블 진출."},
-    {name:"가온전선",code:"KRX:000500",type:"소재",cap:1,target:"",status:"관심",spike:"",memo:"전력선·통신선 복합."},
-    {name:"LS",code:"KRX:006260",type:"대장주",cap:3,target:"",status:"관심",spike:"",memo:"LS ELECTRIC 지주. 전력·소재 복합."},
-    /* ── 순환매 소형주 ── */
-    {name:"제일전기공업",code:"KOSDAQ:093190",type:"순환매",cap:1,target:"",status:"관심",spike:"전력인프라·변압기 ETF 급등시",memo:"배전반·분전반 소형주. HD현대일렉트릭 급등 후 빠르게 동반 상승."},
-    {name:"선도전기",code:"KOSDAQ:006090",type:"순환매",cap:1,target:"",status:"관심",spike:"전력망·스위치기어 테마시",memo:"전력 스위치기어·배전반. 전력인프라 테마 2차 수혜."},
-    {name:"광명전기",code:"KOSDAQ:017010",type:"순환매",cap:1,target:"",status:"관심",spike:"변압기 수주 모멘텀시",memo:"몰드변압기 전문 소형주. 국내 배전 투자 수혜."},
-    {name:"대원전선",code:"KRX:006340",type:"순환매",cap:1,target:"",status:"관심",spike:"전선 수요 급증·가온전선 급등시",memo:"전력선·통신선. 가온전선 강세 때 동반 순환."}
+    {name:"HD현대일렉트릭",code:"KRX:267260",type:"대장주",cap:8,target:"",status:"관심",earningsDate:"2026-07-30",earningsNote:"2Q26 잠정",spike:"美 전력망 교체 수주 발표·초고압 변압기 글로벌 수요 급증 뉴스",memo:"초고압 변압기 글로벌 공급 선두. 미국 전력망 노후화 교체 수혜. 수주잔고 사상 최고."},
+    {name:"LS ELECTRIC",code:"KRX:010120",type:"대장주",cap:5,target:"",status:"관심",earningsDate:"2026-07-30",earningsNote:"2Q26",spike:"전력 설비 투자 확대·배전 인프라 업그레이드 뉴스",memo:"변압기·배전반·솔루션·EV 충전 복합 기업. LS그룹 전력 사업 핵심."},
+    {name:"효성중공업",code:"KRX:298040",type:"완성품",cap:4,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"미국 GE버노바 수출 확대·초고압 변압기 수주 급증시",memo:"초고압 변압기·차단기 제조. 미국 GE버노바 OEM 공급."},
+    {name:"일진전기",code:"KRX:103590",type:"부품",cap:1,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"전력 인프라 투자 증가·중대형 변압기 발주 확대시",memo:"중·대형 변압기·GIS 전문. 전력망 현대화 수혜."},
+    {name:"대한전선",code:"KRX:001440",type:"소재",cap:2,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"해저케이블 수주·전력케이블 수요 급증시",memo:"초고압 전력케이블 및 해저케이블 진출 중."},
+    {name:"LS",code:"KRX:006260",type:"대장주",cap:3,target:"",status:"관심",earningsDate:"2026-07-30",earningsNote:"2Q26",spike:"LS ELECTRIC 급등·그룹 전력 수혜 통합 수취",memo:"LS ELECTRIC 지주 성격. 전력·소재·트레이딩 복합."},
+    {name:"제일전기공업",code:"KOSDAQ:093190",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"변압기·전력인프라 ETF 급등시·HD현대일렉트릭 강세시",memo:"배전반·분전반 제조 소형주. 전력인프라 테마 확산 시 대형주 급등 후 동반 상승 단골."},
+    {name:"선도전기",code:"KOSDAQ:006090",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"전력망·스위치기어 부각시·전력인프라 2차 순환매",memo:"전력 스위치기어·배전반 소형주. 전력인프라 1차 이후 2차 순환매 수혜주."}
   ]},
   {name:"원전",score:93,desc:"SMR·APR1400 수출, 원전 르네상스. 주기기·보조기기·정비 밸류체인",stocks:[
-    {name:"두산에너빌리티",code:"KRX:034020",type:"대장주",cap:6,target:"",status:"관심",spike:"",memo:"원전 주기기(원자로·터빈) 독점 공급. SMR 핵심."},
-    {name:"한전기술",code:"KRX:052690",type:"대장주",cap:3,target:"",status:"관심",spike:"",memo:"원전 설계 전문. 수출 확대 직접 수혜."},
-    {name:"비에이치아이",code:"KOSDAQ:083650",type:"부품",cap:1,target:"",status:"관심",spike:"",memo:"보조기기·폐열회수장치."},
-    {name:"한전KPS",code:"KRX:051600",type:"기타",cap:2,target:"",status:"관심",spike:"",memo:"원전 정비 전문. 안정적 배당주."},
-    {name:"우진",code:"KOSDAQ:105840",type:"부품",cap:1,target:"",status:"관심",spike:"",memo:"원전 계측·제어 기기."},
-    {name:"보성파워텍",code:"KOSDAQ:006162",type:"소재",cap:1,target:"",status:"관심",spike:"",memo:"원전 밸브·배관 부품."},
-    /* ── 순환매 소형주 ── */
-    {name:"우진엔텍",code:"KOSDAQ:369990",type:"순환매",cap:1,target:"",status:"관심",spike:"체코·폴란드 원전수출 뉴스시",memo:"원전 정비 전문 소형주. 원전 수출 소식 때마다 급등. 우진 그룹 계열."},
-    {name:"일진파워",code:"KOSDAQ:094820",type:"순환매",cap:1,target:"",status:"관심",spike:"SMR·원전르네상스 부각시",memo:"발전소 열교환기·압력용기 제조. 원전 테마 중소형주 대표."},
-    {name:"수산인더스트리",code:"KOSDAQ:097780",type:"순환매",cap:1,target:"",status:"관심",spike:"원전·원자력 테마 확산시",memo:"원전 부품·해체 장비. 원전 해체·신규 건설 양방향 수혜 스토리."},
-    {name:"에너토크",code:"KOSDAQ:066700",type:"순환매",cap:1,target:"",status:"관심",spike:"원전 밸류체인 순환매시",memo:"원전용 전동밸브 액추에이터 전문. 두산에너빌리티 강세 이후 동반 상승."}
+    {name:"두산에너빌리티",code:"KRX:034020",type:"대장주",cap:6,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"원전 수출 계약·SMR 발주·원전 르네상스 부각 뉴스",memo:"원전 주기기(원자로·터빈·증기발생기) 독점 공급사. APR1400·SMR 핵심."},
+    {name:"한전기술",code:"KRX:052690",type:"대장주",cap:3,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"원전 설계 수출 계약·원전 르네상스 부각시",memo:"원전 설계 전문. 한국전력 자회사로 APR1400 기본 설계 보유."},
+    {name:"비에이치아이",code:"KOSDAQ:083650",type:"부품",cap:1,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"원전 보조기기 수주·두산에너빌리티 강세시",memo:"원전 보조기기·폐열회수장치(HRSG) 제조."},
+    {name:"한전KPS",code:"KRX:051600",type:"기타",cap:2,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"원전 가동률 상승·정비 수요 증가",memo:"국내외 원전·화력 정비 전문. 안정적 매출·배당주 성격."},
+    {name:"우진엔텍",code:"KOSDAQ:369990",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"체코·폴란드·중동 원전수출 뉴스·원자력 정책 호재시",memo:"원전 정비 전문 소형주. 원전 수출 소식 때마다 편입."},
+    {name:"일진파워",code:"KOSDAQ:094820",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"SMR·원전 르네상스 부각·발전소 투자 확대시",memo:"발전소 열교환기·압력용기. 원전 테마 중소형주 대표."},
+    {name:"수산인더스트리",code:"KOSDAQ:097780",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"원전 해체·SMR 테마 확산시",memo:"원전 부품·해체 장비. 신규 건설·해체 양방향 스토리."},
+    {name:"에너토크",code:"KOSDAQ:066700",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"두산에너빌리티 급등·원전 밸류체인 순환매시",memo:"원전용 전동밸브 액추에이터 전문."}
   ]},
   {name:"방산",score:92,desc:"K방산 수출 급성장. 자주포·전차·미사일·항공엔진·함정 전방위 수혜",stocks:[
-    {name:"한화에어로스페이스",code:"KRX:012450",type:"대장주",cap:20,target:"",status:"관심",spike:"",memo:"자주포(K9)·항공엔진. K방산 대표주."},
-    {name:"LIG넥스원",code:"KRX:079550",type:"완성품",cap:5,target:"",status:"관심",spike:"",memo:"미사일·레이더·유도무기."},
-    {name:"현대로템",code:"KRX:064350",type:"완성품",cap:6,target:"",status:"관심",spike:"",memo:"K2 전차·레드백 IFV."},
-    {name:"한국항공우주",code:"KRX:047810",type:"완성품",cap:5,target:"",status:"관심",spike:"",memo:"T-50·FA-50 훈련기·전투기."},
-    {name:"한화시스템",code:"KRX:272210",type:"부품",cap:3,target:"",status:"관심",spike:"",memo:"레이더·전자전·SAR위성."},
-    {name:"풍산",code:"KRX:103140",type:"소재",cap:2,target:"",status:"관심",spike:"",memo:"탄약·동소재. 미국 생산 확대."},
-    {name:"빅텍",code:"KOSDAQ:065690",type:"부품",cap:1,target:"",status:"관심",spike:"",memo:"군용 전원공급장치·배터리."},
-    /* ── 순환매 소형주 ── */
-    {name:"쎄트렉아이",code:"KOSDAQ:099830",type:"순환매",cap:1,target:"",status:"관심",spike:"위성·우주방산 테마시",memo:"소형위성 시스템 설계·제조. 방산 수출 모멘텀 및 우주방산 부각 시 급등."},
-    {name:"퍼스텍",code:"KOSDAQ:010820",type:"순환매",cap:1,target:"",status:"관심",spike:"방산수출·K방산 ETF급등시",memo:"항공기 부품·방산전자. 방산 테마 전반 확산 시 동반 급등."},
-    {name:"아스트",code:"KOSDAQ:067390",type:"순환매",cap:1,target:"",status:"관심",spike:"항공방산·FA-50 수출시",memo:"항공기 동체 구조물 부품 제조. FA-50·KF-21 수출 때마다 급등."},
-    {name:"켄코아에어로스페이스",code:"KOSDAQ:274090",type:"순환매",cap:1,target:"",status:"관심",spike:"우주·방산항공 테마시",memo:"항공우주부품·MRO. 방산+우주 이중 테마 부각 시 급등."},
-    {name:"스페코",code:"KOSDAQ:013810",type:"순환매",cap:1,target:"",status:"관심",spike:"K2전차·자주포 수주시",memo:"전차 부품·군수 소형주. 현대로템 강세 때 동반 순환."}
+    {name:"한화에어로스페이스",code:"KRX:012450",type:"대장주",cap:20,target:"",status:"관심",earningsDate:"2026-07-30",earningsNote:"2Q26 잠정",spike:"K방산 수출 계약·폴란드·루마니아 수주·항공엔진 수주 뉴스",memo:"K9 자주포·항공엔진·SAM 포괄 K방산 대표주. 폴란드·루마니아 수출 확대."},
+    {name:"LIG넥스원",code:"KRX:079550",type:"완성품",cap:5,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"미사일 수출 계약·중동·동유럽 방산 수주 뉴스",memo:"미사일·레이더·유도무기. 중동·동유럽 수출 급증."},
+    {name:"현대로템",code:"KRX:064350",type:"완성품",cap:6,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"K2 전차 수출·레드백 IFV 수주",memo:"K2 전차·레드백 IFV. 철도 사업도 병행해 이중 성장 동력."},
+    {name:"한국항공우주",code:"KRX:047810",type:"완성품",cap:5,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"FA-50 수출 계약·KF-21 양산 발표",memo:"T-50·FA-50 훈련기·경공격기. 말레이시아·폴란드 등 수출."},
+    {name:"한화시스템",code:"KRX:272210",type:"부품",cap:3,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"레이더·위성 수출·전자전 장비 수주",memo:"레이더·전자전·SAR위성. AI 기반 방산 전자 솔루션 확장."},
+    {name:"풍산",code:"KRX:103140",type:"소재",cap:2,target:"",status:"관심",earningsDate:"2026-08-12",earningsNote:"2Q26",spike:"탄약 수출 확대·글로벌 분쟁 증가시",memo:"탄약·동소재. 미국 자체 생산 법인 운영으로 수출 장벽 극복."},
+    {name:"쎄트렉아이",code:"KOSDAQ:099830",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"위성·우주방산 테마 부각·SAR위성 수출시",memo:"소형위성 시스템 설계·제조. 뉴스페이스+방산 이중 테마."},
+    {name:"아스트",code:"KOSDAQ:067390",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"항공방산·FA-50 수출·KF-21 양산 발표시",memo:"항공기 동체 구조물 부품. FA-50·KF-21 수출 때마다 급등."}
   ]},
   {name:"조선",score:91,desc:"LNG선·친환경선·특수선 수주 호황. 2026~2028 인도 피크 구간",stocks:[
-    {name:"HD현대중공업",code:"KRX:329180",type:"대장주",cap:16,target:"",status:"관심",spike:"",memo:"LNG선·특수선·해양플랜트. 수주잔고 3년치."},
-    {name:"HD한국조선해양",code:"KRX:009540",type:"대장주",cap:14,target:"",status:"관심",spike:"",memo:"HD현대 조선부문 지주."},
-    {name:"한화오션",code:"KRX:042660",type:"완성품",cap:12,target:"",status:"관심",spike:"",memo:"상선+방산 선박 이원화."},
-    {name:"삼성중공업",code:"KRX:010140",type:"완성품",cap:10,target:"",status:"관심",spike:"",memo:"LNG 운반선·해양플랜트."},
-    {name:"현대미포조선",code:"KRX:010620",type:"완성품",cap:4,target:"",status:"관심",spike:"",memo:"중형선·PC선 특화."},
-    {name:"HSD엔진",code:"KRX:082740",type:"부품",cap:1,target:"",status:"관심",spike:"",memo:"선박용 대형 엔진 공급."},
-    /* ── 순환매 소형주 ── */
-    {name:"세진중공업",code:"KOSDAQ:075580",type:"순환매",cap:1,target:"",status:"관심",spike:"LNG선 수주폭증·조선업황 급등시",memo:"선박 블록(중간재) 제조. 조선 빅3 수주 폭증 시 직결 수혜. 순환매 단골."},
-    {name:"동성화인텍",code:"KRX:033500",type:"순환매",cap:1,target:"",status:"관심",spike:"LNG선·가스선 수주 집중시",memo:"선박 LNG단열재(초저온 보냉재). LNG선 발주 급증 때마다 급등."},
-    {name:"한국카본",code:"KRX:017960",type:"순환매",cap:1,target:"",status:"관심",spike:"LNG카고 단열 부각시",memo:"선박 LNG 카고 단열재. 동성화인텍과 같이 LNG선 수혜 양대 소형주."},
-    {name:"성광벤드",code:"KOSDAQ:014620",type:"순환매",cap:1,target:"",status:"관심",spike:"조선·해양플랜트 수주시",memo:"파이프 피팅 부품. 해양플랜트·선박 발주 증가 시 동반 상승."},
-    {name:"태광",code:"KRX:023160",type:"순환매",cap:1,target:"",status:"관심",spike:"해양플랜트·LNG 수주시",memo:"피팅·밸브 제조. 해양 및 조선 순환매 수혜 단골."}
+    {name:"HD현대중공업",code:"KRX:329180",type:"대장주",cap:16,target:"",status:"관심",earningsDate:"2026-07-30",earningsNote:"2Q26 잠정",spike:"LNG선 대규모 수주·조선 업황 호황·특수선 발주 증가",memo:"LNG선·특수선·해양플랜트 대형 조선사. 수주잔고 3년치 이상."},
+    {name:"HD한국조선해양",code:"KRX:009540",type:"대장주",cap:14,target:"",status:"관심",earningsDate:"2026-07-30",earningsNote:"2Q26",spike:"조선 3사 합산 실적 호조·수주 급증 뉴스",memo:"HD현대 조선부문 지주. 수주잔고 확인 시 동반 상승."},
+    {name:"한화오션",code:"KRX:042660",type:"완성품",cap:12,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"상선 수주·잠수함 계약·그룹 시너지 뉴스",memo:"상선과 방산 선박(잠수함) 이원화. 한화그룹 편입 후 체질 개선."},
+    {name:"삼성중공업",code:"KRX:010140",type:"완성품",cap:10,target:"",status:"관심",earningsDate:"2026-07-23",earningsNote:"2Q26 잠정",spike:"LNG운반선 수주·해양플랜트 발주·흑자 전환 확인",memo:"LNG 운반선·해양플랜트 전문. 연속 흑자 전환 구간."},
+    {name:"HSD엔진",code:"KRX:082740",type:"부품",cap:1,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"선박 엔진 발주 증가·조선 수주잔고 확인시",memo:"선박용 대형 엔진 공급사. 조선 수주 후 약 2년 내 엔진 발주 증가."},
+    {name:"세진중공업",code:"KOSDAQ:075580",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"LNG선 수주 폭증·조선 빅3 업황 급등시",memo:"선박 블록(중간재) 제조. 조선 빅3 수주 폭증 시 직결 수혜."},
+    {name:"동성화인텍",code:"KRX:033500",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"LNG선·가스선 집중 수주시",memo:"선박 LNG 단열재(초저온 보냉재) 소재. LNG선 발주 급증 때마다 동반 급등."},
+    {name:"한국카본",code:"KRX:017960",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"LNG 카고 단열재 수요 급증·동성화인텍 급등시",memo:"선박 LNG 카고 단열재. 동성화인텍과 함께 LNG선 양대 소형 수혜주."}
   ]},
   {name:"로봇",score:88,desc:"협동로봇·AMR·AI로봇 성장 초입. 감속기·액추에이터 소부장 동반 성장",stocks:[
-    {name:"두산로보틱스",code:"KRX:454910",type:"대장주",cap:5,target:"",status:"관심",spike:"",memo:"협동로봇 국내 1위. 삼성전자 전략적 투자."},
-    {name:"레인보우로보틱스",code:"KOSDAQ:277810",type:"대장주",cap:3,target:"",status:"관심",spike:"",memo:"휴머노이드·이동로봇. 삼성전자 자회사."},
-    {name:"에스비비테크",code:"KOSDAQ:389500",type:"부품",cap:1,target:"",status:"관심",spike:"",memo:"로봇 감속기(하모닉 드라이브)."},
-    {name:"로보티즈",code:"KOSDAQ:108490",type:"부품",cap:1,target:"",status:"관심",spike:"",memo:"서보 액추에이터·모듈형 로봇."},
-    {name:"스맥",code:"KRX:099440",type:"완성품",cap:1,target:"",status:"관심",spike:"",memo:"산업용 로봇 암·자동화 라인."},
-    /* ── 순환매 소형주 ── */
-    {name:"에스피지",code:"KRX:058610",type:"순환매",cap:1,target:"",status:"관심",spike:"로봇·자동화 테마 급등시",memo:"모터·감속기·정밀 구동부품. 로봇 테마 확산 시 감속기 소형주 대표 수혜."},
-    {name:"티로보틱스",code:"KOSDAQ:117730",type:"순환매",cap:1,target:"",status:"관심",spike:"삼성·현대 로봇투자 발표시",memo:"반도체 이송로봇·진공로봇. 로봇+반도체 이중 테마 수혜주."},
-    {name:"뉴로메카",code:"KOSDAQ:348680",type:"순환매",cap:1,target:"",status:"관심",spike:"협동로봇·인간형로봇 테마시",memo:"협동로봇 스타트업. 두산로보틱스·레인보우로보틱스 급등 시 동반 상승."},
-    {name:"삼익THK",code:"KRX:004380",type:"순환매",cap:1,target:"",status:"관심",spike:"로봇·자동화 설비투자 증가시",memo:"LM가이드·볼스크류. 로봇·공작기계 정밀 이송부품 핵심."}
+    {name:"두산로보틱스",code:"KRX:454910",type:"대장주",cap:5,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"삼성전자 로봇 투자 확대·협동로봇 수주 급증",memo:"협동로봇 국내 1위. 삼성전자 전략적 투자. 글로벌 시장 확장 중."},
+    {name:"레인보우로보틱스",code:"KOSDAQ:277810",type:"대장주",cap:3,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"삼성전자 로봇사업 발표·휴머노이드 테마 급등시",memo:"휴머노이드·이동로봇. 삼성전자 자회사. AI+로봇 복합 테마 핵심주."},
+    {name:"에스비비테크",code:"KOSDAQ:389500",type:"부품",cap:1,target:"",status:"관심",earningsDate:"2026-08-14",earningsNote:"2Q26",spike:"로봇 감속기 국산화·협동로봇 수주 급증시",memo:"로봇 감속기(하모닉 드라이브) 국산화. 감속기는 로봇 원가 35% 핵심 부품."},
+    {name:"에스피지",code:"KRX:058610",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"로봇·자동화 테마 급등·감속기 소형주 순환매시",memo:"모터·감속기·정밀 구동부품 복합. 로봇 테마 확산 시 감속기 소형주 대표로 빠르게 편입."},
+    {name:"삼익THK",code:"KRX:004380",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"로봇·공작기계·반도체 설비투자 증가시",memo:"LM가이드·볼스크류 정밀 이송부품. 로봇·반도체 장비·공작기계 다방면 수혜."}
   ]},
   {name:"2차전지",score:84,desc:"전기차·ESS 배터리. 소재·셀·팩 밸류체인",stocks:[
-    {name:"LG에너지솔루션",code:"KRX:373220",type:"대장주",cap:70,target:"",status:"관심",spike:"",memo:"원통형·파우치·LFP 다변화. GM·BMW 공급."},
-    {name:"삼성SDI",code:"KRX:006400",type:"대장주",cap:25,target:"",status:"관심",spike:"",memo:"각형 배터리 강자. BMW·스텔란티스 공급."},
-    {name:"SK이노베이션",code:"KRX:096770",type:"대장주",cap:15,target:"",status:"관심",spike:"",memo:"SK온 배터리+정유."},
-    {name:"포스코퓨처엠",code:"KRX:003670",type:"소재",cap:8,target:"",status:"관심",spike:"",memo:"양극재(NCMA)·음극재 수직계열화."},
-    {name:"에코프로비엠",code:"KOSDAQ:247540",type:"소재",cap:10,target:"",status:"관심",spike:"",memo:"하이니켈 양극재 선두."},
-    {name:"에코프로",code:"KOSDAQ:086520",type:"대장주",cap:15,target:"",status:"관심",spike:"",memo:"에코프로비엠·에이치엔 지주."},
-    {name:"엘앤에프",code:"KRX:066970",type:"소재",cap:5,target:"",status:"관심",spike:"",memo:"양극재·테슬라 공급."},
-    {name:"천보",code:"KOSDAQ:278280",type:"소재",cap:2,target:"",status:"관심",spike:"",memo:"리튬염·전해질 첨가제 전문."},
-    /* ── 순환매 소형주 ── */
-    {name:"나노신소재",code:"KOSDAQ:091970",type:"순환매",cap:1,target:"",status:"관심",spike:"배터리소재·전도성카본 부각시",memo:"CNT 분산액·전도성 카본 소재. 전고체 배터리·양극재 기술 고도화 시 급등."},
-    {name:"엔켐",code:"KOSDAQ:348370",type:"순환매",cap:1,target:"",status:"관심",spike:"전해질·LFP 부각시",memo:"전해질 전문 소형주. LFP 배터리 전환 시 전해질 수요 급증 수혜."},
-    {name:"코스모신소재",code:"KOSDAQ:005070",type:"순환매",cap:1,target:"",status:"관심",spike:"양극재 업황 반등시",memo:"양극재 원재료·자기테이프 겸업. 2차전지 테마 확산 시 소형 양극재주로 편입."},
-    {name:"씨아이에스",code:"KOSDAQ:222080",type:"순환매",cap:1,target:"",status:"관심",spike:"배터리장비 수주 확대시",memo:"배터리 전극 공정 장비 소형주. 셀 업체 캐파 증설 발표 시 동반 급등."}
+    {name:"LG에너지솔루션",code:"KRX:373220",type:"대장주",cap:70,target:"",status:"관심",earningsDate:"2026-07-23",earningsNote:"2Q26 잠정",spike:"전기차 수요 회복·GM·BMW 추가 공급 계약·ESS 수주",memo:"원통형·파우치·LFP 포트폴리오 다변화. GM·BMW·현대차 장기 공급."},
+    {name:"삼성SDI",code:"KRX:006400",type:"대장주",cap:25,target:"",status:"관심",earningsDate:"2026-07-30",earningsNote:"2Q26",spike:"각형 배터리 수주·전고체 개발 성과·BMW 수주 확대",memo:"각형 배터리 강자. BMW·스텔란티스·리비안 공급. 전고체 개발 선행."},
+    {name:"포스코퓨처엠",code:"KRX:003670",type:"소재",cap:8,target:"",status:"관심",earningsDate:"2026-07-24",earningsNote:"2Q26",spike:"양극재 수주 급증·포스코 리튬 조달 뉴스",memo:"양극재(NCMA)·음극재 수직계열화. 포스코홀딩스 리튬 조달 우위."},
+    {name:"에코프로비엠",code:"KOSDAQ:247540",type:"소재",cap:10,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"하이니켈 양극재 수주·고성능 배터리 수요 확대시",memo:"하이니켈 양극재 국내 선두. 삼성SDI·SK온 납품."},
+    {name:"에코프로",code:"KOSDAQ:086520",type:"대장주",cap:15,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"에코프로비엠 수주·그룹 성장 뉴스",memo:"에코프로비엠·에이치엔 지주. 양극재+환경 이중 사업."},
+    {name:"천보",code:"KOSDAQ:278280",type:"소재",cap:2,target:"",status:"관심",earningsDate:"2026-08-12",earningsNote:"2Q26",spike:"리튬염 수요 급증·LFP 배터리 전환시",memo:"리튬염(LiFSI)·전해질 첨가제 고부가 소재 전문."},
+    {name:"나노신소재",code:"KOSDAQ:091970",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"CNT·전도성카본 소재 부각·전고체 배터리 테마시",memo:"CNT 분산액·전도성 카본. 배터리 도전재 핵심 소재."},
+    {name:"씨아이에스",code:"KOSDAQ:222080",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"배터리 셀 업체 캐파 증설 발표시",memo:"배터리 전극 공정 장비 소형주. 셀 업체 신규 라인 투자 시 수주 기대."}
   ]},
   {name:"바이오",score:87,desc:"CDMO, ADC, 바이오시밀러, 신약 파이프라인 중심",stocks:[
-    {name:"삼성바이오로직스",code:"KRX:207940",type:"대장주",cap:70,target:"",status:"관심",spike:"",memo:"글로벌 CDMO 3위. 5공장 가동 확장."},
-    {name:"셀트리온",code:"KRX:068270",type:"대장주",cap:30,target:"",status:"관심",spike:"",memo:"바이오시밀러 글로벌 직판."},
-    {name:"한미약품",code:"KRX:128940",type:"신약",cap:8,target:"",status:"관심",spike:"",memo:"비만치료제·GLP-1 파이프라인."},
-    {name:"유한양행",code:"KRX:000100",type:"신약",cap:8,target:"",status:"관심",spike:"",memo:"렉라자 美 FDA 승인. BMS 공동 판매."},
-    {name:"알테오젠",code:"KOSDAQ:196170",type:"플랫폼",cap:15,target:"",status:"관심",spike:"",memo:"SC제형 플랫폼(ALT-B4). 머크·얀센 기술이전."},
-    {name:"리가켐바이오",code:"KOSDAQ:141080",type:"플랫폼",cap:5,target:"",status:"관심",spike:"",memo:"ADC 플랫폼. 얀센 빅딜 성사."},
-    {name:"에이비엘바이오",code:"KOSDAQ:298380",type:"플랫폼",cap:2,target:"",status:"관심",spike:"",memo:"이중항체 플랫폼. CNS·종양 파이프라인."},
-    /* ── 순환매 소형주 ── */
-    {name:"오스코텍",code:"KOSDAQ:039200",type:"순환매",cap:1,target:"",status:"관심",spike:"ADC·표적항암 임상 결과시",memo:"신약 파이프라인 다수. 유한양행 레이저티닙 모회사. 바이오 랠리 때 급등 단골."},
-    {name:"파멥신",code:"KOSDAQ:208340",type:"순환매",cap:1,target:"",status:"관심",spike:"항암·ADC 빅딜 발표시",memo:"항체 기반 항암신약. ADC 빅딜 발표 때마다 동반 급등."},
-    {name:"압타바이오",code:"KOSDAQ:293780",type:"순환매",cap:1,target:"",status:"관심",spike:"희귀질환·RNA 테마시",memo:"압타머 기반 신약. 희귀질환 RNA치료제 테마 확산 시 급등."},
-    {name:"메드팩토",code:"KOSDAQ:235980",type:"순환매",cap:1,target:"",status:"관심",spike:"항암 면역관문 억제제 이슈시",memo:"백토서팁(TGF-β 억제). 면역항암 병용요법 이슈 때 순환매."}
+    {name:"삼성바이오로직스",code:"KRX:207940",type:"대장주",cap:70,target:"",status:"관심",earningsDate:"2026-07-24",earningsNote:"2Q26 잠정",spike:"글로벌 CDMO 수주 급증·신규 공장 가동·빅파마 위탁생산 계약",memo:"글로벌 CDMO 3위. 5공장 가동으로 캐파 확대. 삼성그룹 바이오 핵심."},
+    {name:"셀트리온",code:"KRX:068270",type:"대장주",cap:30,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"바이오시밀러 미국 점유율 확대·짐펜트라 판매 급증",memo:"바이오시밀러 글로벌 직판. 짐펜트라(피하주사형 렘시마) 미국 확장."},
+    {name:"한미약품",code:"KRX:128940",type:"신약",cap:8,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"GLP-1·비만치료제 글로벌 빅딜·임상 성과 발표시",memo:"비만치료제·GLP-1 파이프라인 다수. 글로벌 빅파마 기술이전 이력."},
+    {name:"유한양행",code:"KRX:000100",type:"신약",cap:8,target:"",status:"관심",earningsDate:"2026-08-12",earningsNote:"2Q26",spike:"렉라자 미국 매출 성장·BMS 공동 판매 확대",memo:"렉라자(레이저티닙) 美 FDA 승인. BMS 공동 판매. 3세대 EGFR 표적항암제."},
+    {name:"알테오젠",code:"KOSDAQ:196170",type:"플랫폼",cap:15,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"SC 제형 변경 추가 기술이전·머크 공동개발 성과",memo:"피하주사(SC) 제형변경 플랫폼(ALT-B4). 머크·얀센 등 다수 기술이전."},
+    {name:"리가켐바이오",code:"KOSDAQ:141080",type:"플랫폼",cap:5,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"ADC 빅딜 추가 체결·글로벌 빅파마 파트너링",memo:"ADC 플랫폼. 얀센 빅딜 성사로 밸류 급상승."},
+    {name:"오스코텍",code:"KOSDAQ:039200",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"ADC·표적항암 임상 결과·유한양행 렉라자 매출 급성장시",memo:"유한양행 렉라자 원천기술 모회사. 바이오 랠리 때 항암신약 테마주로 급등."},
+    {name:"메드팩토",code:"KOSDAQ:235980",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"면역항암 병용요법 임상 성과·항암 빅딜시",memo:"TGF-β 억제제 백토서팁 개발. 면역항암 이슈 시 순환매 편입."}
   ]},
   {name:"자동차",score:80,desc:"현대차그룹 글로벌 3위. 전동화·SDV 전환 중 소부장 구조 변화",stocks:[
-    {name:"현대차",code:"KRX:005380",type:"대장주",cap:55,target:"",status:"관심",spike:"",memo:"전기차(아이오닉6·9)·HEV 확대."},
-    {name:"기아",code:"KRX:000270",type:"대장주",cap:40,target:"",status:"관심",spike:"",memo:"EV6·EV9·PBV. 고마진 구조. 배당 우수."},
-    {name:"현대모비스",code:"KRX:012330",type:"부품",cap:15,target:"",status:"관심",spike:"",memo:"전동화 핵심부품·자율주행 모듈."},
-    {name:"HL만도",code:"KRX:204320",type:"부품",cap:3,target:"",status:"관심",spike:"",memo:"ADAS·조향·제동."},
-    {name:"현대위아",code:"KRX:011210",type:"부품",cap:2,target:"",status:"관심",spike:"",memo:"엔진·변속기·공작기계."},
-    /* ── 순환매 소형주 ── */
-    {name:"모베이스",code:"KOSDAQ:101330",type:"순환매",cap:1,target:"",status:"관심",spike:"현대차·기아 판매 호조시",memo:"현대차 내장재·플라스틱 부품 소형 납품사. 현대·기아 실적 랠리 때 동반 상승."},
-    {name:"화신",code:"KRX:010690",type:"순환매",cap:1,target:"",status:"관심",spike:"현대차 신차 사이클시",memo:"자동차 섀시·브레이크 부품. 현대차그룹 신차 출시 사이클마다 순환."},
-    {name:"서연이화",code:"KRX:200880",type:"순환매",cap:1,target:"",status:"관심",spike:"전기차 내장재·경량화 테마시",memo:"자동차 내장재 전문. EV 경량화 소재 테마 편승 시 순환매 수혜."}
+    {name:"현대차",code:"KRX:005380",type:"대장주",cap:55,target:"",status:"관심",earningsDate:"2026-07-24",earningsNote:"2Q26 잠정",spike:"전기차 판매 호조·아이오닉 신모델 수주·배당 확대 정책",memo:"아이오닉6·9·HEV 확대. 글로벌 3위 완성차. 미국 현지 생산으로 관세 방어."},
+    {name:"기아",code:"KRX:000270",type:"대장주",cap:40,target:"",status:"관심",earningsDate:"2026-07-24",earningsNote:"2Q26 잠정",spike:"EV6·EV9 글로벌 판매 호조·PBV 수주·배당 증가",memo:"EV6·EV9·PBV. 고마진 구조. 배당 우수. PBV 신규 시장 개척."},
+    {name:"현대모비스",code:"KRX:012330",type:"부품",cap:15,target:"",status:"관심",earningsDate:"2026-07-24",earningsNote:"2Q26",spike:"전동화 부품 수주 급증·자율주행 모듈 공급 계약",memo:"전동화 핵심부품·자율주행 모듈. 현대차그룹 핵심 부품사."},
+    {name:"HL만도",code:"KRX:204320",type:"부품",cap:3,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"ADAS 수주 확대·글로벌 완성차 신규 공급 계약",memo:"ADAS·전동조향·전동브레이크. 글로벌 완성차사 공급 다각화."},
+    {name:"화신",code:"KRX:010690",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"현대차 신차 출시·아이오닉 판매 급증시",memo:"자동차 섀시·브레이크 부품 소형주. 현대차그룹 신차 출시 사이클마다 순환."}
   ]},
   {name:"AI/플랫폼",score:85,desc:"국내 AI 소버린, 엔터프라이즈 SaaS, 클라우드 인프라 전환",stocks:[
-    {name:"NAVER",code:"KRX:035420",type:"대장주",cap:30,target:"",status:"관심",spike:"",memo:"하이퍼클로바X·네이버클라우드. 국내 AI 생태계 핵심."},
-    {name:"카카오",code:"KRX:035720",type:"대장주",cap:15,target:"",status:"관심",spike:"",memo:"플랫폼 독과점. AI·콘텐츠 확장."},
-    {name:"더존비즈온",code:"KRX:012510",type:"AI",cap:3,target:"",status:"관심",spike:"",memo:"ERP·AI 기업용 SaaS."},
-    {name:"솔트룩스",code:"KOSDAQ:304100",type:"AI",cap:1,target:"",status:"관심",spike:"",memo:"공공·B2B AI 솔루션."},
-    {name:"크래프톤",code:"KRX:259960",type:"플랫폼",cap:12,target:"",status:"관심",spike:"",memo:"배그·인조이 글로벌 게임. 인도 시장 독보적."},
-    /* ── 순환매 소형주 ── */
-    {name:"코난테크놀로지",code:"KOSDAQ:402030",type:"순환매",cap:1,target:"",status:"관심",spike:"ChatGPT·생성AI 이슈 부각시",memo:"자연어처리·검색AI 소형주. 생성AI 이슈 터질 때마다 상위 급등주 단골."},
-    {name:"셀바스AI",code:"KOSDAQ:108860",type:"순환매",cap:1,target:"",status:"관심",spike:"온디바이스AI·헬스케어AI시",memo:"음성인식·AI 헬스케어. AI+의료 이중 테마 부각 시 급등."},
-    {name:"마인즈랩",code:"KOSDAQ:377480",type:"순환매",cap:1,target:"",status:"관심",spike:"생성AI·AI에이전트 테마시",memo:"AI 음성·언어모델. 생성AI 붐 때 국내 AI 소형주 대표 급등주."},
-    {name:"라온시큐어",code:"KOSDAQ:042510",type:"순환매",cap:1,target:"",status:"관심",spike:"AI보안·제로트러스트 테마시",memo:"AI 보안·생체인증. AI+사이버보안 복합 테마 시 급등."}
+    {name:"NAVER",code:"KRX:035420",type:"대장주",cap:30,target:"",status:"관심",earningsDate:"2026-08-06",earningsNote:"2Q26",spike:"하이퍼클로바X B2B 계약·네이버클라우드 성장·일본 라인 수익 개선",memo:"하이퍼클로바X·네이버클라우드 AI 생태계. 국내 AI 소버린 핵심. 일본 검색 강자."},
+    {name:"카카오",code:"KRX:035720",type:"대장주",cap:15,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"AI 서비스 출시·플랫폼 수익 개선·지배구조 개선",memo:"플랫폼 독과점. AI·콘텐츠 확장. 지배구조 개선 및 주주환원 확대 기대."},
+    {name:"더존비즈온",code:"KRX:012510",type:"AI",cap:3,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"AI 기업용 SaaS 계약 확대·공공 ERP 수주 급증",memo:"ERP·AI 기업용 SaaS 선두. 국내 기업 디지털 전환 수혜."},
+    {name:"크래프톤",code:"KRX:259960",type:"플랫폼",cap:12,target:"",status:"관심",earningsDate:"2026-08-13",earningsNote:"2Q26",spike:"인도 시장 MAU 급증·신작 흥행·AI 게임 테마",memo:"배그·인조이 글로벌 게임. 인도 시장 독보적. AI 게임 콘텐츠 개발."},
+    {name:"코난테크놀로지",code:"KOSDAQ:402030",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"ChatGPT·생성AI·LLM 이슈 부각시",memo:"자연어처리·검색AI 소형주. 생성AI 이슈 터질 때마다 국내 AI 상위 급등주 단골."},
+    {name:"셀바스AI",code:"KOSDAQ:108860",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"온디바이스AI·AI 헬스케어·음성인식 테마시",memo:"음성인식·AI 헬스케어. AI+의료 이중 테마 부각 시 급등."},
+    {name:"마인즈랩",code:"KOSDAQ:377480",type:"순환매",cap:1,target:"",status:"관심",earningsDate:"",earningsNote:"",spike:"생성AI·AI에이전트 테마 급등시",memo:"AI 음성·언어모델 솔루션. 생성AI 붐 시 국내 AI 소형주 대표 급등주."}
   ]}
 ];
 
-/* ══════════ 상태 ══════════ */
-let sectors = JSON.parse(localStorage.getItem("sectorData_v3")) || JSON.parse(JSON.stringify(defaultData));
-let openedSector = null;
-let selectedPart = "전체";
-let rotationViewOpen = false;
+/* ══ 상태 ══ */
+let sectors=JSON.parse(localStorage.getItem("sectorData_v5"))||JSON.parse(JSON.stringify(defaultData));
+let openedSector=null,selectedPart="전체",calOpen=false,rotOpen=false;
 
-/* ══════════ DART API ══════════ */
-const PROXY="https://api.allorigins.win/get?url=";
-const DART="https://opendart.fss.or.kr/api";
-
-function saveDartKey(){
-  const k=document.getElementById("dartKeyInput").value.trim();
-  if(!k){alert("API 키를 입력하세요.");return;}
-  localStorage.setItem("dartApiKey",k);
-  document.getElementById("dartKeyInput").value="";
-  updateDartKeyStatus();
-  alert("DART API 키가 저장되었습니다 ✅");
-}
-function updateDartKeyStatus(){
-  const k=localStorage.getItem("dartApiKey");
-  const el=document.getElementById("dartKeyStatus");
-  if(k) el.innerHTML=`✅ 등록됨 (...${k.slice(-4)}) · <a href="#" onclick="if(confirm('삭제?')){localStorage.removeItem('dartApiKey');updateDartKeyStatus();}return false;" style="color:var(--purple)">삭제</a>`;
-  else el.innerHTML="⚠ 키 미등록";
-}
-async function fetchDartDisclosures(name){
-  const apiKey=localStorage.getItem("dartApiKey");
-  if(!apiKey)return{status:"NO_KEY"};
+/* ══ DART ══ */
+const PROXY="https://api.allorigins.win/get?url=",DART="https://opendart.fss.or.kr/api";
+function saveDartKey(){const k=document.getElementById("dartKeyInput").value.trim();if(!k){alert("API 키를 입력하세요.");return;}localStorage.setItem("dartApiKey",k);document.getElementById("dartKeyInput").value="";updateDartKeyStatus();alert("DART API 키 저장 ✅");}
+function updateDartKeyStatus(){const k=localStorage.getItem("dartApiKey");document.getElementById("dartKeyStatus").innerHTML=k?`✅ 등록됨 (...${k.slice(-4)}) · <a href="#" onclick="if(confirm('삭제?')){localStorage.removeItem('dartApiKey');updateDartKeyStatus();}return false;" style="color:var(--purple)">삭제</a>`:"⚠ 키 미등록";}
+async function fetchDart(name){
+  const k=localStorage.getItem("dartApiKey");if(!k)return{status:"NO_KEY"};
   const today=new Date(),past=new Date();past.setMonth(past.getMonth()-6);
   const fmt=d=>d.toISOString().slice(0,10).replace(/-/g,"");
   try{
-    const r1=await fetch(PROXY+encodeURIComponent(`${DART}/company.json?crtfc_key=${apiKey}&corp_name=${encodeURIComponent(name)}`));
+    const r1=await fetch(PROXY+encodeURIComponent(`${DART}/company.json?crtfc_key=${k}&corp_name=${encodeURIComponent(name)}`));
     const co=JSON.parse((await r1.json()).contents);
     if(co.status!=="000"||!co.corp_code)return{status:"NOT_FOUND"};
-    const r2=await fetch(PROXY+encodeURIComponent(`${DART}/list.json?crtfc_key=${apiKey}&corp_code=${co.corp_code}&bgn_de=${fmt(past)}&end_de=${fmt(today)}&page_count=15&sort=date&sort_mth=desc`));
-    const res=JSON.parse((await r2.json()).contents);
-    return{status:"OK",list:res.list||[]};
+    const r2=await fetch(PROXY+encodeURIComponent(`${DART}/list.json?crtfc_key=${k}&corp_code=${co.corp_code}&bgn_de=${fmt(past)}&end_de=${fmt(today)}&page_count=15&sort=date&sort_mth=desc`));
+    return{status:"OK",list:JSON.parse((await r2.json()).contents).list||[]};
   }catch(e){return{status:"ERROR",msg:e.message};}
 }
-function dartTypeLabel(nm){
-  if(!nm)return["기타","t-기타"];
-  if(nm.includes("사업보고서")||nm.includes("분기보고서")||nm.includes("반기보고서"))return["정기공시","t-정기"];
-  if(nm.includes("주요사항")||nm.includes("유상증자")||nm.includes("합병")||nm.includes("자기주식"))return["주요사항","t-주요"];
-  if(nm.includes("지분")||nm.includes("주식등"))return["지분공시","t-지분"];
-  return["기타","t-기타"];
-}
+function dartTypeLabel(nm){if(!nm)return["기타","t-기타"];if(nm.includes("사업보고서")||nm.includes("분기보고서")||nm.includes("반기보고서"))return["정기공시","t-정기"];if(nm.includes("주요사항")||nm.includes("유상증자")||nm.includes("합병"))return["주요사항","t-주요"];if(nm.includes("지분"))return["지분공시","t-지분"];return["기타","t-기타"];}
 
-/* ══════════ 순환매 전체 뷰 ══════════ */
-function toggleRotationView(){
-  rotationViewOpen=!rotationViewOpen;
-  const btn=document.getElementById("rotationToggleBtn");
-  const view=document.getElementById("rotationView");
-  const sl=document.getElementById("sectorList");
-  const st=document.getElementById("mainSectionTitle");
-  if(rotationViewOpen){
-    btn.textContent="섹터별 보기"; btn.classList.add("active");
-    view.classList.add("open"); sl.style.display="none"; st.style.display="none";
-    renderRotationView();
-  } else {
-    btn.textContent="전체 보기"; btn.classList.remove("active");
-    view.classList.remove("open"); sl.style.display=""; st.style.display="";
-  }
+/* ══ D-day 헬퍼 ══ */
+function getDDay(ds){if(!ds)return null;const t=new Date(ds);const now=new Date();t.setHours(0,0,0,0);now.setHours(0,0,0,0);return Math.round((t-now)/(864e5));}
+function fmtDate(ds){return ds?ds.replace(/-/g,".").slice(2):"";}
+function eBadge(stock){
+  if(!stock.earningsDate)return`<span class="e-badge e-none">📅 미입력</span>`;
+  const d=getDDay(stock.earningsDate),ds=fmtDate(stock.earningsDate),n=stock.earningsNote?` · ${stock.earningsNote}`:"";
+  if(d===0)return`<span class="e-badge e-today">🔴 오늘 실적발표!</span>`;
+  if(d>0&&d<=7)return`<span class="e-badge e-urgent">🔴 D-${d} (${ds})${n}</span>`;
+  if(d>0&&d<=30)return`<span class="e-badge e-soon">🟡 D-${d} (${ds})${n}</span>`;
+  if(d>0)return`<span class="e-badge e-far">📅 D-${d} (${ds})${n}</span>`;
+  if(d>=-14)return`<span class="e-badge e-past">📊 D+${Math.abs(d)} 발표완료</span>`;
+  return`<span class="e-badge e-past">📊 발표완료 (${ds})</span>`;
 }
-function renderRotationView(){
-  const view=document.getElementById("rotationView");
-  const totalCount = sectors.reduce((a,s)=>a+s.stocks.filter(st=>st.type==="순환매").length,0);
-  view.innerHTML=`
-    <div style="background:var(--rocket-light);border:1px solid #fed7aa;border-radius:16px;padding:14px;margin-bottom:14px;">
-      <div style="font-size:14px;font-weight:900;color:var(--rocket);margin-bottom:4px;">🚀 순환매 급등 소형주 전체 — ${totalCount}종목</div>
-      <div style="font-size:12px;color:var(--sub);font-weight:700;line-height:1.6;">섹터 순환매 올 때 대장주보다 빠르게 움직이는 소형주들. 급등 트리거(언제 오르는지) 확인 후 대응하세요.</div>
-    </div>
-    <div class="rotation-grid">
-      ${sectors.map(sector=>{
-        const rockets=sector.stocks.filter(s=>s.type==="순환매");
-        if(!rockets.length)return"";
-        return`<div class="rotation-sector-group">
-          <div class="rotation-sector-name">📁 ${sector.name} <span>${sector.score}pt</span></div>
-          <div class="rotation-stocks">
-            ${rockets.map(stock=>`
-              <div class="stock-card is-rocket">
-                <div class="stock-top">
-                  <div>
-                    <div class="sname">🚀 ${stock.name}</div>
-                    <div class="ssub">시총점수 ${stock.cap||0}${stock.target?" · "+stock.target:""}</div>
-                    <div class="badge-row">
-                      <span class="status-badge status-${stock.status}">${stock.status}</span>
-                    </div>
-                    ${stock.spike?`<div class="spike-history"><span class="spike-chip">⚡ ${stock.spike}</span></div>`:""}
-                  </div>
-                  <div class="stock-btns">
-                    <button class="icon-btn btn-chart" onclick="openChart('${stock.name}','${stock.code||""}')">차트</button>
-                    <button class="icon-btn btn-info" onclick="openInfo('${stock.name}','${stock.code||""}')">뉴스·공시</button>
-                  </div>
-                </div>
-                ${stock.memo?`<div style="font-size:12px;color:var(--sub);font-weight:700;line-height:1.5;padding-top:6px;border-top:1px solid var(--border);margin-top:6px;">${stock.memo}</div>`:""}
-              </div>`).join("")}
-          </div>
-        </div>`;
-      }).join("")}
-    </div>`;
-}
+function isImm(st){if(!st.earningsDate)return false;const d=getDDay(st.earningsDate);return d!==null&&d>=0&&d<=14;}
 
-/* ══════════ 모달 ══════════ */
+/* ══ 모달 ══ */
 async function openInfo(name,code){
-  const nc=code?code.split(":")[1]:null;
-  const enc=encodeURIComponent(name);
+  const nc=code?code.split(":")[1]:null,enc=encodeURIComponent(name);
   document.getElementById("infoModalTitle").textContent=`📋 ${name}`;
   document.getElementById("infoModalBody").innerHTML=`
     <div class="quick-links">
-      <button class="quick-btn q-naver" onclick="window.open('${nc?`https://finance.naver.com/item/news.naver?code=${nc}`:`https://search.naver.com/search.naver?where=news&query=${enc}+주식`}','_blank')">
-        <span class="icon">📰</span>네이버 뉴스
-      </button>
-      ${nc?`<button class="quick-btn q-naverstock" onclick="window.open('https://finance.naver.com/item/main.naver?code=${nc}','_blank')"><span class="icon">📊</span>종목 시세/재무</button>`:""}
+      <button class="quick-btn q-naver" onclick="window.open('${nc?`https://finance.naver.com/item/news.naver?code=${nc}`:`https://search.naver.com/search.naver?where=news&query=${enc}+주식`}','_blank')"><span class="icon">📰</span>네이버 뉴스</button>
+      ${nc?`<button class="quick-btn q-naverstock" onclick="window.open('https://finance.naver.com/item/main.naver?code=${nc}','_blank')"><span class="icon">📊</span>시세/재무/실적</button>`:""}
       <button class="quick-btn q-dart" onclick="window.open('https://dart.fss.or.kr/dsab002/search.ax?textCrpNm=${enc}','_blank')"><span class="icon">🔗</span>DART 사이트</button>
       ${code?`<button class="quick-btn q-tv" onclick="openChart('${name}','${code}')"><span class="icon">📈</span>차트 보기</button>`:""}
     </div>
-    <div class="dart-section-title">📋 최근 6개월 공시 <span style="font-size:11px;color:var(--sub);font-weight:700;">(DART OpenAPI)</span></div>
+    <div class="dart-section-title">📋 최근 6개월 공시</div>
     <div id="dartResult"><div class="dart-loading"><div class="dart-spinner"></div><br>공시 불러오는 중...</div></div>`;
   document.getElementById("infoModal").classList.add("open");
-  const res=await fetchDartDisclosures(name);
-  const el=document.getElementById("dartResult");
-  if(!el)return;
-  if(res.status==="NO_KEY"){
-    el.innerHTML=`<div class="dart-nokey"><p>🔑 DART API 키가 필요해요.<br><a href="https://opendart.fss.or.kr" target="_blank">opendart.fss.or.kr</a>에서 무료 발급 후 상단 패널에 입력하세요.</p><button onclick="closeModal()">API 키 입력하러 가기</button></div>`;return;
-  }
+  const res=await fetchDart(name);
+  const el=document.getElementById("dartResult");if(!el)return;
+  if(res.status==="NO_KEY"){el.innerHTML=`<div class="dart-nokey"><p>🔑 DART API 키가 필요해요.<br><a href="https://opendart.fss.or.kr" target="_blank">opendart.fss.or.kr</a>에서 무료 발급 후 상단 패널에 입력하세요.</p><button onclick="closeModal()">키 입력하러 가기</button></div>`;return;}
   if(res.status==="NOT_FOUND"){el.innerHTML=`<div class="dart-empty">📭 "${name}" DART 검색 결과 없음.</div>`;return;}
   if(res.status==="ERROR"){el.innerHTML=`<div class="dart-error">⚠ 오류: ${res.msg||""}</div>`;return;}
   if(!res.list||!res.list.length){el.innerHTML=`<div class="dart-empty">📭 최근 6개월 공시 없음.</div>`;return;}
-  el.innerHTML=`<div class="dart-list">${res.list.map(d=>{
-    const[label,cls]=dartTypeLabel(d.report_nm);
-    const dt=d.rcept_dt?d.rcept_dt.replace(/(\d{4})(\d{2})(\d{2})/,"$1.$2.$3"):"";
-    return`<div class="dart-item" onclick="window.open('https://dart.fss.or.kr/dsaf001/main.do?rcpNo=${d.rcept_no}','_blank')">
-      <div class="dart-item-title">${d.report_nm||"제목 없음"}</div>
-      <div class="dart-meta"><span class="dart-date">📅 ${dt}</span><span class="dart-type ${cls}">${label}</span>${d.flr_nm?`<span class="dart-date">· ${d.flr_nm}</span>`:""}</div>
-    </div>`;}).join("")}</div>`;
+  el.innerHTML=`<div class="dart-list">${res.list.map(d=>{const[l,c]=dartTypeLabel(d.report_nm);const dt=d.rcept_dt?d.rcept_dt.replace(/(\d{4})(\d{2})(\d{2})/,"$1.$2.$3"):"";return`<div class="dart-item" onclick="window.open('https://dart.fss.or.kr/dsaf001/main.do?rcpNo=${d.rcept_no}','_blank')"><div class="dart-item-title">${d.report_nm||"제목 없음"}</div><div class="dart-meta"><span class="dart-date">📅 ${dt}</span><span class="dart-type ${c}">${l}</span>${d.flr_nm?`<span class="dart-date">· ${d.flr_nm}</span>`:""}</div></div>`;}).join("")}</div>`;
 }
 function closeModal(){document.getElementById("infoModal").classList.remove("open");}
 document.getElementById("infoModal").addEventListener("click",function(e){if(e.target===this)closeModal();});
 
-/* ══════════ 헬퍼 ══════════ */
-function autoFillCode(){const n=document.getElementById("newStockName").value.trim();const e=document.getElementById("newStockCode");if(stockCodeMap[n])e.value=stockCodeMap[n];}
+/* ══ 캘린더 뷰 ══ */
+let calFilter="all";
+function toggleCal(){
+  calOpen=!calOpen;
+  const btn=document.getElementById("calToggleBtn"),view=document.getElementById("calView");
+  if(calOpen){btn.textContent="섹터별 보기";btn.classList.add("active-teal");view.classList.add("open");renderCal();}
+  else{btn.textContent="캘린더 보기";btn.classList.remove("active-teal");view.classList.remove("open");}
+}
+function setCalFilter(f){calFilter=f;renderCal();}
+function renderCal(){
+  let all=[];
+  sectors.forEach(s=>s.stocks.forEach(st=>all.push({...st,sectorName:s.name})));
+  if(calFilter==="d7")all=all.filter(s=>{const d=getDDay(s.earningsDate);return d!==null&&d>=0&&d<=7;});
+  else if(calFilter==="d30")all=all.filter(s=>{const d=getDDay(s.earningsDate);return d!==null&&d>=0&&d<=30;});
+  else if(calFilter==="none")all=all.filter(s=>!s.earningsDate);
+  const withDate=all.filter(s=>s.earningsDate).sort((a,b)=>new Date(a.earningsDate)-new Date(b.earningsDate));
+  const noDate=all.filter(s=>!s.earningsDate);
+  const d7c=sectors.reduce((a,s)=>a+s.stocks.filter(st=>{const d=getDDay(st.earningsDate);return d!==null&&d>=0&&d<=7;}).length,0);
+  const d30c=sectors.reduce((a,s)=>a+s.stocks.filter(st=>{const d=getDDay(st.earningsDate);return d!==null&&d>=0&&d<=30;}).length,0);
+  document.getElementById("calSummaryText").textContent=`D-7 이내 ${d7c}종목 · D-30 이내 ${d30c}종목`;
+  const groups={};
+  withDate.forEach(st=>{const d=getDDay(st.earningsDate);let g=d<0?"✅ 발표 완료":d<=7?"🔴 D-7 이내 (긴급)":d<=30?"🟡 D-30 이내":"📅 이후 예정";if(!groups[g])groups[g]=[];groups[g].push(st);});
+  const order=["🔴 D-7 이내 (긴급)","🟡 D-30 이내","📅 이후 예정","✅ 발표 완료"];
+  document.getElementById("calView").innerHTML=`
+    <div class="cal-header-info"><b style="font-size:14px;font-weight:900;">📅 실적발표 캘린더</b><br><span style="font-size:12px;color:var(--sub);font-weight:700;">⚠ 아래 날짜는 참고용 근사치입니다. DART 또는 네이버 금융에서 확인 후 종목 카드에서 직접 수정하세요.</span></div>
+    <div class="cal-filters">
+      ${["all","d7","d30","none"].map((f,i)=>`<button class="cal-filter-btn ${calFilter===f?"active":""}" onclick="setCalFilter('${f}')">${["전체","D-7 이내 🔴","D-30 이내 🟡","미입력만"][i]}</button>`).join("")}
+    </div>
+    ${order.map(g=>{if(!groups[g]||!groups[g].length)return"";return`<div class="cal-group"><div class="cal-group-title">${g}</div><div class="cal-cards">${groups[g].map(st=>{const d=getDDay(st.earningsDate);let cls=d<0?"past":d<=7?"urgent":d<=30?"soon":"normal";const ddStr=d===0?"오늘":d>0?`D-${d}`:`D+${Math.abs(d)}`;const nc=st.code?st.code.split(":")[1]:null;return`<div class="cal-card ${cls}"><div class="cal-dday ${cls==="past"?"past":d===0?"today":cls}"><div class="dd-num">${ddStr}</div><div class="dd-label">${fmtDate(st.earningsDate)}</div></div><div class="cal-info"><div class="cal-stock-name">${st.type==="순환매"?"🚀 ":""}${st.name}</div><span class="cal-sector-chip">${st.sectorName}</span>${st.earningsNote?`<div class="cal-earnings-note">${st.earningsNote}</div>`:""}</div><div class="cal-btns"><button class="cal-btn cb-chart" onclick="openChart('${st.name}','${st.code||""}')">차트</button><button class="cal-btn cb-info" onclick="openInfo('${st.name}','${st.code||""}')">공시</button>${nc?`<button class="cal-btn cb-naver" onclick="window.open('https://finance.naver.com/item/main.naver?code=${nc}','_blank')">실적</button>`:""}</div></div>`;}).join("")}</div></div>`;}).join("")}
+    ${calFilter==="none"&&noDate.length?`<div class="cal-group"><div class="cal-group-title">📭 미입력 (${noDate.length}종목)</div><div class="cal-cards">${noDate.map(st=>`<div class="cal-card" style="border-left:3px solid var(--border)"><div class="cal-dday"><div class="dd-num" style="font-size:13px;color:var(--sub)">미입력</div></div><div class="cal-info"><div class="cal-stock-name">${st.name}</div><span class="cal-sector-chip">${st.sectorName}</span></div></div>`).join("")}</div></div>`:""}`;
+}
+
+/* ══ 순환매 뷰 ══ */
+function toggleRot(){
+  rotOpen=!rotOpen;
+  const btn=document.getElementById("rotToggleBtn"),view=document.getElementById("rotView");
+  if(rotOpen){btn.textContent="섹터별 보기";btn.classList.add("active-rocket");view.classList.add("open");renderRot();}
+  else{btn.textContent="전체 보기";btn.classList.remove("active-rocket");view.classList.remove("open");}
+}
+function renderRot(){
+  const total=sectors.reduce((a,s)=>a+s.stocks.filter(st=>st.type==="순환매").length,0);
+  document.getElementById("rotView").innerHTML=
+    `<div style="background:var(--rocket-light);border:1px solid #fed7aa;border-radius:16px;padding:14px;margin-bottom:12px;"><div style="font-size:14px;font-weight:900;color:var(--rocket);margin-bottom:4px;">🚀 순환매 급등 소형주 — ${total}종목</div></div>`+
+    sectors.map(sec=>{const r=sec.stocks.filter(s=>s.type==="순환매");if(!r.length)return"";
+    return`<div class="rotation-sector-group"><div class="rotation-sector-name">📁 ${sec.name} <span>${sec.score}pt</span></div><div class="rotation-stocks">${r.map(st=>`<div class="stock-card is-rocket"><div class="stock-top"><div><div class="sname">🚀 ${st.name}</div><div class="ssub">시총점수 ${st.cap||0}</div><div class="badge-row"><span class="status-badge status-${st.status}">${st.status}</span></div>${st.spike?`<div class="spike-history"><span class="spike-chip">⚡ ${st.spike}</span></div>`:""}<div class="earnings-row">${eBadge(st)}</div></div><div class="stock-btns"><button class="icon-btn btn-chart" onclick="openChart('${st.name}','${st.code||""}')">차트</button><button class="icon-btn btn-info" onclick="openInfo('${st.name}','${st.code||""}')">공시</button></div></div>${st.memo?`<div style="font-size:12px;color:var(--sub);font-weight:700;line-height:1.5;padding-top:6px;border-top:1px solid var(--border);margin-top:6px;">${st.memo}</div>`:""}</div>`).join("")}</div></div>`;}).join("");
+}
+
+/* ══ 헬퍼 ══ */
 function togglePanel(id){document.getElementById(id).classList.toggle("open");if(id==="stockPanel")renderSectorOptions();}
 function getLeader(s){if(!s.stocks.length)return null;const l=s.stocks.filter(x=>x.type==="대장주");const p=l.length?l:s.stocks;return[...p].sort((a,b)=>(b.cap||0)-(a.cap||0))[0];}
-function saveData(){localStorage.setItem("sectorData_v3",JSON.stringify(sectors));}
-function normalizeData(){sectors.forEach(s=>s.stocks.forEach(st=>{if(!st.memo)st.memo="";if(!st.target)st.target="";if(!st.status)st.status="관심";if(!st.spike)st.spike="";if(!st.code&&stockCodeMap[st.name])st.code=stockCodeMap[st.name];}));saveData();}
+function saveData(){localStorage.setItem("sectorData_v5",JSON.stringify(sectors));}
+function normalizeData(){sectors.forEach(s=>s.stocks.forEach(st=>{["memo","target","status","spike","earningsDate","earningsNote"].forEach(k=>{if(!st[k])st[k]=k==="status"?"관심":"";});if(!st.code&&stockCodeMap[st.name])st.code=stockCodeMap[st.name];}));saveData();}
 
-/* ══════════ 렌더링 ══════════ */
+/* ══ 렌더링 ══ */
 function renderStats(){
   const tot=sectors.reduce((a,s)=>a+s.stocks.length,0);
   const rockets=sectors.reduce((a,s)=>a+s.stocks.filter(st=>st.type==="순환매").length,0);
+  const d7=sectors.reduce((a,s)=>a+s.stocks.filter(st=>{const d=getDDay(st.earningsDate);return d!==null&&d>=0&&d<=7;}).length,0);
   const h=sectors.reduce((a,s)=>a+s.stocks.filter(st=>st.status==="보유").length,0);
-  const w=sectors.reduce((a,s)=>a+s.stocks.filter(st=>st.status==="매수대기").length,0);
-  document.getElementById("statsBar").innerHTML=`
-    <div class="stat-card"><div class="stat-num">${tot}</div><div class="stat-label">총 종목</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--rocket)">🚀${rockets}</div><div class="stat-label">순환매주</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--green)">${h}</div><div class="stat-label">보유</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--yellow)">${w}</div><div class="stat-label">매수대기</div></div>`;
+  document.getElementById("statsBar").innerHTML=`<div class="stat-card"><div class="stat-num">${tot}</div><div class="stat-label">총 종목</div></div><div class="stat-card"><div class="stat-num" style="color:#dc2626">📅${d7}</div><div class="stat-label">실적 D-7</div></div><div class="stat-card"><div class="stat-num" style="color:var(--rocket)">🚀${rockets}</div><div class="stat-label">순환매주</div></div><div class="stat-card"><div class="stat-num" style="color:var(--green)">${h}</div><div class="stat-label">보유</div></div>`;
+  const d30=sectors.reduce((a,s)=>a+s.stocks.filter(st=>{const d=getDDay(st.earningsDate);return d!==null&&d>=0&&d<=30;}).length,0);
+  document.getElementById("calSummaryText").textContent=`D-7 이내 ${d7}종목 · D-30 이내 ${d30}종목`;
 }
 function renderSectorOptions(){document.getElementById("stockSectorSelect").innerHTML=sectors.map((s,i)=>`<option value="${i}">${s.name}</option>`).join("");}
 function getSorted(arr){const m=document.getElementById("sortMode")?.value||"score";if(m==="name")return[...arr].sort((a,b)=>a.name.localeCompare(b.name,"ko"));if(m==="stocks")return[...arr].sort((a,b)=>b.stocks.length-a.stocks.length);return[...arr].sort((a,b)=>b.score-a.score);}
-
 function renderSectors(){
   renderStats();
   const kw=document.getElementById("searchInput").value.toLowerCase().trim();
@@ -666,43 +900,39 @@ function renderSectors(){
     const leader=getLeader(sector),isOpen=openedSector===sector.oi;
     const parts=["전체",...new Set(sector.stocks.map(s=>s.type))];
     const vis=selectedPart==="전체"?sector.stocks:sector.stocks.filter(s=>s.type===selectedPart);
-    const hC=sector.stocks.filter(s=>s.status==="보유").length;
-    const wC=sector.stocks.filter(s=>s.status==="매수대기").length;
     const rC=sector.stocks.filter(s=>s.type==="순환매").length;
-    const bigChips=sector.stocks.filter(s=>s.type==="대장주").slice(0,2).map(s=>`<span class="preview-chip">${s.name}</span>`).join("");
-    const rocketChips=sector.stocks.filter(s=>s.type==="순환매").slice(0,2).map(s=>`<span class="preview-chip rocket">🚀${s.name}</span>`).join("");
+    const imC=sector.stocks.filter(s=>isImm(s)).length;
+    const hC=sector.stocks.filter(s=>s.status==="보유").length;
+    const chips=sector.stocks.filter(s=>s.type==="대장주").slice(0,2).map(s=>`<span class="preview-chip ${isImm(s)?"imminent":""}">${isImm(s)?"🔴":""}${s.name}</span>`).join("");
+    const rChips=sector.stocks.filter(s=>s.type==="순환매").slice(0,2).map(s=>`<span class="preview-chip rocket">🚀${s.name}</span>`).join("");
     return`<div class="sector-card">
   <div class="sector-head" onclick="toggleSector(${sector.oi})">
     <div style="flex:1;min-width:0;">
       <div class="sector-name-row">
         <span class="sector-name">${sector.name}</span>
         <span class="score-badge">${sector.score}pt</span>
+        ${imC?`<span style="background:#dc2626;color:white;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;">📅${imC}종목 임박</span>`:""}
         ${rC?`<span style="background:var(--rocket);color:white;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:900;">🚀${rC}</span>`:""}
         ${hC?`<span class="status-badge status-보유" style="font-size:10px;padding:2px 7px;">보유 ${hC}</span>`:""}
-        ${wC?`<span class="status-badge status-매수대기" style="font-size:10px;padding:2px 7px;">대기 ${wC}</span>`:""}
       </div>
       <div class="sector-desc">${sector.desc}</div>
-      <div class="preview-chips">${bigChips}${rocketChips}</div>
+      <div class="preview-chips">${chips}${rChips}</div>
     </div>
     <button class="toggle-btn" onclick="event.stopPropagation();toggleSector(${sector.oi})">${isOpen?"▲ 접기":"▼ 열기"}</button>
   </div>
   <div class="detail ${isOpen?"open":""}">
-    <div class="leader-box"><span style="font-size:18px;">👑</span>
-      <div class="leader-info"><div class="lbl">대장주</div><div class="val">${leader?leader.name:"미지정"}</div></div>
-    </div>
-    <div class="filter-row">
-      ${parts.map(p=>`<button class="filter-btn ${p==="순환매"?"rocket-btn":""} ${selectedPart===p?"active":""}" onclick="event.stopPropagation();selectPart('${p}')">${p==="순환매"?"🚀 순환매":p}</button>`).join("")}
-    </div>
-    <div class="stock-list">
-      ${vis.map(stock=>{
-        const ri=sector.stocks.findIndex(s=>s.name===stock.name&&s.type===stock.type);
-        const isRocket=stock.type==="순환매";
-        return`<div class="stock-card ${isRocket?"is-rocket":""}">
+    <div class="leader-box"><span style="font-size:18px;">👑</span><div class="leader-info"><div class="lbl">대장주</div><div class="val">${leader?leader.name:"미지정"}</div></div></div>
+    <div class="filter-row">${parts.map(p=>`<button class="filter-btn ${p==="순환매"?"rocket-btn":""} ${selectedPart===p?"active":""}" onclick="event.stopPropagation();selectPart('${p}')">${p==="순환매"?"🚀 순환매":p}</button>`).join("")}</div>
+    <div class="stock-list">${vis.map(stock=>{
+      const ri=sector.stocks.findIndex(s=>s.name===stock.name&&s.type===stock.type);
+      const isR=stock.type==="순환매";
+      return`<div class="stock-card ${isR?"is-rocket":""} ${isImm(stock)?"has-imminent":""}">
   <div class="stock-top">
     <div>
-      <div class="sname">${isRocket?"🚀 ":""}${stock.name}</div>
+      <div class="sname">${isR?"🚀 ":""}${stock.name}</div>
       <div class="ssub">시총점수 ${stock.cap||0}${stock.target?" · "+stock.target:""}</div>
       <div class="badge-row"><span class="type-badge type-${stock.type}">${stock.type}</span><span class="status-badge status-${stock.status}">${stock.status}</span></div>
+      <div class="earnings-row">${eBadge(stock)}</div>
       ${stock.spike?`<div class="spike-history"><span class="spike-chip">⚡ ${stock.spike}</span></div>`:""}
     </div>
     <div class="stock-btns">
@@ -720,16 +950,18 @@ function renderSectors(){
     </select>
     <input onclick="event.stopPropagation()" value="${stock.target||""}" oninput="updateTarget(${sector.oi},${ri},this.value)" placeholder="목표가"/>
   </div>
-  ${isRocket?`<div style="margin-bottom:6px;">
-    <div class="memo-lbl">⚡ 급등 트리거</div>
-    <input class="scontrols" style="width:100%;background:var(--card);border:1px solid #fed7aa;border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:var(--text);font-family:inherit;outline:none;"
-      onclick="event.stopPropagation()" value="${stock.spike||""}" oninput="updateSpike(${sector.oi},${ri},this.value)" placeholder="예: AI반도체 ETF 급등시"/>
-  </div>`:""}
-  <div><div class="memo-lbl">📝 메모</div>
+  <div style="margin-bottom:8px;">
+    <div class="lbl-sm">📅 실적발표일</div>
+    <div class="e-edit">
+      <input type="date" class="e-input" onclick="event.stopPropagation()" value="${stock.earningsDate||""}" oninput="updateEarningsDate(${sector.oi},${ri},this.value)"/>
+      <input type="text" class="e-input note" onclick="event.stopPropagation()" value="${stock.earningsNote||""}" oninput="updateEarningsNote(${sector.oi},${ri},this.value)" placeholder="예: 2Q26 잠정"/>
+    </div>
+  </div>
+  ${isR?`<div style="margin-bottom:8px;"><div class="lbl-sm">⚡ 급등 트리거</div><input style="width:100%;background:var(--card);border:1px solid #fed7aa;border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:var(--text);font-family:inherit;outline:none;" onclick="event.stopPropagation()" value="${stock.spike||""}" oninput="updateSpike(${sector.oi},${ri},this.value)" placeholder="예: AI반도체 ETF 급등시"/></div>`:""}
+  <div><div class="lbl-sm">📝 메모</div>
     <textarea class="memo-ta" onclick="event.stopPropagation()" oninput="updateMemo(${sector.oi},${ri},this.value)" placeholder="투자 근거, 리스크...">${stock.memo||""}</textarea>
   </div>
-</div>`;}).join("")}
-    </div>
+</div>`;}).join("")}</div>
     <button class="btn btn-red" style="width:100%;font-size:12px;padding:10px;margin-top:12px;" onclick="event.stopPropagation();deleteSector(${sector.oi})">이 섹터 삭제</button>
   </div>
 </div>`;
@@ -743,22 +975,24 @@ function updateMemo(si,sti,v){sectors[si].stocks[sti].memo=v;saveData();}
 function updateTarget(si,sti,v){sectors[si].stocks[sti].target=v;saveData();}
 function updateSpike(si,sti,v){sectors[si].stocks[sti].spike=v;saveData();}
 function updateStatus(si,sti,v){sectors[si].stocks[sti].status=v;saveData();renderSectors();}
+function updateEarningsDate(si,sti,v){sectors[si].stocks[sti].earningsDate=v;saveData();renderSectors();if(calOpen)renderCal();}
+function updateEarningsNote(si,sti,v){sectors[si].stocks[sti].earningsNote=v;saveData();}
 
 function addSector(){
-  const n=document.getElementById("newSectorName").value.trim();
-  if(!n){alert("섹터명을 입력하세요.");return;}
+  const n=document.getElementById("newSectorName").value.trim();if(!n){alert("섹터명을 입력하세요.");return;}
   sectors.push({name:n,desc:document.getElementById("newSectorDesc").value.trim()||"설명 없음",score:Number(document.getElementById("newSectorScore").value||70),stocks:[]});
   saveData();["newSectorName","newSectorDesc","newSectorScore"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("sectorPanel").classList.remove("open");renderSectors();
+  document.getElementById("sectorPanel").classList.remove("open");document.getElementById("sectorDropdown").classList.remove("open");renderSectors();
 }
 function addStock(){
   const si=Number(document.getElementById("stockSectorSelect").value);
-  const n=document.getElementById("newStockName").value.trim();
-  if(!n){alert("종목명을 입력하세요.");return;}
+  const n=document.getElementById("newStockName").value.trim();if(!n){alert("종목명을 입력하세요.");return;}
   let c=document.getElementById("newStockCode").value.trim();if(!c)c=stockCodeMap[n]||"";
-  sectors[si].stocks.push({name:n,code:c,type:document.getElementById("newStockType").value,cap:Number(document.getElementById("newStockCap").value||1),target:document.getElementById("newStockTarget").value.trim(),status:document.getElementById("newStockStatus").value,spike:document.getElementById("newStockSpike").value.trim(),memo:document.getElementById("newStockMemo").value.trim()});
+  sectors[si].stocks.push({name:n,code:c,type:document.getElementById("newStockType").value,cap:Number(document.getElementById("newStockCap").value||1),target:document.getElementById("newStockTarget").value.trim(),status:document.getElementById("newStockStatus").value,earningsDate:document.getElementById("newStockEarnings").value,earningsNote:document.getElementById("newStockEarningsNote").value.trim(),spike:document.getElementById("newStockSpike").value.trim(),memo:document.getElementById("newStockMemo").value.trim()});
   saveData();openedSector=si;selectedPart="전체";
-  ["newStockName","newStockCode","newStockCap","newStockTarget","newStockSpike","newStockMemo"].forEach(id=>document.getElementById(id).value="");
+  ["newStockName","newStockCode","newStockCap","newStockTarget","newStockEarnings","newStockEarningsNote","newStockSpike","newStockMemo"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("stockAutofillBadge").classList.add("hidden");
+  document.getElementById("stockDropdown").classList.remove("open");
   document.getElementById("stockPanel").classList.remove("open");renderSectors();
 }
 function deleteSector(i){if(!confirm("섹터를 삭제할까요?"))return;sectors.splice(i,1);openedSector=null;saveData();renderSectors();}
@@ -766,7 +1000,7 @@ function deleteStock(si,sti){if(!confirm("종목을 삭제할까요?"))return;se
 function openChart(name,code){const c=code||stockCodeMap[name]||"";if(!c){alert("차트코드가 없습니다.");return;}window.open("https://kr.tradingview.com/chart/?symbol="+encodeURIComponent(c),"_blank");}
 function backupData(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({app:"sector-map-pro",savedAt:new Date().toISOString(),sectors},null,2)],{type:"application/json"}));a.download=`sector-map-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(a.href);}
 function restoreData(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);const data=d.sectors||d;if(!Array.isArray(data)){alert("형식 오류");return;}if(!confirm("교체?"))return;sectors=data;normalizeData();openedSector=null;selectedPart="전체";saveData();renderSectors();alert("복원 완료 ✅");}catch(e){alert("JSON 오류");}};r.readAsText(f);}
-function resetData(){if(!confirm("초기 데이터로 복구?"))return;localStorage.removeItem("sectorData_v3");sectors=JSON.parse(JSON.stringify(defaultData));openedSector=null;selectedPart="전체";saveData();renderSectors();}
+function resetData(){if(!confirm("초기 데이터로 복구?"))return;localStorage.removeItem("sectorData_v5");sectors=JSON.parse(JSON.stringify(defaultData));openedSector=null;selectedPart="전체";saveData();renderSectors();}
 function toggleDark(){document.body.classList.toggle("dark");localStorage.setItem("darkMode",document.body.classList.contains("dark"));}
 if(localStorage.getItem("darkMode")==="true")document.body.classList.add("dark");
 document.getElementById("searchInput").addEventListener("input",renderSectors);
