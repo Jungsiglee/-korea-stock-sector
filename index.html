@@ -4,99 +4,191 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>한국 증시 섹터맵</title>
-  <meta name="theme-color" content="#0f172a" />
+
   <style>
-    .up {
-  color: #ef4444;
-  font-weight: 900;
-  margin-left: 6px;
-}
-
-.down {
-  color: #2563eb;
-  font-weight: 900;
-  margin-left: 6px;
-}
-
-.hot {
-  border: 2px solid #ef4444;
-}
-
-.realtime {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: -8px;
-  margin-bottom: 18px;
-}
     :root {
-      --bg:#f4f6f8; --card:#ffffff; --text:#111827; --sub:#6b7280;
-      --accent:#2563eb; --border:#e5e7eb; --chip:#eef2ff;
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --text:#111827;
+      --sub:#6b7280;
+      --accent:#2563eb;
+      --border:#e5e7eb;
+      --chip:#eef2ff;
     }
+
     body.dark {
-      --bg:#0f172a; --card:#1e293b; --text:#f8fafc; --sub:#94a3b8;
-      --accent:#60a5fa; --border:#334155; --chip:#172554;
+      --bg:#0f172a;
+      --card:#1e293b;
+      --text:#f8fafc;
+      --sub:#94a3b8;
+      --accent:#60a5fa;
+      --border:#334155;
+      --chip:#172554;
     }
+
     * { box-sizing:border-box; }
+
     body {
-      margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:var(--bg); color:var(--text);
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
     }
+
     header {
-      position:sticky; top:0; z-index:10; background:var(--bg);
-      padding:18px 16px 12px; border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:var(--bg);
+      padding:18px 16px 12px;
+      border-bottom:1px solid var(--border);
     }
-    h1 { margin:0 0 8px; font-size:24px; }
- <div class="realtime">실시간 주가 기준 자동 순위 · 1분마다 갱신</div>
-    .top { display:flex; gap:8px; align-items:center; }
+
+    h1 {
+      margin:0 0 8px;
+      font-size:24px;
+    }
+
+    .realtime {
+      font-size:13px;
+      color:var(--sub);
+      margin-bottom:12px;
+    }
+
+    .top {
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
     input, select, button {
-      border:1px solid var(--border); border-radius:12px; padding:11px;
-      background:var(--card); color:var(--text); font-size:15px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:11px;
+      background:var(--card);
+      color:var(--text);
+      font-size:15px;
     }
+
     input { flex:1; }
+
     button { cursor:pointer; }
-    main { padding:16px; max-width:980px; margin:auto; }
+
+    main {
+      padding:16px;
+      max-width:980px;
+      margin:auto;
+    }
+
     .summary {
-      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-bottom:14px;
     }
+
     .box {
-      background:var(--card); border:1px solid var(--border); border-radius:16px;
-      padding:14px; text-align:center;
-    }
-    .box b { display:block; font-size:20px; margin-top:4px; color:var(--accent); }
-    .grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px;
-    }
-    .card {
-      background:var(--card); border:1px solid var(--border); border-radius:20px;
-      padding:16px; box-shadow:0 4px 14px rgba(0,0,0,.05);
-    }
-    .rank { color:var(--accent); font-weight:700; }
-    .title { font-size:20px; font-weight:800; margin:6px 0; }
-    .desc { color:var(--sub); font-size:14px; line-height:1.45; }
-    .leader {
-      margin:12px 0; padding:10px; border-radius:14px; background:var(--chip);
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:14px;
+      text-align:center;
       font-weight:700;
     }
-    .stocks { display:flex; flex-wrap:wrap; gap:7px; margin-top:10px; }
+
+    .box b {
+      display:block;
+      font-size:24px;
+      margin-top:4px;
+      color:var(--accent);
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:14px;
+    }
+
+    .card {
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:16px;
+      box-shadow:0 4px 14px rgba(0,0,0,.05);
+    }
+
+    .hot {
+      border:2px solid #ef4444;
+    }
+
+    .rank {
+      color:var(--accent);
+      font-weight:700;
+      font-size:14px;
+    }
+
+    .title {
+      font-size:20px;
+      font-weight:800;
+      margin:6px 0;
+    }
+
+    .desc {
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.45;
+    }
+
+    .leader {
+      margin:12px 0;
+      padding:10px;
+      border-radius:14px;
+      background:var(--chip);
+      font-weight:700;
+    }
+
+    .stocks {
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+      margin-top:10px;
+    }
+
     .chip {
-      background:var(--chip); color:var(--text); border-radius:999px;
-      padding:7px 10px; font-size:13px;
+      background:var(--chip);
+      color:var(--text);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:13px;
     }
-    .meta { margin-top:10px; color:var(--sub); font-size:13px; }
+
+    .meta {
+      margin-top:10px;
+      color:var(--sub);
+      font-size:13px;
+    }
+
     .ai {
-      margin-top:10px; padding:10px; border-left:4px solid var(--accent);
-      background:rgba(37,99,235,.08); font-size:13px; line-height:1.45;
+      margin-top:10px;
+      padding:10px;
+      border-left:4px solid var(--accent);
+      background:rgba(37,99,235,.08);
+      font-size:13px;
+      line-height:1.45;
     }
+
     @media(max-width:600px){
-      .summary { grid-template-columns:1fr 1fr 1fr; }
       h1 { font-size:22px; }
       select { max-width:120px; }
     }
   </style>
 </head>
+
 <body>
 <header>
   <h1>한국 증시 섹터맵</h1>
+  <div class="realtime">섹터별 대장주 · 소부장 · 시총순 자동 정리</div>
+
   <div class="top">
     <input id="search" placeholder="종목명 또는 섹터 검색" />
     <select id="sort">
@@ -126,32 +218,12 @@ const sectors = [
     marketCap:870,
     desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
     stocks:[
-{name:"삼성전자", cap:300, leader:true, code:"005930.KS"},
-{name:"SK하이닉스", cap:120, code:"000660.KS"},
-{name:"한미반도체", cap:40, code:"042700.KQ"},
-{name:"리노공업", cap:30, code:"058470.KQ"},
-{name:"솔브레인", cap:20, code:"357780.KQ"},
-
-{name:"LG에너지솔루션", cap:90, leader:true, code:"373220.KS"},
-{name:"에코프로비엠", cap:45, code:"247540.KQ"},
-{name:"포스코퓨처엠", cap:40, code:"003670.KS"},
-
-{name:"HD현대중공업", cap:80, leader:true, code:"329180.KS"},
-{name:"한화오션", cap:40, code:"042660.KS"},
-
-{name:"한화에어로스페이스", cap:95, leader:true, code:"012450.KS"},
-{name:"LIG넥스원", cap:35, code:"079550.KS"},
-
-{name:"셀트리온", cap:120, leader:true, code:"068270.KS"},
-{name:"삼성바이오로직스", cap:140, code:"207940.KS"},
-
-{name:"두산에너빌리티", cap:90, leader:true, code:"034020.KS"},
-{name:"한국전력", cap:20, code:"015760.KS"},
-
-{name:"NAVER", cap:35, leader:true, code:"035420.KS"},
-{name:"카카오", cap:20, code:"035720.KS"},
-    ],
-    ai:"AI 서버 수요와 HBM 사이클이 핵심 변수입니다. 대형주는 실적 민감도, 소부장은 밸류체인 확장성이 중요합니다."
+      {name:"삼성전자", cap:300, leader:true},
+      {name:"SK하이닉스", cap:120},
+      {name:"한미반도체", cap:40},
+      {name:"리노공업", cap:30},
+      {name:"솔브레인", cap:20}
+    ]
   },
   {
     name:"방산",
@@ -164,8 +236,7 @@ const sectors = [
       {name:"LIG넥스원", cap:5},
       {name:"한국항공우주", cap:5},
       {name:"한화시스템", cap:4}
-    ],
-    ai:"수출 계약과 인도 일정이 주가 핵심입니다. 단기 테마보다 수주잔고와 마진 개선을 봐야 합니다."
+    ]
   },
   {
     name:"조선",
@@ -178,8 +249,19 @@ const sectors = [
       {name:"삼성중공업", cap:9},
       {name:"HD한국조선해양", cap:12},
       {name:"HD현대미포", cap:4}
-    ],
-    ai:"고선가 수주분의 매출 인식과 후판가 안정 여부가 핵심입니다."
+    ]
+  },
+  {
+    name:"전력기기",
+    score:90,
+    marketCap:80,
+    desc:"AI 데이터센터, 전력망, 변압기, 송배전 투자 수혜",
+    stocks:[
+      {name:"HD현대일렉트릭", cap:12, leader:true},
+      {name:"LS ELECTRIC", cap:8},
+      {name:"효성중공업", cap:4},
+      {name:"일진전기", cap:2}
+    ]
   },
   {
     name:"바이오",
@@ -192,8 +274,7 @@ const sectors = [
       {name:"알테오젠", cap:15},
       {name:"유한양행", cap:8},
       {name:"리가켐바이오", cap:5}
-    ],
-    ai:"임상 결과, 기술수출, FDA 승인 이벤트가 강한 변동성을 만듭니다."
+    ]
   },
   {
     name:"2차전지",
@@ -206,21 +287,7 @@ const sectors = [
       {name:"에코프로비엠", cap:18},
       {name:"포스코퓨처엠", cap:20},
       {name:"엘앤에프", cap:5}
-    ],
-    ai:"전기차 수요 회복, 리튬 가격, 미국 정책 변화가 핵심 변수입니다."
-  },
-  {
-    name:"전력기기",
-    score:90,
-    marketCap:80,
-    desc:"AI 데이터센터, 전력망, 변압기, 송배전 투자 수혜",
-    stocks:[
-      {name:"HD현대일렉트릭", cap:12, leader:true},
-      {name:"LS ELECTRIC", cap:8},
-      {name:"효성중공업", cap:4},
-      {name:"일진전기", cap:2}
-    ],
-    ai:"북미 전력망 투자와 데이터센터 전력 수요 증가가 구조적 모멘텀입니다."
+    ]
   },
   {
     name:"자동차",
@@ -232,8 +299,7 @@ const sectors = [
       {name:"기아", cap:45},
       {name:"현대모비스", cap:20},
       {name:"HL만도", cap:2}
-    ],
-    ai:"환율, 미국 판매, 하이브리드 믹스, 주주환원이 주요 포인트입니다."
+    ]
   },
   {
     name:"인터넷/플랫폼",
@@ -244,18 +310,12 @@ const sectors = [
       {name:"NAVER", cap:35, leader:true},
       {name:"카카오", cap:20},
       {name:"카페24", cap:2}
-    ],
-    ai:"광고 경기와 AI 서비스 수익화 여부가 핵심입니다."
+    ]
   }
 ];
 
-function getLeader(sector){
-  return sector.stocks.find(s => s.leader) || sector.stocks.sort((a,b)=>b.cap-a.cap)[0];
-}
-
 function render(){
-  const list = document.getElementById("app");
-
+  const app = document.getElementById("app");
   const q = document.getElementById("search").value.toLowerCase();
   const sort = document.getElementById("sort").value;
 
@@ -265,8 +325,17 @@ function render(){
     s.stocks.some(st => st.name.toLowerCase().includes(q))
   );
 
-  if(sort === "score") data.sort((a,b)=>b.score-a.score);
-  if(sort === "marketcap") data.sort((a,b)=>b.marketcap-a.marketcap);
+  if(sort === "score") {
+    data.sort((a,b)=>b.score-a.score);
+  }
+
+  if(sort === "marketCap") {
+    data.sort((a,b)=>b.marketCap-a.marketCap);
+  }
+
+  if(sort === "name") {
+    data.sort((a,b)=>a.name.localeCompare(b.name));
+  }
 
   document.getElementById("sectorCount").textContent = data.length;
   document.getElementById("stockCount").textContent =
@@ -274,119 +343,46 @@ function render(){
   document.getElementById("leaderCount").textContent =
     data.filter(s=>s.stocks.some(st=>st.leader)).length;
 
-  list.innerHTML = data.map((s,i)=>`
-    <article class="card ${i === 0 ? "hot" : ""}">
-      <div class="rank">#${i+1} · 섹터점수 ${s.score}</div>
-      <h2>${s.name}</h2>
-      <p>${s.desc}</p>
+  app.innerHTML = data.map((s,i)=>{
+    const leader = s.stocks.find(st=>st.leader) || s.stocks[0];
 
-      <div class="leader">대장주: ${s.stocks.find(st=>st.leader)?.name || s.stocks[0]?.name}</div>
+    return `
+      <article class="card ${i === 0 ? "hot" : ""}">
+        <div class="rank">#${i+1} · 섹터점수 ${s.score}</div>
+        <div class="title">${s.name}</div>
+        <div class="desc">${s.desc}</div>
 
-      <div class="stocks">
-        ${s.stocks.map(st=>`
-          <span class="stock">
-            ${st.name}${st.leader ? " ★" : ""}
-            ${
-              st.change
-                ? `<b class="${Number(st.change) >= 0 ? "up" : "down"}">
-                    ${Number(st.change) >= 0 ? "▲" : "▼"} ${st.change}%
-                   </b>`
-                : ""
-            }
-          </span>
-        `).join("")}
-      </div>
+        <div class="leader">대장주: ${leader.name}</div>
 
-      <div class="meta">추정 섹터 시총: ${s.marketcap}조원 기준 정렬</div>
+        <div class="stocks">
+          ${s.stocks.map(st=>`
+            <span class="chip">${st.name}${st.leader ? " ★" : ""}</span>
+          `).join("")}
+        </div>
 
-      <div class="ai">
-        AI 요약: ${
-          s.score >= 95
-            ? "현재 시장 주도 섹터입니다. 거래대금과 등락률을 함께 확인해야 합니다."
-            : s.score >= 88
-            ? "강한 관심 섹터입니다. 대장주 중심 흐름이 중요합니다."
-            : s.score >= 80
-            ? "중립권 섹터입니다. 실적과 수급 확인이 필요합니다."
-            : "약세 섹터입니다. 단기 추격 매수는 주의가 필요합니다."
-        }
-      </div>
-    </article>
-  `).join("");
+        <div class="meta">추정 섹터 시총: ${s.marketCap}조원</div>
+
+        <div class="ai">
+          AI 요약: ${getAiSummary(s)}
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function getAiSummary(s){
+  if(s.score >= 95) return "현재 시장 주도 섹터입니다. 대장주와 거래대금 흐름을 우선 확인하세요.";
+  if(s.score >= 88) return "강한 관심 섹터입니다. 수급과 실적 모멘텀 확인이 필요합니다.";
+  if(s.score >= 80) return "중립권 섹터입니다. 실적 개선 여부를 함께 봐야 합니다.";
+  return "약세 섹터입니다. 단기 추격 매수는 주의가 필요합니다.";
 }
 
 function toggleDark(){
-async function updateRealtimePrices(){
-
-  const allStocks = sectors.flatMap(s => s.stocks);
-
-  const symbols = allStocks
-    .map(s => s.code)
-    .filter(Boolean)
-    .join(",");
-
-  try {
-
-    const res = await fetch(
-      `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols}`
-    );
-
-    const json = await res.json();
-
-    const quotes = json.quoteResponse.result;
-
-    allStocks.forEach(stock => {
-
-      const q = quotes.find(v => v.symbol === stock.code);
-
-      if(q){
-
-        stock.price = q.regularMarketPrice || 0;
-
-        stock.change =
-          q.regularMarketChangePercent?.toFixed(2) || 0;
-
-        stock.marketCap =
-          q.marketCap || stock.cap * 1000000000000;
-      }
-
-    });
-
-    sectors.forEach(sector => {
-
-      const avg =
-        sector.stocks.reduce(
-          (sum,s)=>sum + Number(s.change || 0),
-          0
-        ) / sector.stocks.length;
-
-      sector.score = Math.round(80 + avg);
-
-    });
-
-    sectors.sort((a,b)=>b.score-a.score);
-
-    render();
-
-  } catch(e){
-
-    console.log(e);
-
-  }
-
-}
-  function toggleDark(){
   document.body.classList.toggle("dark");
   localStorage.setItem("dark", document.body.classList.contains("dark"));
 }
 
-function toggleDark(){
-  document.body.classList.toggle("dark");
-  localStorage.setItem(
-    "dark",
-    document.body.classList.contains("dark")
-  );
-}
-  if(localStorage.getItem("dark")==="true"){
+if(localStorage.getItem("dark")==="true"){
   document.body.classList.add("dark");
 }
 
@@ -394,15 +390,7 @@ document.getElementById("search").addEventListener("input", render);
 document.getElementById("sort").addEventListener("change", render);
 
 render();
-updateRealtimePrices();
-
-setInterval(updateRealtimePrices, 60000);
-render();
-updateRealtimePrices();
-
-setInterval(updateRealtimePrices, 60000);
 </script>
 </body>
 </html>
-
 
