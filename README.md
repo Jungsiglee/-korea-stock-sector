@@ -1,1 +1,1 @@
-# -korea-stock-sector
+# korea-stock-sector
