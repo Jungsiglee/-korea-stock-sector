@@ -6,6 +6,27 @@
   <title>한국 증시 섹터맵</title>
 
   <style>
+  body {
+  padding-bottom: 120px;
+}
+
+.card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
+
+.stock-chip {
+  transition: all 0.2s ease;
+}
+
+.stock-chip:hover {
+  background: #2563eb;
+  color: white;
+}
     :root {
       --bg:#f4f6f8;
       --card:#ffffff;
@@ -181,6 +202,18 @@
       h1 { font-size:22px; }
       select { max-width:120px; }
     }
+    body {
+  padding-bottom: 120px;
+}
+
+.card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
   </style>
 </head>
 
@@ -348,21 +381,21 @@ function render(){
 
     return `
       <article class="card ${i === 0 ? "hot" : ""}">
-        <div class="rank">#${i+1} · 섹터점수 ${s.score}</div>
-        <div class="title">${s.name}</div>
-        <div class="desc">${s.desc}</div>
+        <div class="rank card">#${i+1} · 섹터점수 ${s.score}</div>
+        <div class="title card">${s.name}</div>
+        <div class="desc card">${s.desc}</div>
 
-        <div class="leader">대장주: ${leader.name}</div>
+        <div class="leader card">대장주: ${leader.name}</div>
 
-        <div class="stocks">
+        <div class="stocks card">
           ${s.stocks.map(st=>`
             <span class="chip">${st.name}${st.leader ? " ★" : ""}</span>
           `).join("")}
         </div>
 
-        <div class="meta">추정 섹터 시총: ${s.marketCap}조원</div>
+        <div class="meta card">추정 섹터 시총: ${s.marketCap}조원</div>
 
-        <div class="ai">
+        <div class="ai card">
           AI 요약: ${getAiSummary(s)}
         </div>
       </article>
