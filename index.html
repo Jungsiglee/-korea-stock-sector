@@ -6,6 +6,28 @@
   <title>한국 증시 섹터맵</title>
   <meta name="theme-color" content="#0f172a" />
   <style>
+    .up {
+  color: #ef4444;
+  font-weight: 900;
+  margin-left: 6px;
+}
+
+.down {
+  color: #2563eb;
+  font-weight: 900;
+  margin-left: 6px;
+}
+
+.hot {
+  border: 2px solid #ef4444;
+}
+
+.realtime {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
     :root {
       --bg:#f4f6f8; --card:#ffffff; --text:#111827; --sub:#6b7280;
       --accent:#2563eb; --border:#e5e7eb; --chip:#eef2ff;
@@ -24,6 +46,7 @@
       padding:18px 16px 12px; border-bottom:1px solid var(--border);
     }
     h1 { margin:0 0 8px; font-size:24px; }
+ <div class="realtime">실시간 주가 기준 자동 순위 · 1분마다 갱신</div>
     .top { display:flex; gap:8px; align-items:center; }
     input, select, button {
       border:1px solid var(--border); border-radius:12px; padding:11px;
@@ -231,40 +254,64 @@ function getLeader(sector){
 }
 
 function render(){
+  const list = document.getElementById("app");
+
   const q = document.getElementById("search").value.toLowerCase();
   const sort = document.getElementById("sort").value;
 
-  let data = sectors.filter(sec =>
-    sec.name.toLowerCase().includes(q) ||
-    sec.stocks.some(s => s.name.toLowerCase().includes(q))
+  let data = sectors.filter(s =>
+    s.name.toLowerCase().includes(q) ||
+    s.desc.toLowerCase().includes(q) ||
+    s.stocks.some(st => st.name.toLowerCase().includes(q))
   );
 
-  data.sort((a,b)=>{
-    if(sort==="marketCap") return b.marketCap - a.marketCap;
-    if(sort==="score") return b.score - a.score;
-    return a.name.localeCompare(b.name);
-  });
+  if(sort === "score") data.sort((a,b)=>b.score-a.score);
+  if(sort === "marketcap") data.sort((a,b)=>b.marketcap-a.marketcap);
 
   document.getElementById("sectorCount").textContent = data.length;
-  document.getElementById("stockCount").textContent = data.reduce((sum,s)=>sum+s.stocks.length,0);
-  document.getElementById("leaderCount").textContent = data.length;
+  document.getElementById("stockCount").textContent =
+    data.reduce((sum,s)=>sum+s.stocks.length,0);
+  document.getElementById("leaderCount").textContent =
+    data.filter(s=>s.stocks.some(st=>st.leader)).length;
 
-  document.getElementById("app").innerHTML = data.map((sec,i)=>{
-    const leader = getLeader(sec);
-    return `
-      <article class="card">
-        <div class="rank">#${i+1} · 섹터점수 ${sec.score}</div>
-        <div class="title">${sec.name}</div>
-        <div class="desc">${sec.desc}</div>
-        <div class="leader">대장주: ${leader.name}</div>
-        <div class="stocks">
-          ${sec.stocks.map(s=>`<span class="chip">${s.name}${s.leader ? " ★" : ""}</span>`).join("")}
-        </div>
-        <div class="meta">추정 섹터 시총: ${sec.marketCap}조원 기준 정렬</div>
-        <div class="ai">AI 요약: ${sec.ai}</div>
-      </article>
-    `;
-  }).join("");
+  list.innerHTML = data.map((s,i)=>`
+    <article class="card ${i === 0 ? "hot" : ""}">
+      <div class="rank">#${i+1} · 섹터점수 ${s.score}</div>
+      <h2>${s.name}</h2>
+      <p>${s.desc}</p>
+
+      <div class="leader">대장주: ${s.stocks.find(st=>st.leader)?.name || s.stocks[0]?.name}</div>
+
+      <div class="stocks">
+        ${s.stocks.map(st=>`
+          <span class="stock">
+            ${st.name}${st.leader ? " ★" : ""}
+            ${
+              st.change
+                ? `<b class="${Number(st.change) >= 0 ? "up" : "down"}">
+                    ${Number(st.change) >= 0 ? "▲" : "▼"} ${st.change}%
+                   </b>`
+                : ""
+            }
+          </span>
+        `).join("")}
+      </div>
+
+      <div class="meta">추정 섹터 시총: ${s.marketcap}조원 기준 정렬</div>
+
+      <div class="ai">
+        AI 요약: ${
+          s.score >= 95
+            ? "현재 시장 주도 섹터입니다. 거래대금과 등락률을 함께 확인해야 합니다."
+            : s.score >= 88
+            ? "강한 관심 섹터입니다. 대장주 중심 흐름이 중요합니다."
+            : s.score >= 80
+            ? "중립권 섹터입니다. 실적과 수급 확인이 필요합니다."
+            : "약세 섹터입니다. 단기 추격 매수는 주의가 필요합니다."
+        }
+      </div>
+    </article>
+  `).join("");
 }
 
 function toggleDark(){
