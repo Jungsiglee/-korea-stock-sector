@@ -374,12 +374,16 @@ async function updateRealtimePrices(){
   }
 
 }
+  function toggleDark(){
   document.body.classList.toggle("dark");
   localStorage.setItem("dark", document.body.classList.contains("dark"));
 }
 
-if(localStorage.getItem("dark")==="true") document.body.classList.add("dark");
-
+즉 현재:
+}
+document.body.classList.toggle("dark");
+localStorage.setItem("dark", document.body.classList.contains("dark"));
+}
 document.getElementById("search").addEventListener("input", render);
 document.getElementById("sort").addEventListener("change", render);
 render();
