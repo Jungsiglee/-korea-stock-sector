@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+<meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>한국 주식 섹터맵</title>
+
+<style>
+
+body{
+
+    margin:0;
+
+    background:#0f172a;
+
+    color:white;
+
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+
+}
+
+.header{
+
+    padding:20px;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:14px;
+
+    padding:16px;
+
+}
+
+.card{
+
+    background:#1e293b;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    transition:0.2s;
+
+}
+
+.card:hover{
+
+    transform:scale(1.03);
+
+    background:#334155;
+
+}
+
+.title{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+.stock{
+
+    opacity:0.85;
+
+    margin:6px 0;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+📈 한국 주식 섹터맵
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="title">🔥 AI</div>
+
+<div class="stock">대장주: 삼성전자</div>
+
+<div class="stock">소부장: 리노공업</div>
+
+<div class="stock">반도체: SK하이닉스</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">⚡ 전력</div>
+
+<div class="stock">대장주: HD현대일렉트릭</div>
+
+<div class="stock">변압기: 효성중공업</div>
+
+<div class="stock">전선: LS ELECTRIC</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">🚗 자동차</div>
+
+<div class="stock">대장주: 현대차</div>
+
+<div class="stock">부품: 현대모비스</div>
+
+<div class="stock">2차전지: 에코프로비엠</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">🛢️ 석유</div>
+
+<div class="stock">대장주: 흥구석유</div>
+
+<div class="stock">정유: S-Oil</div>
+
+<div class="stock">가스: 한국가스공사</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
