@@ -549,26 +549,11 @@ function openChart(name, code){
     return;
   }
 
-  const tvSymbol = finalCode.replace(":", "%3A");
+  const url =
+    "https://kr.tradingview.com/chart/?symbol=" +
+    encodeURIComponent(finalCode);
 
-  document.getElementById("chartTitle").innerText = name + " 차트";
-
-  document.getElementById("chartFrame").src =
-    "https://www.tradingview.com/widgetembed/?" +
-    "symbol=" + tvSymbol +
-    "&interval=D" +
-    "&hidesidetoolbar=1" +
-    "&symboledit=1" +
-    "&saveimage=0" +
-    "&toolbarbg=f1f3f6" +
-    "&theme=light" +
-    "&style=1" +
-    "&timezone=Asia%2FSeoul" +
-    "&withdateranges=1" +
-    "&hideideas=1" +
-    "&locale=kr";
-
-  document.getElementById("chartModal").style.display = "block";
+  window.open(url, "_blank");
 }
 
 function closeChart(){
