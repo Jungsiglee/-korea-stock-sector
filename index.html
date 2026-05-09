@@ -126,30 +126,30 @@ const sectors = [
     marketCap:870,
     desc:"AI, HBM, 메모리, 파운드리, 장비·소재 중심 핵심 섹터",
     stocks:[
-{name:"삼성전자", cap:300, leader:true, code:"005930.KS"}
-{name:"SK하이닉스", cap:120, code:"000660.KS"}
-{name:"한미반도체", cap:40, code:"042700.KQ"}
-{name:"리노공업", cap:30, code:"058470.KQ"}
-{name:"솔브레인", cap:20, code:"357780.KQ"}
+{name:"삼성전자", cap:300, leader:true, code:"005930.KS"},
+{name:"SK하이닉스", cap:120, code:"000660.KS"},
+{name:"한미반도체", cap:40, code:"042700.KQ"},
+{name:"리노공업", cap:30, code:"058470.KQ"},
+{name:"솔브레인", cap:20, code:"357780.KQ"},
 
-{name:"LG에너지솔루션", cap:90, leader:true, code:"373220.KS"}
-{name:"에코프로비엠", cap:45, code:"247540.KQ"}
-{name:"포스코퓨처엠", cap:40, code:"003670.KS"}
+{name:"LG에너지솔루션", cap:90, leader:true, code:"373220.KS"},
+{name:"에코프로비엠", cap:45, code:"247540.KQ"},
+{name:"포스코퓨처엠", cap:40, code:"003670.KS"},
 
-{name:"HD현대중공업", cap:80, leader:true, code:"329180.KS"}
-{name:"한화오션", cap:40, code:"042660.KS"}
+{name:"HD현대중공업", cap:80, leader:true, code:"329180.KS"},
+{name:"한화오션", cap:40, code:"042660.KS"},
 
-{name:"한화에어로스페이스", cap:95, leader:true, code:"012450.KS"}
-{name:"LIG넥스원", cap:35, code:"079550.KS"}
+{name:"한화에어로스페이스", cap:95, leader:true, code:"012450.KS"},
+{name:"LIG넥스원", cap:35, code:"079550.KS"},
 
-{name:"셀트리온", cap:120, leader:true, code:"068270.KS"}
-{name:"삼성바이오로직스", cap:140, code:"207940.KS"}
+{name:"셀트리온", cap:120, leader:true, code:"068270.KS"},
+{name:"삼성바이오로직스", cap:140, code:"207940.KS"},
 
-{name:"두산에너빌리티", cap:90, leader:true, code:"034020.KS"}
-{name:"한국전력", cap:20, code:"015760.KS"}
+{name:"두산에너빌리티", cap:90, leader:true, code:"034020.KS"},
+{name:"한국전력", cap:20, code:"015760.KS"},
 
-{name:"NAVER", cap:35, leader:true, code:"035420.KS"}
-{name:"카카오", cap:20, code:"035720.KS"}
+{name:"NAVER", cap:35, leader:true, code:"035420.KS"},
+{name:"카카오", cap:20, code:"035720.KS"},
     ],
     ai:"AI 서버 수요와 HBM 사이클이 핵심 변수입니다. 대형주는 실적 민감도, 소부장은 밸류체인 확장성이 중요합니다."
   },
@@ -379,13 +379,24 @@ async function updateRealtimePrices(){
   localStorage.setItem("dark", document.body.classList.contains("dark"));
 }
 
-즉 현재:
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem(
+    "dark",
+    document.body.classList.contains("dark")
+  );
 }
-document.body.classList.toggle("dark");
-localStorage.setItem("dark", document.body.classList.contains("dark"));
+  if(localStorage.getItem("dark")==="true"){
+  document.body.classList.add("dark");
 }
+
 document.getElementById("search").addEventListener("input", render);
 document.getElementById("sort").addEventListener("change", render);
+
+render();
+updateRealtimePrices();
+
+setInterval(updateRealtimePrices, 60000);
 render();
 updateRealtimePrices();
 
